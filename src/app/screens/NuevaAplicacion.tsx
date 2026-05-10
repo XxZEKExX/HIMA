@@ -1,7 +1,7 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { ChevronLeft, AlertTriangle } from "lucide-react";
 import { useNavigate } from "react-router";
-import { operarioActual } from "@/data/mock";
+import { useAuthContext } from "@/context/AuthContext";
 import { Step1ParcelaYCultivo } from "../components/nueva-aplicacion/Step1ParcelaYCultivo";
 import { Step2Productos } from "../components/nueva-aplicacion/Step2Productos";
 import { Step3AplicacionYAgua } from "../components/nueva-aplicacion/Step3AplicacionYAgua";
@@ -10,12 +10,14 @@ import { Step4CierreYObservaciones } from "../components/nueva-aplicacion/Step4C
 export function NuevaAplicacion() {
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigate();
+  const { profile, asesorProfile, responsableProfile } = useAuthContext();
+
   const [formData, setFormData] = useState({
     // Step 1
-    producer: operarioActual.nombre,
+    producer: profile?.nombre_completo ?? "",
     huerto: "",
     huertoCode: "",
-    crop: operarioActual.cultivo,
+    crop: "",  // se auto-rellena al seleccionar el rancho
     variety: "",
     sector: "",
     surface: "",
@@ -25,7 +27,7 @@ export function NuevaAplicacion() {
     startTime: "",
     endTime: "",
     // Step 2
-    products: [],
+    products: [] as any[],
     // Step 3
     applicationType: "Foliar",
     equipment: "",
@@ -47,25 +49,32 @@ export function NuevaAplicacion() {
     washWater: "",
     eliminatedDesignatedArea: false,
     applicators: "",
-    technicalAdvisor: operarioActual.asesorTecnico,
-    inocuidadResponsible: operarioActual.responsableInocuidad,
+    technicalAdvisor: asesorProfile?.nombre_completo ?? "",
+    inocuidadResponsible: responsableProfile?.nombre_completo ?? "",
     observations: "",
   });
 
-  const updateFormData = (data: any) => {
+  // Sincroniza los datos del perfil si el contexto de auth termina de cargar
+  // después del primer render (caso edge: carga lenta de perfil)
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      producer: profile?.nombre_completo ?? prev.producer,
+      technicalAdvisor: asesorProfile?.nombre_completo ?? prev.technicalAdvisor,
+      inocuidadResponsible: responsableProfile?.nombre_completo ?? prev.inocuidadResponsible,
+    }));
+  }, [profile, asesorProfile, responsableProfile]);
+
+  const updateFormData = (data: Partial<typeof formData>) => {
     setFormData((prev) => ({ ...prev, ...data }));
   };
 
   const nextStep = () => {
-    if (currentStep < 4) {
-      setCurrentStep(currentStep + 1);
-    }
+    if (currentStep < 4) setCurrentStep(currentStep + 1);
   };
 
   const prevStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-    }
+    if (currentStep > 1) setCurrentStep(currentStep - 1);
   };
 
   // Alerta si la fecha de aplicación supera 7 días desde la recomendación del asesor
@@ -79,23 +88,23 @@ export function NuevaAplicacion() {
   }, [formData.recommendationDate, formData.applicationDate]);
 
   const handleSave = () => {
-    // Mock save functionality
-    console.log("Saving form data:", formData);
+    // TODO Sprint 1: llamar a crearAplicacion() + insertar aplicacion_productos
+    console.log("Guardando formulario:", formData);
     navigate("/");
   };
 
   return (
     <div className="min-h-full pb-[calc(72px+34px)]">
       {/* Header */}
-      <header className="bg-white border-b border-black/10 px-4 py-4 sticky top-0 z-20">
+      <header className="bg-card border-b border-border px-4 py-4 sticky top-0 z-20">
         <div className="flex items-center gap-3">
           <button onClick={() => navigate("/")} className="p-1">
-            <ChevronLeft className="w-6 h-6 text-gray-900" />
+            <ChevronLeft className="w-6 h-6 text-foreground" />
           </button>
-          <h1 className="text-gray-900" style={{ fontWeight: 600 }}>Nueva Aplicación</h1>
+          <h1 className="text-foreground" style={{ fontWeight: 600 }}>Nueva Aplicación</h1>
         </div>
 
-        {/* Step Indicator */}
+        {/* Indicador de paso */}
         <div className="flex items-center justify-center gap-2 mt-4">
           {[1, 2, 3, 4].map((step) => (
             <button
@@ -103,10 +112,10 @@ export function NuevaAplicacion() {
               onClick={() => setCurrentStep(step)}
               className={`w-3 h-3 rounded-full transition-colors ${
                 step === currentStep
-                  ? "bg-[#2B7AB5]"
+                  ? "bg-primary"
                   : step < currentStep
-                  ? "bg-[#2B7AB5]/40"
-                  : "bg-gray-300"
+                  ? "bg-primary/40"
+                  : "bg-muted-foreground/30"
               }`}
             />
           ))}
@@ -116,17 +125,16 @@ export function NuevaAplicacion() {
       {/* Banner: alerta cuando la aplicación supera 7 días desde la recomendación */}
       {alertaFechaVencida && (
         <div className="mx-4 mt-3 mb-1 p-3 rounded-xl flex items-start gap-2 bg-agro-warning-fill">
-          <AlertTriangle
-            className="w-4 h-4 flex-shrink-0 mt-0.5 text-agro-warning-text"
-          />
+          <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5 text-agro-warning-text" />
           <p className="text-sm text-agro-warning-text">
             La fecha de aplicación supera por más de 7 días la recomendación del asesor.
-            Verifica con <span style={{ fontWeight: 600 }}>{formData.technicalAdvisor}</span> antes de continuar.
+            Verifica con{" "}
+            <span style={{ fontWeight: 600 }}>{formData.technicalAdvisor}</span> antes de continuar.
           </p>
         </div>
       )}
 
-      {/* Form Steps */}
+      {/* Pasos del formulario */}
       <div className="p-4">
         {currentStep === 1 && (
           <Step1ParcelaYCultivo

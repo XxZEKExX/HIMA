@@ -33,8 +33,8 @@ export function FormSelect({
         onChange={(e) => onChange(e.target.value)}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-        className={`w-full h-14 px-4 pt-5 pb-2 rounded-lg border border-black/10 bg-white
-          appearance-none focus:outline-none focus:border-[#2B7AB5] focus:ring-1 focus:ring-[#2B7AB5]
+        className={`w-full h-14 px-4 pt-5 pb-2 rounded-lg border border-border bg-input-background
+          appearance-none focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary
           transition-all cursor-pointer`}
       >
         <option value="">{placeholder}</option>
@@ -45,7 +45,7 @@ export function FormSelect({
         ))}
       </select>
       <label
-        className={`absolute left-4 transition-all pointer-events-none text-gray-600
+        className={`absolute left-4 transition-all pointer-events-none text-muted-foreground
           ${
             isFocused || hasValue
               ? "top-2 text-[11px]"
@@ -55,7 +55,7 @@ export function FormSelect({
       >
         {label}
       </label>
-      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-600 pointer-events-none" />
+      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
     </div>
   );
 }

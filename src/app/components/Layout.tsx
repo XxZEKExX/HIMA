@@ -20,7 +20,7 @@ export function Layout() {
       </div>
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[390px] bg-white border-t border-black/10 pb-[34px] z-30">
+      <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[390px] bg-card border-t border-border pb-[34px] z-30">
         <div className="flex items-center justify-around h-[72px]">
           {navItems.map(({ path, icon: Icon, label }) => {
             // "Inicio" (path="/") también queda activo en rutas /inocuidad/*

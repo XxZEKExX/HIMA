@@ -31,8 +31,8 @@ export function Step1ParcelaYCultivo({ formData, updateFormData, onNext }: Props
   return (
     <div className="space-y-6">
       {/* Section Header */}
-      <div className="bg-[#E3F2FD] -mx-4 px-4 py-2">
-        <h3 className="text-[13px] text-[#0D5A8F]" style={{ fontWeight: 600 }}>
+      <div className="bg-agro-success-fill -mx-4 px-4 py-2">
+        <h3 className="text-[13px] text-agro-success-text" style={{ fontWeight: 600 }}>
           INFORMACIÓN DE PARCELA Y CULTIVO
         </h3>
       </div>
@@ -98,8 +98,8 @@ export function Step1ParcelaYCultivo({ formData, updateFormData, onNext }: Props
       />
 
       {/* Section Header */}
-      <div className="bg-[#E3F2FD] -mx-4 px-4 py-2">
-        <h3 className="text-[13px] text-[#0D5A8F]" style={{ fontWeight: 600 }}>
+      <div className="bg-agro-success-fill -mx-4 px-4 py-2">
+        <h3 className="text-[13px] text-agro-success-text" style={{ fontWeight: 600 }}>
           FECHAS Y HORARIOS
         </h3>
       </div>
@@ -137,7 +137,7 @@ export function Step1ParcelaYCultivo({ formData, updateFormData, onNext }: Props
       {/* Next Button */}
       <button
         onClick={onNext}
-        className="w-full h-14 bg-[#2B7AB5] text-white rounded-3xl mt-6 hover:bg-[#1E88C7] transition-colors"
+        className="w-full h-14 bg-primary text-white rounded-3xl mt-6 hover:bg-agro-blue transition-colors"
         style={{ fontWeight: 600 }}
       >
         Continuar

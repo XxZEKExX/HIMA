@@ -45,8 +45,8 @@ export function Step3AplicacionYAgua({ formData, updateFormData, onNext, onBack 
   return (
     <div className="space-y-6">
       {/* Section Header */}
-      <div className="bg-[#E3F2FD] -mx-4 px-4 py-2">
-        <h3 className="text-[13px] text-[#0D5A8F]" style={{ fontWeight: 600 }}>
+      <div className="bg-agro-success-fill -mx-4 px-4 py-2">
+        <h3 className="text-[13px] text-agro-success-text" style={{ fontWeight: 600 }}>
           TIPO DE APLICACIÓN
         </h3>
       </div>
@@ -57,8 +57,8 @@ export function Step3AplicacionYAgua({ formData, updateFormData, onNext, onBack 
           onClick={() => updateFormData({ applicationType: "Foliar" })}
           className={`flex-1 h-12 rounded-full transition-all ${
             formData.applicationType === "Foliar"
-              ? "bg-[#2B7AB5] text-white"
-              : "bg-white border border-gray-300 text-gray-700"
+              ? "bg-primary text-white"
+              : "bg-card border border-border text-foreground"
           }`}
           style={{ fontWeight: 600 }}
         >
@@ -68,8 +68,8 @@ export function Step3AplicacionYAgua({ formData, updateFormData, onNext, onBack 
           onClick={() => updateFormData({ applicationType: "Drench" })}
           className={`flex-1 h-12 rounded-full transition-all ${
             formData.applicationType === "Drench"
-              ? "bg-[#2B7AB5] text-white"
-              : "bg-white border border-gray-300 text-gray-700"
+              ? "bg-primary text-white"
+              : "bg-card border border-border text-foreground"
           }`}
           style={{ fontWeight: 600 }}
         >
@@ -93,8 +93,8 @@ export function Step3AplicacionYAgua({ formData, updateFormData, onNext, onBack 
       />
 
       {/* Section Header */}
-      <div className="bg-[#E3F2FD] -mx-4 px-4 py-2">
-        <h3 className="text-[13px] text-[#0D5A8F]" style={{ fontWeight: 600 }}>
+      <div className="bg-agro-success-fill -mx-4 px-4 py-2">
+        <h3 className="text-[13px] text-agro-success-text" style={{ fontWeight: 600 }}>
           PREPARACIÓN DE AGUA
         </h3>
       </div>
@@ -148,8 +148,8 @@ export function Step3AplicacionYAgua({ formData, updateFormData, onNext, onBack 
       )}
 
       {/* Section Header */}
-      <div className="bg-[#E3F2FD] -mx-4 px-4 py-2">
-        <h3 className="text-[13px] text-[#0D5A8F]" style={{ fontWeight: 600 }}>
+      <div className="bg-agro-success-fill -mx-4 px-4 py-2">
+        <h3 className="text-[13px] text-agro-success-text" style={{ fontWeight: 600 }}>
           CONDICIONES CLIMÁTICAS
         </h3>
       </div>
@@ -173,8 +173,8 @@ export function Step3AplicacionYAgua({ formData, updateFormData, onNext, onBack 
       </div>
 
       {/* Section Header */}
-      <div className="bg-[#E3F2FD] -mx-4 px-4 py-2">
-        <h3 className="text-[13px] text-[#0D5A8F]" style={{ fontWeight: 600 }}>
+      <div className="bg-agro-success-fill -mx-4 px-4 py-2">
+        <h3 className="text-[13px] text-agro-success-text" style={{ fontWeight: 600 }}>
           EQUIPO DE PROTECCIÓN PERSONAL (EPP)
         </h3>
       </div>
@@ -208,7 +208,7 @@ export function Step3AplicacionYAgua({ formData, updateFormData, onNext, onBack 
         </button>
         <button
           onClick={onNext}
-          className="flex-1 h-14 bg-[#2B7AB5] text-white rounded-3xl hover:bg-[#1E88C7] transition-colors"
+          className="flex-1 h-14 bg-primary text-white rounded-3xl hover:bg-agro-blue transition-colors"
           style={{ fontWeight: 600 }}
         >
           Continuar

@@ -72,14 +72,14 @@ export function Home() {
   return (
     <div className="min-h-full pb-[calc(72px+34px)]">
       {/* Header */}
-      <header className="bg-white border-b border-black/10 px-4 py-4">
+      <header className="bg-card border-b border-border px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             {/* Logo AgroCampo */}
             <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
               <span className="text-white text-xs" style={{ fontWeight: 600 }}>HF</span>
             </div>
-            <span className="text-sm text-gray-900" style={{ fontWeight: 600 }}>AgroCampo</span>
+            <span className="text-sm text-foreground" style={{ fontWeight: 600 }}>AgroCampo</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="text-right">
@@ -98,9 +98,9 @@ export function Home() {
         {/* Metrics Grid */}
         <div className="grid grid-cols-2 gap-3">
           {metricas.map((metric, index) => (
-            <div key={index} className="bg-white rounded-xl p-4 border border-black/10">
+            <div key={index} className="bg-card rounded-xl p-4 border border-border">
               <div className="text-2xl mb-1" style={{ fontWeight: 600 }}>{metric.value}</div>
-              <div className="text-xs text-gray-600">{metric.label}</div>
+              <div className="text-xs text-muted-foreground">{metric.label}</div>
             </div>
           ))}
         </div>
@@ -120,7 +120,7 @@ export function Home() {
 
         {/* Recent Activity */}
         <div>
-          <h2 className="mb-3 text-gray-900" style={{ fontWeight: 600 }}>Actividad reciente</h2>
+          <h2 className="mb-3 text-foreground" style={{ fontWeight: 600 }}>Actividad reciente</h2>
           <div className="space-y-3">
             {aplicaciones.map((activity) => (
               <Link
@@ -146,7 +146,7 @@ export function Home() {
                         </span>
                       )}
                     </div>
-                    <div className="text-sm mb-1" style={{ fontWeight: 600 }}>{activity.product}</div>
+                    <div className="text-sm text-foreground mb-1" style={{ fontWeight: 600 }}>{activity.product}</div>
                     <div className="text-xs text-muted-foreground">{activity.pest}</div>
                   </div>
                 </div>
@@ -157,21 +157,21 @@ export function Home() {
 
         {/* Inocuidad y BPAs Section */}
         <div>
-          <h2 className="mb-3 text-gray-900" style={{ fontWeight: 600 }}>Inocuidad y BPAs</h2>
+          <h2 className="mb-3 text-foreground" style={{ fontWeight: 600 }}>Inocuidad y BPAs</h2>
           <div className="space-y-3">
             {inocuidadModules.map((module) => {
               const Icon = module.icon;
-              const statusConfig = {
-                "Al día": { bg: "#E3F2FD", text: "#0D5A8F" },
-                "Pendiente": { bg: "#FAEEDA", text: "#854F0B" },
-                "Vencido": { bg: "#FAECE7", text: "#993C1D" }
-              }[module.status];
+              const statusClass = {
+                "Al día": "bg-agro-success-fill text-agro-success-text",
+                "Pendiente": "bg-agro-warning-fill text-agro-warning-text",
+                "Vencido": "bg-agro-danger-fill text-agro-danger-text",
+              }[module.status] ?? "";
 
               return (
                 <Link
                   key={module.id}
                   to={module.path}
-                  className="block bg-white rounded-xl p-4 border border-black/10"
+                  className="block bg-card rounded-xl p-4 border border-border"
                 >
                   <div className="flex items-start gap-3">
                     <div className="w-10 h-10 bg-agro-success-fill rounded-lg flex items-center justify-center flex-shrink-0">
@@ -179,19 +179,15 @@ export function Home() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <div className="text-sm text-gray-900" style={{ fontWeight: 600 }}>{module.title}</div>
+                        <div className="text-sm text-foreground" style={{ fontWeight: 600 }}>{module.title}</div>
                       </div>
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-xs text-gray-600">{module.frequency}</span>
-                        <span className="text-xs text-gray-400">•</span>
-                        <span className="text-xs text-gray-600">Última: {module.lastEntry}</span>
+                        <span className="text-xs text-muted-foreground">{module.frequency}</span>
+                        <span className="text-xs text-muted-foreground">•</span>
+                        <span className="text-xs text-muted-foreground">Última: {module.lastEntry}</span>
                         <span
-                          className="text-xs px-2 py-0.5 rounded ml-auto"
-                          style={{
-                            backgroundColor: statusConfig?.bg,
-                            color: statusConfig?.text,
-                            fontWeight: 600
-                          }}
+                          className={`text-xs px-2 py-0.5 rounded ml-auto ${statusClass}`}
+                          style={{ fontWeight: 600 }}
                         >
                           {module.status}
                         </span>

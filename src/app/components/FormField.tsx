@@ -30,12 +30,12 @@ export function FormField({
         onBlur={() => setIsFocused(false)}
         disabled={disabled}
         placeholder={placeholder}
-        className={`w-full h-14 px-4 pt-5 pb-2 rounded-lg border border-black/10 bg-white
-          focus:outline-none focus:border-[#2B7AB5] focus:ring-1 focus:ring-[#2B7AB5]
-          disabled:bg-gray-50 disabled:text-gray-600 transition-all`}
+        className={`w-full h-14 px-4 pt-5 pb-2 rounded-lg border border-border bg-input-background
+          focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary
+          disabled:bg-muted disabled:text-muted-foreground transition-all`}
       />
       <label
-        className={`absolute left-4 transition-all pointer-events-none text-gray-600
+        className={`absolute left-4 transition-all pointer-events-none text-muted-foreground
           ${
             isFocused || hasValue
               ? "top-2 text-[11px]"

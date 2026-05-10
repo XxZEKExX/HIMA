@@ -83,8 +83,8 @@ export function Step2Productos({ formData, updateFormData, onNext, onBack }: Pro
   return (
     <div className="space-y-6">
       {/* Section Header */}
-      <div className="bg-[#E3F2FD] -mx-4 px-4 py-2">
-        <h3 className="text-[13px] text-[#0D5A8F]" style={{ fontWeight: 600 }}>
+      <div className="bg-agro-success-fill -mx-4 px-4 py-2">
+        <h3 className="text-[13px] text-agro-success-text" style={{ fontWeight: 600 }}>
           PRODUCTOS APLICADOS
         </h3>
       </div>
@@ -103,7 +103,7 @@ export function Step2Productos({ formData, updateFormData, onNext, onBack }: Pro
                   </div>
                   <button
                     onClick={() => removeProduct(index)}
-                    className="p-1 text-[#C02A2A]"
+                    className="p-1 text-destructive"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -121,7 +121,7 @@ export function Step2Productos({ formData, updateFormData, onNext, onBack }: Pro
 
       {/* Add Product Form */}
       {isAddingProduct ? (
-        <div className="bg-white border-2 border-[#2B7AB5] rounded-xl p-4 space-y-4">
+        <div className="bg-card border-2 border-primary rounded-xl p-4 space-y-4">
           <FormSelect
             label="Nombre comercial"
             value={currentProduct.commercialName}
@@ -164,8 +164,8 @@ export function Step2Productos({ formData, updateFormData, onNext, onBack }: Pro
                   }
                   className={`flex-1 h-10 rounded-full transition-all ${
                     currentProduct.infestationLevel === level
-                      ? "bg-[#2B7AB5] text-white"
-                      : "bg-white border border-gray-300 text-gray-700"
+                      ? "bg-primary text-white"
+                      : "bg-card border border-border text-foreground"
                   }`}
                   style={{ fontWeight: 600 }}
                 >
@@ -231,7 +231,7 @@ export function Step2Productos({ formData, updateFormData, onNext, onBack }: Pro
             </button>
             <button
               onClick={addProduct}
-              className="flex-1 h-12 bg-[#2B7AB5] text-white rounded-xl hover:bg-[#1E88C7] transition-colors"
+              className="flex-1 h-12 bg-primary text-white rounded-xl hover:bg-agro-blue transition-colors"
               style={{ fontWeight: 600 }}
             >
               Agregar
@@ -241,7 +241,7 @@ export function Step2Productos({ formData, updateFormData, onNext, onBack }: Pro
       ) : (
         <button
           onClick={() => setIsAddingProduct(true)}
-          className="w-full h-14 border-2 border-dashed border-[#2B7AB5] text-[#2B7AB5] rounded-xl flex items-center justify-center gap-2 hover:bg-[#E3F2FD] transition-colors"
+          className="w-full h-14 border-2 border-dashed border-primary text-primary rounded-xl flex items-center justify-center gap-2 hover:bg-agro-success-fill transition-colors"
           style={{ fontWeight: 600 }}
         >
           <Plus className="w-5 h-5" />
@@ -261,7 +261,7 @@ export function Step2Productos({ formData, updateFormData, onNext, onBack }: Pro
         <button
           onClick={onNext}
           disabled={formData.products.length === 0}
-          className="flex-1 h-14 bg-[#2B7AB5] text-white rounded-3xl disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#1E88C7] transition-colors"
+          className="flex-1 h-14 bg-primary text-white rounded-3xl disabled:opacity-50 disabled:cursor-not-allowed hover:bg-agro-blue transition-colors"
           style={{ fontWeight: 600 }}
         >
           Continuar

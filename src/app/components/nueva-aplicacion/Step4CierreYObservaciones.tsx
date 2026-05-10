@@ -20,13 +20,13 @@ export function Step4CierreYObservaciones({ formData, updateFormData, onSave, on
     <div className="space-y-6">
       {/* PPE Warning */}
       {hasPPEWarning && (
-        <div className="bg-[#FAECE7] border border-[#993C1D]/20 rounded-xl p-4 flex items-start gap-3">
-          <AlertTriangle className="w-5 h-5 text-[#993C1D] flex-shrink-0 mt-0.5" />
+        <div className="bg-agro-danger-fill border border-agro-danger-text/20 rounded-xl p-4 flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-agro-danger-text flex-shrink-0 mt-0.5" />
           <div>
-            <div className="text-sm text-[#993C1D] mb-1" style={{ fontWeight: 600 }}>
+            <div className="text-sm text-agro-danger-text mb-1" style={{ fontWeight: 600 }}>
               Advertencia de EPP
             </div>
-            <div className="text-sm text-[#993C1D]">
+            <div className="text-sm text-agro-danger-text">
               {missingPPE.length} elemento(s) de protección no seleccionado(s)
             </div>
           </div>
@@ -34,8 +34,8 @@ export function Step4CierreYObservaciones({ formData, updateFormData, onSave, on
       )}
 
       {/* Section Header */}
-      <div className="bg-[#E3F2FD] -mx-4 px-4 py-2">
-        <h3 className="text-[13px] text-[#0D5A8F]" style={{ fontWeight: 600 }}>
+      <div className="bg-agro-success-fill -mx-4 px-4 py-2">
+        <h3 className="text-[13px] text-agro-success-text" style={{ fontWeight: 600 }}>
           CALDOS SOBRANTES
         </h3>
       </div>
@@ -50,8 +50,8 @@ export function Step4CierreYObservaciones({ formData, updateFormData, onSave, on
             onClick={() => updateFormData({ leftover: true })}
             className={`flex-1 h-12 rounded-full transition-all ${
               formData.leftover
-                ? "bg-[#2B7AB5] text-white"
-                : "bg-white border border-gray-300 text-gray-700"
+                ? "bg-primary text-white"
+                : "bg-card border border-border text-foreground"
             }`}
             style={{ fontWeight: 600 }}
           >
@@ -61,8 +61,8 @@ export function Step4CierreYObservaciones({ formData, updateFormData, onSave, on
             onClick={() => updateFormData({ leftover: false })}
             className={`flex-1 h-12 rounded-full transition-all ${
               !formData.leftover
-                ? "bg-[#2B7AB5] text-white"
-                : "bg-white border border-gray-300 text-gray-700"
+                ? "bg-primary text-white"
+                : "bg-card border border-border text-foreground"
             }`}
             style={{ fontWeight: 600 }}
           >
@@ -121,8 +121,8 @@ export function Step4CierreYObservaciones({ formData, updateFormData, onSave, on
       )}
 
       {/* Section Header */}
-      <div className="bg-[#E3F2FD] -mx-4 px-4 py-2">
-        <h3 className="text-[13px] text-[#0D5A8F]" style={{ fontWeight: 600 }}>
+      <div className="bg-agro-success-fill -mx-4 px-4 py-2">
+        <h3 className="text-[13px] text-agro-success-text" style={{ fontWeight: 600 }}>
           PERSONAL Y RESPONSABLES
         </h3>
       </div>
@@ -149,8 +149,8 @@ export function Step4CierreYObservaciones({ formData, updateFormData, onSave, on
       />
 
       {/* Section Header */}
-      <div className="bg-[#E3F2FD] -mx-4 px-4 py-2">
-        <h3 className="text-[13px] text-[#0D5A8F]" style={{ fontWeight: 600 }}>
+      <div className="bg-agro-success-fill -mx-4 px-4 py-2">
+        <h3 className="text-[13px] text-agro-success-text" style={{ fontWeight: 600 }}>
           OBSERVACIONES
         </h3>
       </div>
@@ -161,7 +161,7 @@ export function Step4CierreYObservaciones({ formData, updateFormData, onSave, on
           onChange={(e) => updateFormData({ observations: e.target.value })}
           placeholder="Observaciones adicionales..."
           className="w-full min-h-[100px] px-4 py-3 rounded-lg border border-black/10 bg-white
-            focus:outline-none focus:border-[#2B7AB5] focus:ring-1 focus:ring-[#2B7AB5] resize-none"
+            focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary resize-none"
         />
       </div>
 
@@ -206,7 +206,7 @@ export function Step4CierreYObservaciones({ formData, updateFormData, onSave, on
         </button>
         <button
           onClick={onSave}
-          className="flex-1 h-14 bg-[#2B7AB5] text-white rounded-3xl hover:bg-[#1E88C7] transition-colors"
+          className="flex-1 h-14 bg-primary text-white rounded-3xl hover:bg-agro-blue transition-colors"
           style={{ fontWeight: 600 }}
         >
           Guardar y generar PDF

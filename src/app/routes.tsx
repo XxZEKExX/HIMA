@@ -1,5 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import { Layout } from "./components/Layout";
+import { RequireAuth } from "./components/RequireAuth";
+import { Login } from "./screens/Login";
 import { Home } from "./screens/Home";
 import { NuevaAplicacion } from "./screens/NuevaAplicacion";
 import { Inventario } from "./screens/Inventario";
@@ -16,22 +18,31 @@ import { RegistroLimpiezaBanos } from "./screens/RegistroLimpiezaBanos";
 
 export const router = createBrowserRouter([
   {
+    path: "/login",
+    Component: Login,
+  },
+  {
     path: "/",
-    Component: Layout,
+    Component: RequireAuth,
     children: [
-      { index: true, Component: Home },
-      { path: "nueva-aplicacion", Component: NuevaAplicacion },
-      { path: "inventario", Component: Inventario },
-      { path: "historial", Component: Historial },
-      { path: "historial/:id", Component: DetalleAplicacion },
-      { path: "perfil", Component: Perfil },
-      { path: "inocuidad/botiquin", Component: BotiquinPrimerosAuxilios },
-      { path: "inocuidad/vidrio-plastico", Component: InspeccionVidrioPlastico },
-      { path: "inocuidad/fertilizacion", Component: RegistroFertilizacion },
-      { path: "inocuidad/perimetral", Component: InspeccionPerimetral },
-      { path: "inocuidad/cosecha", Component: RegistroCosechaLiberacion },
-      { path: "inocuidad/preoperacional", Component: InspeccionPreoperacionalCosecha },
-      { path: "inocuidad/limpieza-banos", Component: RegistroLimpiezaBanos },
+      {
+        Component: Layout,
+        children: [
+          { index: true, Component: Home },
+          { path: "nueva-aplicacion", Component: NuevaAplicacion },
+          { path: "inventario", Component: Inventario },
+          { path: "historial", Component: Historial },
+          { path: "historial/:id", Component: DetalleAplicacion },
+          { path: "perfil", Component: Perfil },
+          { path: "inocuidad/botiquin", Component: BotiquinPrimerosAuxilios },
+          { path: "inocuidad/vidrio-plastico", Component: InspeccionVidrioPlastico },
+          { path: "inocuidad/fertilizacion", Component: RegistroFertilizacion },
+          { path: "inocuidad/perimetral", Component: InspeccionPerimetral },
+          { path: "inocuidad/cosecha", Component: RegistroCosechaLiberacion },
+          { path: "inocuidad/preoperacional", Component: InspeccionPreoperacionalCosecha },
+          { path: "inocuidad/limpieza-banos", Component: RegistroLimpiezaBanos },
+        ],
+      },
     ],
   },
 ]);
