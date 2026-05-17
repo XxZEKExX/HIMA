@@ -19,9 +19,17 @@ export function FormField({
 }: Props) {
   const [isFocused, setIsFocused] = useState(false);
   const hasValue = value !== "";
+  const isFloating = isFocused || hasValue;
 
   return (
-    <div className="relative">
+    <div className="relative mt-3">
+      <label
+        className={`absolute left-4 transition-all pointer-events-none text-muted-foreground z-10
+          ${isFloating ? "top-2 text-[11px]" : "top-4 text-sm"}`}
+        style={{ fontWeight: isFloating ? 600 : 400 }}
+      >
+        {label}
+      </label>
       <input
         type={type}
         value={value}
@@ -29,22 +37,11 @@ export function FormField({
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         disabled={disabled}
-        placeholder={placeholder}
-        className={`w-full h-14 px-4 pt-5 pb-2 rounded-lg border border-border bg-input-background
+        placeholder={isFloating ? placeholder : ""}
+        className={`w-full h-16 px-4 pt-7 pb-2 rounded-lg border border-border bg-input-background
           focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary
-          disabled:bg-muted disabled:text-muted-foreground transition-all`}
+          disabled:bg-muted disabled:text-muted-foreground transition-all text-sm`}
       />
-      <label
-        className={`absolute left-4 transition-all pointer-events-none text-muted-foreground
-          ${
-            isFocused || hasValue
-              ? "top-2 text-[11px]"
-              : "top-1/2 -translate-y-1/2 text-sm"
-          }`}
-        style={{ fontWeight: isFocused || hasValue ? 600 : 400 }}
-      >
-        {label}
-      </label>
     </div>
   );
 }

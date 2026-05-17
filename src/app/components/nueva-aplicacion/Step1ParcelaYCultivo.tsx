@@ -32,7 +32,7 @@ export function Step1ParcelaYCultivo({ formData, updateFormData, onNext }: Props
   };
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col" style={{ gap: '16px' }}>
       {/* Encabezado de sección */}
       <div className="bg-agro-success-fill -mx-4 px-4 py-2">
         <h3 className="text-[13px] text-agro-success-text" style={{ fontWeight: 600 }}>
@@ -140,7 +140,7 @@ export function Step1ParcelaYCultivo({ formData, updateFormData, onNext }: Props
       {/* Botón Continuar */}
       <button
         onClick={onNext}
-        className="w-full h-14 bg-primary text-white rounded-3xl mt-6 hover:bg-agro-blue transition-colors"
+        className="w-full h-14 bg-primary text-white rounded-3xl hover:bg-agro-blue transition-colors"
         style={{ fontWeight: 600 }}
       >
         Continuar

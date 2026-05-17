@@ -20,6 +20,7 @@ export function useCatalogoProductos(): UseCatalogoProductosResult {
       .eq('activo', true)
       .order('nombre_comercial')
       .then(({ data, error: err }) => {
+        console.log('[catalogo] data:', data, '| error:', err)
         if (err) setError(err.message)
         else setProductos(data ?? [])
       })

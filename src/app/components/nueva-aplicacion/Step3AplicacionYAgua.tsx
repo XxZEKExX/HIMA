@@ -43,7 +43,7 @@ export function Step3AplicacionYAgua({ formData, updateFormData, onNext, onBack 
   };
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-4">
       {/* Section Header */}
       <div className="bg-agro-success-fill -mx-4 px-4 py-2">
         <h3 className="text-[13px] text-agro-success-text" style={{ fontWeight: 600 }}>

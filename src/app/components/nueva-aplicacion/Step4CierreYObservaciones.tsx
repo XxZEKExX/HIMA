@@ -18,7 +18,7 @@ export function Step4CierreYObservaciones({ formData, updateFormData, onSave, on
   const hasPPEWarning = missingPPE.length > 0;
 
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-4">
       {/* PPE Warning */}
       {hasPPEWarning && (
         <div className="bg-agro-danger-fill border border-agro-danger-text/20 rounded-xl p-4 flex items-start gap-3">
