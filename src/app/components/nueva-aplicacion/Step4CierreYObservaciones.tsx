@@ -7,9 +7,10 @@ interface Props {
   updateFormData: (data: any) => void;
   onSave: () => void;
   onBack: () => void;
+  saving?: boolean;
 }
 
-export function Step4CierreYObservaciones({ formData, updateFormData, onSave, onBack }: Props) {
+export function Step4CierreYObservaciones({ formData, updateFormData, onSave, onBack, saving = false }: Props) {
   const [showSummary, setShowSummary] = useState(false);
 
   // Check if any PPE is missing
@@ -206,10 +207,11 @@ export function Step4CierreYObservaciones({ formData, updateFormData, onSave, on
         </button>
         <button
           onClick={onSave}
-          className="flex-1 h-14 bg-primary text-white rounded-3xl hover:bg-agro-blue transition-colors"
+          disabled={saving}
+          className="flex-1 h-14 bg-primary text-white rounded-3xl hover:bg-agro-blue transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           style={{ fontWeight: 600 }}
         >
-          Guardar y generar PDF
+          {saving ? "Guardando..." : "Guardar y generar PDF"}
         </button>
       </div>
     </div>

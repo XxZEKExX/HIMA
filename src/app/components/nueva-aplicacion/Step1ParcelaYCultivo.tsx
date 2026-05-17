@@ -1,6 +1,6 @@
 import { FormField } from "../FormField";
 import { FormSelect } from "../FormSelect";
-import { huertos } from "@/data/mock";
+import { useRanchos } from "@/hooks/useRanchos";
 
 interface Props {
   formData: any;
@@ -18,19 +18,22 @@ const phenologyOptions = [
 ];
 
 export function Step1ParcelaYCultivo({ formData, updateFormData, onNext }: Props) {
-  const handleHuertoChange = (value: string) => {
-    const selected = huertos.find((h) => h.value === value);
-    // Auto-rellena código de huerto y cultivo al seleccionar el rancho
+  const { ranchos, loading: loadingRanchos } = useRanchos();
+
+  const ranchoOptions = ranchos.map((r) => ({ value: r.id, label: r.nombre }));
+
+  const handleHuertoChange = (ranchoId: string) => {
+    const selected = ranchos.find((r) => r.id === ranchoId);
     updateFormData({
-      huerto: value,
-      huertoCode: selected?.code || "",
-      crop: selected?.cultivo || formData.crop,
+      huerto: ranchoId,
+      huertoCode: selected?.codigo ?? "",
+      crop: selected?.cultivo ?? "",
     });
   };
 
   return (
     <div className="space-y-6">
-      {/* Section Header */}
+      {/* Encabezado de sección */}
       <div className="bg-agro-success-fill -mx-4 px-4 py-2">
         <h3 className="text-[13px] text-agro-success-text" style={{ fontWeight: 600 }}>
           INFORMACIÓN DE PARCELA Y CULTIVO
@@ -45,10 +48,10 @@ export function Step1ParcelaYCultivo({ formData, updateFormData, onNext }: Props
       />
 
       <FormSelect
-        label="Huerto / Rancho"
+        label={loadingRanchos ? "Cargando ranchos..." : "Huerto / Rancho"}
         value={formData.huerto}
         onChange={handleHuertoChange}
-        options={huertos}
+        options={ranchoOptions}
       />
 
       <FormField
@@ -97,7 +100,7 @@ export function Step1ParcelaYCultivo({ formData, updateFormData, onNext }: Props
         options={phenologyOptions}
       />
 
-      {/* Section Header */}
+      {/* Encabezado de sección */}
       <div className="bg-agro-success-fill -mx-4 px-4 py-2">
         <h3 className="text-[13px] text-agro-success-text" style={{ fontWeight: 600 }}>
           FECHAS Y HORARIOS
@@ -134,7 +137,7 @@ export function Step1ParcelaYCultivo({ formData, updateFormData, onNext }: Props
         />
       </div>
 
-      {/* Next Button */}
+      {/* Botón Continuar */}
       <button
         onClick={onNext}
         className="w-full h-14 bg-primary text-white rounded-3xl mt-6 hover:bg-agro-blue transition-colors"

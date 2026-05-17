@@ -3,6 +3,7 @@ import type {
   Aplicacion,
   AplicacionConProductos,
   AplicacionInsert,
+  AplicacionProductoInsert,
   AplicacionUpdate,
   Rancho,
 } from '@/types/database.types'
@@ -68,6 +69,19 @@ export async function crearAplicacion(datos: AplicacionInsert): Promise<Aplicaci
 
   if (error) throw error
   return data
+}
+
+export async function insertarProductosAplicacion(
+  aplicacionId: string,
+  productos: Omit<AplicacionProductoInsert, 'aplicacion_id'>[]
+): Promise<void> {
+  if (productos.length === 0) return
+  const rows: AplicacionProductoInsert[] = productos.map((p) => ({
+    ...p,
+    aplicacion_id: aplicacionId,
+  }))
+  const { error } = await supabase.from('aplicacion_productos').insert(rows)
+  if (error) throw error
 }
 
 export async function actualizarAplicacion(

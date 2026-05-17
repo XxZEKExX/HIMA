@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Plus, Edit2, Trash2 } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
 import { FormField } from "../FormField";
 import { FormSelect } from "../FormSelect";
+import { useCatalogoProductos } from "@/hooks/useCatalogoProductos";
 
 interface Props {
   formData: any;
@@ -10,123 +11,139 @@ interface Props {
   onBack: () => void;
 }
 
-const productOptions = [
-  { value: "mancozeb", label: "Mancozeb 80%", ingredient: "Mancozeb", rsco: "RSCO-0045-2019" },
-  { value: "lambda", label: "Lambda-cyhalotrin 5%", ingredient: "Lambda-cyhalotrin", rsco: "RSCO-0123-2020" },
-  { value: "azoxy", label: "Azoxystrobin 25%", ingredient: "Azoxystrobin", rsco: "RSCO-0089-2021" },
-  { value: "imida", label: "Imidacloprid 35%", ingredient: "Imidacloprid", rsco: "RSCO-0156-2018" },
-];
-
 const pestOptions = [
   { value: "botrytis", label: "Botrytis cinerea" },
   { value: "oidio", label: "Oidio" },
   { value: "trips", label: "Trips" },
   { value: "pulgon", label: "Pulgón" },
-  { value: "araña", label: "Araña roja" },
+  { value: "arana", label: "Araña roja" },
+  { value: "antracnosis", label: "Antracnosis" },
+  { value: "otro", label: "Otro" },
 ];
 
 const infestationLevels = ["Bajo", "Medio", "Alto"];
 
-export function Step2Productos({ formData, updateFormData, onNext, onBack }: Props) {
-  const [isAddingProduct, setIsAddingProduct] = useState(false);
-  const [currentProduct, setCurrentProduct] = useState<any>({
-    commercialName: "",
-    activeIngredient: "",
-    rsco: "",
-    pest: "",
-    infestationLevel: "",
-    dosePerHa: "",
-    dosePer200L: "",
-    totalProduct: "",
-    daysToHarvest: "",
-    reentryTime: "",
-  });
+const emptyProduct = {
+  productId: "",
+  commercialName: "",
+  activeIngredient: "",
+  rsco: "",
+  pest: "",
+  infestationLevel: "",
+  dosePerHa: "",
+  dosePer200L: "",
+  totalProduct: "",
+  daysToHarvest: "",
+  reentryTime: "",
+};
 
-  const handleProductSelect = (value: string) => {
-    const selected = productOptions.find((p) => p.value === value);
-    if (selected) {
-      setCurrentProduct({
-        ...currentProduct,
-        commercialName: value,
-        activeIngredient: selected.ingredient,
-        rsco: selected.rsco,
-      });
-    }
+function calcularTotal(dosePerHa: string, surface: string): string {
+  const dose = parseFloat(dosePerHa);
+  const sup = parseFloat(surface);
+  if (!dose || !sup) return "";
+  return (dose * sup).toFixed(4);
+}
+
+export function Step2Productos({ formData, updateFormData, onNext, onBack }: Props) {
+  const { productos, loading: loadingCatalogo } = useCatalogoProductos();
+  const [isAddingProduct, setIsAddingProduct] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState<typeof emptyProduct>({ ...emptyProduct });
+
+  const productoOptions = productos.map((p) => ({
+    value: p.id,
+    label: p.nombre_comercial,
+  }));
+
+  const handleProductSelect = (productId: string) => {
+    const selected = productos.find((p) => p.id === productId);
+    if (!selected) return;
+
+    const dosePerHa = selected.dosis_ha?.toString() ?? "";
+    setCurrentProduct({
+      ...currentProduct,
+      productId: selected.id,
+      commercialName: selected.nombre_comercial,
+      activeIngredient: selected.ingrediente_activo,
+      rsco: selected.rsco ?? "",
+      dosePerHa,
+      dosePer200L: selected.dosis_200l?.toString() ?? "",
+      totalProduct: calcularTotal(dosePerHa, formData.surface),
+      daysToHarvest: selected.dias_cosecha?.toString() ?? "",
+      reentryTime: selected.reentrada_hrs?.toString() ?? "",
+    });
+  };
+
+  const handleDosePerHaChange = (value: string) => {
+    setCurrentProduct((prev) => ({
+      ...prev,
+      dosePerHa: value,
+      totalProduct: calcularTotal(value, formData.surface),
+    }));
   };
 
   const addProduct = () => {
-    if (currentProduct.commercialName) {
-      updateFormData({
-        products: [...formData.products, currentProduct],
-      });
-      setCurrentProduct({
-        commercialName: "",
-        activeIngredient: "",
-        rsco: "",
-        pest: "",
-        infestationLevel: "",
-        dosePerHa: "",
-        dosePer200L: "",
-        totalProduct: "",
-        daysToHarvest: "",
-        reentryTime: "",
-      });
-      setIsAddingProduct(false);
-    }
+    if (!currentProduct.productId) return;
+    updateFormData({ products: [...formData.products, currentProduct] });
+    setCurrentProduct({ ...emptyProduct });
+    setIsAddingProduct(false);
   };
 
   const removeProduct = (index: number) => {
-    const newProducts = formData.products.filter((_: any, i: number) => i !== index);
-    updateFormData({ products: newProducts });
+    updateFormData({
+      products: formData.products.filter((_: any, i: number) => i !== index),
+    });
   };
 
   return (
     <div className="space-y-6">
-      {/* Section Header */}
+      {/* Encabezado de sección */}
       <div className="bg-agro-success-fill -mx-4 px-4 py-2">
         <h3 className="text-[13px] text-agro-success-text" style={{ fontWeight: 600 }}>
           PRODUCTOS APLICADOS
         </h3>
       </div>
 
-      {/* Added Products List */}
+      {/* Lista de productos agregados */}
       {formData.products.length > 0 && (
         <div className="space-y-3">
-          {formData.products.map((product: any, index: number) => {
-            const productLabel = productOptions.find((p) => p.value === product.commercialName)?.label || "";
-            return (
-              <div key={index} className="bg-white border border-black/10 rounded-xl p-4">
-                <div className="flex items-start justify-between mb-2">
-                  <div className="flex-1">
-                    <div className="text-sm mb-1" style={{ fontWeight: 600 }}>{productLabel}</div>
-                    <div className="text-xs text-gray-600">{product.activeIngredient}</div>
+          {formData.products.map((product: any, index: number) => (
+            <div key={index} className="bg-card border border-border rounded-xl p-4">
+              <div className="flex items-start justify-between mb-2">
+                <div className="flex-1">
+                  <div className="text-sm mb-1" style={{ fontWeight: 600 }}>
+                    {product.commercialName}
                   </div>
-                  <button
-                    onClick={() => removeProduct(index)}
-                    className="p-1 text-destructive"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+                  <div className="text-xs text-muted-foreground">{product.activeIngredient}</div>
                 </div>
-                <div className="flex items-center gap-2 text-xs text-gray-600">
-                  <span>Dosis: {product.dosePerHa} kg/ha</span>
-                  <span>•</span>
-                  <span className="px-2 py-1 bg-gray-100 rounded">{product.infestationLevel}</span>
-                </div>
+                <button
+                  onClick={() => removeProduct(index)}
+                  className="p-1 text-destructive"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
               </div>
-            );
-          })}
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <span>Dosis: {product.dosePerHa} kg/ha</span>
+                {product.infestationLevel && (
+                  <>
+                    <span>•</span>
+                    <span className="px-2 py-1 bg-muted rounded">{product.infestationLevel}</span>
+                  </>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
       )}
 
-      {/* Add Product Form */}
+      {/* Formulario para agregar producto */}
       {isAddingProduct ? (
         <div className="bg-card border-2 border-primary rounded-xl p-4 space-y-4">
           <FormSelect
-            label="Nombre comercial"
-            value={currentProduct.commercialName}
+            label={loadingCatalogo ? "Cargando productos..." : "Nombre comercial"}
+            value={currentProduct.productId}
             onChange={handleProductSelect}
-            options={productOptions}
+            options={productoOptions}
           />
 
           <FormField
@@ -146,22 +163,20 @@ export function Step2Productos({ formData, updateFormData, onNext, onBack }: Pro
           <FormSelect
             label="Justificación / Plaga"
             value={currentProduct.pest}
-            onChange={(value) => setCurrentProduct({ ...currentProduct, pest: value })}
+            onChange={(value) => setCurrentProduct((prev) => ({ ...prev, pest: value }))}
             options={pestOptions}
           />
 
-          {/* Infestation Level Pills */}
+          {/* Nivel de infestación */}
           <div>
-            <label className="text-xs text-gray-600 mb-2 block" style={{ fontWeight: 600 }}>
+            <label className="text-xs text-muted-foreground mb-2 block" style={{ fontWeight: 600 }}>
               Nivel de infestación
             </label>
             <div className="flex gap-2">
               {infestationLevels.map((level) => (
                 <button
                   key={level}
-                  onClick={() =>
-                    setCurrentProduct({ ...currentProduct, infestationLevel: level })
-                  }
+                  onClick={() => setCurrentProduct((prev) => ({ ...prev, infestationLevel: level }))}
                   className={`flex-1 h-10 rounded-full transition-all ${
                     currentProduct.infestationLevel === level
                       ? "bg-primary text-white"
@@ -180,7 +195,7 @@ export function Step2Productos({ formData, updateFormData, onNext, onBack }: Pro
               label="Dosis por ha"
               type="number"
               value={currentProduct.dosePerHa}
-              onChange={(value) => setCurrentProduct({ ...currentProduct, dosePerHa: value })}
+              onChange={handleDosePerHaChange}
               placeholder="kg/ha"
             />
 
@@ -188,17 +203,17 @@ export function Step2Productos({ formData, updateFormData, onNext, onBack }: Pro
               label="Dosis por 200L agua"
               type="number"
               value={currentProduct.dosePer200L}
-              onChange={(value) => setCurrentProduct({ ...currentProduct, dosePer200L: value })}
+              onChange={(value) => setCurrentProduct((prev) => ({ ...prev, dosePer200L: value }))}
               placeholder="g/200L"
             />
           </div>
 
           <FormField
-            label="Total producto a usar"
+            label="Total producto a usar (auto-calculado)"
             type="number"
             value={currentProduct.totalProduct}
-            onChange={(value) => setCurrentProduct({ ...currentProduct, totalProduct: value })}
-            placeholder="kg"
+            onChange={() => {}}
+            disabled
           />
 
           <div className="grid grid-cols-2 gap-3">
@@ -206,32 +221,32 @@ export function Step2Productos({ formData, updateFormData, onNext, onBack }: Pro
               label="Días a cosecha"
               type="number"
               value={currentProduct.daysToHarvest}
-              onChange={(value) =>
-                setCurrentProduct({ ...currentProduct, daysToHarvest: value })
-              }
+              onChange={(value) => setCurrentProduct((prev) => ({ ...prev, daysToHarvest: value }))}
             />
 
             <FormField
               label="Tiempo reentrada (hrs)"
               type="number"
               value={currentProduct.reentryTime}
-              onChange={(value) =>
-                setCurrentProduct({ ...currentProduct, reentryTime: value })
-              }
+              onChange={(value) => setCurrentProduct((prev) => ({ ...prev, reentryTime: value }))}
             />
           </div>
 
           <div className="flex gap-2">
             <button
-              onClick={() => setIsAddingProduct(false)}
-              className="flex-1 h-12 border border-gray-300 text-gray-700 rounded-xl"
+              onClick={() => {
+                setCurrentProduct({ ...emptyProduct });
+                setIsAddingProduct(false);
+              }}
+              className="flex-1 h-12 border border-border text-foreground rounded-xl"
               style={{ fontWeight: 600 }}
             >
               Cancelar
             </button>
             <button
               onClick={addProduct}
-              className="flex-1 h-12 bg-primary text-white rounded-xl hover:bg-agro-blue transition-colors"
+              disabled={!currentProduct.productId}
+              className="flex-1 h-12 bg-primary text-white rounded-xl hover:bg-agro-blue transition-colors disabled:opacity-50"
               style={{ fontWeight: 600 }}
             >
               Agregar
@@ -249,11 +264,11 @@ export function Step2Productos({ formData, updateFormData, onNext, onBack }: Pro
         </button>
       )}
 
-      {/* Navigation Buttons */}
+      {/* Botones de navegación */}
       <div className="flex gap-3 pt-4">
         <button
           onClick={onBack}
-          className="flex-1 h-14 border border-gray-300 text-gray-700 rounded-3xl"
+          className="flex-1 h-14 border border-border text-foreground rounded-3xl"
           style={{ fontWeight: 600 }}
         >
           Atrás

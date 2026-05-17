@@ -15,8 +15,13 @@ import { InspeccionPerimetral } from "./screens/InspeccionPerimetral";
 import { RegistroCosechaLiberacion } from "./screens/RegistroCosechaLiberacion";
 import { InspeccionPreoperacionalCosecha } from "./screens/InspeccionPreoperacionalCosecha";
 import { RegistroLimpiezaBanos } from "./screens/RegistroLimpiezaBanos";
+import TestSupabase from "./screens/TestSupabase";
 
 export const router = createBrowserRouter([
+  {
+    path: "/test",
+    Component: TestSupabase,
+  },
   {
     path: "/login",
     Component: Login,

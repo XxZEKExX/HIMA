@@ -1,7 +1,17 @@
 import { useState, useMemo, useEffect } from "react";
 import { ChevronLeft, AlertTriangle } from "lucide-react";
 import { useNavigate } from "react-router";
+import { toast } from "sonner";
 import { useAuthContext } from "@/context/AuthContext";
+import { crearAplicacion, insertarProductosAplicacion } from "@/lib/queries";
+import type {
+  AplicacionInsert,
+  AplicacionProductoInsert,
+  CondicionMeteorologica,
+  Fenologia,
+  NivelInfestacion,
+  TipoEquipo,
+} from "@/types/database.types";
 import { Step1ParcelaYCultivo } from "../components/nueva-aplicacion/Step1ParcelaYCultivo";
 import { Step2Productos } from "../components/nueva-aplicacion/Step2Productos";
 import { Step3AplicacionYAgua } from "../components/nueva-aplicacion/Step3AplicacionYAgua";
@@ -9,15 +19,16 @@ import { Step4CierreYObservaciones } from "../components/nueva-aplicacion/Step4C
 
 export function NuevaAplicacion() {
   const [currentStep, setCurrentStep] = useState(1);
+  const [saving, setSaving] = useState(false);
   const navigate = useNavigate();
-  const { profile, asesorProfile, responsableProfile } = useAuthContext();
+  const { profile, productor, asesorProfile, responsableProfile } = useAuthContext();
 
   const [formData, setFormData] = useState({
     // Step 1
     producer: profile?.nombre_completo ?? "",
     huerto: "",
     huertoCode: "",
-    crop: "",  // se auto-rellena al seleccionar el rancho
+    crop: "",
     variety: "",
     sector: "",
     surface: "",
@@ -87,10 +98,87 @@ export function NuevaAplicacion() {
     return diferenciaDias > 7;
   }, [formData.recommendationDate, formData.applicationDate]);
 
-  const handleSave = () => {
-    // TODO Sprint 1: llamar a crearAplicacion() + insertar aplicacion_productos
-    console.log("Guardando formulario:", formData);
-    navigate("/");
+  const handleSave = async () => {
+    // Validaciones de campos requeridos en BD
+    if (!productor) {
+      toast.error("No se encontró el productor asociado a tu cuenta");
+      return;
+    }
+    if (!formData.huerto) {
+      toast.error("Selecciona un huerto antes de guardar");
+      setCurrentStep(1);
+      return;
+    }
+    if (!formData.applicationDate) {
+      toast.error("La fecha de aplicación es requerida");
+      setCurrentStep(1);
+      return;
+    }
+
+    setSaving(true);
+    try {
+      // ── Paso 1: crear la aplicación ──────────────────────────────────────
+      const datosAplicacion: AplicacionInsert = {
+        productor_id: productor.id,
+        rancho_id: formData.huerto,
+        variedad: formData.variety || null,
+        sector: formData.sector || null,
+        superficie_ha: formData.surface ? parseFloat(formData.surface) : null,
+        fenologia: (formData.phenology || null) as Fenologia | null,
+        fecha_recomendacion: formData.recommendationDate || null,
+        fecha_aplicacion: formData.applicationDate,
+        hora_inicio: formData.startTime || null,
+        hora_fin: formData.endTime || null,
+        tipo_aplicacion: formData.applicationType as "Foliar" | "Drench",
+        equipo: (formData.equipment || null) as TipoEquipo | null,
+        total_agua_l: formData.totalWater ? parseFloat(formData.totalWater) : null,
+        cloracion: formData.chlorination,
+        cloro_cantidad_l: formData.chlorineQuantity ? parseFloat(formData.chlorineQuantity) : null,
+        cloro_ph: formData.pH ? parseFloat(formData.pH) : null,
+        condicion_meteorologica: (formData.weather || null) as CondicionMeteorologica | null,
+        epp_traje: formData.ppe["Traje protector"],
+        epp_guantes: formData.ppe["Guantes"],
+        epp_googles: formData.ppe["Googles"],
+        epp_botas: formData.ppe["Botas"],
+        epp_mascarillas: formData.ppe["Mascarillas"],
+        caldos_sobrantes: formData.leftover,
+        caldos_cantidad_l: formData.leftoverQuantity ? parseFloat(formData.leftoverQuantity) : null,
+        caldos_agua_lavado_l: formData.washWater ? parseFloat(formData.washWater) : null,
+        caldos_area_designada: formData.leftover ? formData.eliminatedDesignatedArea : null,
+        aplicadores: formData.applicators || null,
+        asesor_id: productor.asesor_id,
+        responsable_inocuidad_id: productor.responsable_inocuidad_id,
+        observaciones: formData.observations || null,
+        status: "completado",
+      };
+
+      const aplicacion = await crearAplicacion(datosAplicacion);
+
+      // ── Paso 2: insertar los productos de la aplicación ──────────────────
+      if (formData.products.length > 0) {
+        const productos: Omit<AplicacionProductoInsert, "aplicacion_id">[] =
+          formData.products.map((p: any) => ({
+            producto_id: p.productId as string,
+            plaga_objetivo: p.pest || null,
+            nivel_infestacion: (p.infestationLevel || null) as NivelInfestacion | null,
+            dosis_ha: p.dosePerHa ? parseFloat(p.dosePerHa) : null,
+            dosis_200l: p.dosePer200L ? parseFloat(p.dosePer200L) : null,
+            total_producto: p.totalProduct ? parseFloat(p.totalProduct) : null,
+            dias_cosecha: p.daysToHarvest ? parseInt(p.daysToHarvest, 10) : null,
+            reentrada_hrs: p.reentryTime ? parseInt(p.reentryTime, 10) : null,
+          }));
+
+        await insertarProductosAplicacion(aplicacion.id, productos);
+      }
+
+      toast.success("Aplicación guardada correctamente");
+      navigate("/");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Error al guardar la aplicación";
+      toast.error(msg);
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -165,6 +253,7 @@ export function NuevaAplicacion() {
             updateFormData={updateFormData}
             onSave={handleSave}
             onBack={prevStep}
+            saving={saving}
           />
         )}
       </div>

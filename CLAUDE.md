@@ -403,4 +403,16 @@ Cada módulo debe generar un PDF que replique **exactamente** el formato físico
 
 ---
 
-*Última actualización: Abril 2026 — DuoMind Solutions*
+## 13. Bugs resueltos
+
+### Bug — Recarga de página colgaba infinitamente (Mayo 2026)
+**Síntoma:** Login funcionaba correctamente pero recargar la página dejaba la app cargando indefinidamente.
+**Causa:** `onAuthStateChange` disparaba `SIGNED_IN` al recuperar la sesión del localStorage, generando múltiples instancias de `GoTrueClient` que se bloqueaban entre sí.
+**Solución:**
+- `storageKey` único en `supabase.ts` (`'agrocampo-auth'`)
+- Estrategia mixta: `getSession()` al montar + `onAuthStateChange` solo para eventos nuevos
+- Eliminar todas las instancias extra de `createClient` fuera de `supabase.ts`
+
+---
+
+*Última actualización: Mayo 2026 — DuoMind Solutions*
