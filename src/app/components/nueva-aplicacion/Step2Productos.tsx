@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { FormField } from "../FormField";
 import { FormSelect } from "../FormSelect";
+import { ProductoCombobox } from "./ProductoCombobox";
 import { useCatalogoProductos } from "@/hooks/useCatalogoProductos";
 
 interface Props {
@@ -48,11 +49,6 @@ export function Step2Productos({ formData, updateFormData, onNext, onBack }: Pro
   const { productos, loading: loadingCatalogo } = useCatalogoProductos();
   const [isAddingProduct, setIsAddingProduct] = useState(false);
   const [currentProduct, setCurrentProduct] = useState<typeof emptyProduct>({ ...emptyProduct });
-
-  const productoOptions = productos.map((p) => ({
-    value: p.id,
-    label: p.nombre_comercial,
-  }));
 
   const handleProductSelect = (productId: string) => {
     const selected = productos.find((p) => p.id === productId);
@@ -139,12 +135,22 @@ export function Step2Productos({ formData, updateFormData, onNext, onBack }: Pro
       {/* Formulario para agregar producto */}
       {isAddingProduct ? (
         <div className="bg-card border-2 border-primary rounded-xl p-4 space-y-4">
-          <FormSelect
-            label={loadingCatalogo ? "Cargando productos..." : "Nombre comercial"}
-            value={currentProduct.productId}
-            onChange={handleProductSelect}
-            options={productoOptions}
-          />
+          <div>
+            <label className="text-xs text-muted-foreground mb-2 block" style={{ fontWeight: 600 }}>
+              Nombre comercial
+            </label>
+            {loadingCatalogo ? (
+              <div className="h-11 rounded-lg border border-border bg-input-background flex items-center px-3 text-sm text-muted-foreground">
+                Cargando catálogo…
+              </div>
+            ) : (
+              <ProductoCombobox
+                productos={productos}
+                value={currentProduct.productId}
+                onSelect={handleProductSelect}
+              />
+            )}
+          </div>
 
           <FormField
             label="Ingrediente activo"
