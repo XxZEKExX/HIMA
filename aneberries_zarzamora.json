@@ -1,0 +1,5534 @@
+{
+  "meta": {
+    "fuente": "ANEBERRIES Lista de Productos Autorizados",
+    "cultivos": [
+      "Zarzamora"
+    ],
+    "generado_desde": "PDF via pdfplumber",
+    "nota": "Datos extraidos automaticamente, pendientes de validacion por Hima"
+  },
+  "catalogo_productos": [
+    {
+      "nombre_comercial": "THOR 3.6 EW",
+      "ingrediente_activo": "ABAMECTIN",
+      "concentracion": "3.84",
+      "empresa": "FMC AGROCHEMICAL OF MEXICO, S. DE R.L. DE C.V.",
+      "rsco": "RSCO-INAC-0174-326-330-004",
+      "categoria": "Insecticidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "Globectin",
+      "ingrediente_activo": "ABAMECTIN",
+      "concentracion": "1.8",
+      "empresa": "GLOBE CHEMICALS SA DE Resume",
+      "rsco": "RSCO-INAC-0174-336-009-002",
+      "categoria": "Insecticidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "INSTAR AD",
+      "ingrediente_activo": "ABAMECTIN",
+      "concentracion": "1.8",
+      "empresa": "INDUSTRIAL ENGINEERING S. of C.V.",
+      "rsco": "RSCO-INAC-0174-340-009-002",
+      "categoria": "Insecticidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "ARCH 18 CE",
+      "ingrediente_activo": "ABAMECTIN",
+      "concentracion": "1.8",
+      "empresa": "AGROCHEMICALS VERSA SA OF CV",
+      "rsco": "RSCO-INAC-0174-362-009-002",
+      "categoria": "Insecticidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "ABAMIT 3.6 EW",
+      "ingrediente_activo": "ABAMECTIN",
+      "concentracion": "3.84",
+      "empresa": "FMC AGRICHEMICALS OF 112.5- MEXICO S de RL de CV",
+      "rsco": "RSCO-INAC-0174-326-330-004",
+      "categoria": "Insecticidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "ZEPHYR / CENTRIC / THIABA",
+      "ingrediente_activo": "ABAMECTIN + THIAMETHOXAM",
+      "concentracion": "3.04 / 13.96",
+      "empresa": "SYNGENTA AGRO, S.A. OF C.V.",
+      "rsco": "RSCO-MEZC-1101Y-301-064-017",
+      "categoria": "Insecticidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "Trigger",
+      "ingrediente_activo": "ABAMECTIN + BIFENTHRIN",
+      "concentracion": "0.34 / 3.37",
+      "empresa": "NATIONAL AGRICULTURE SA de CV",
+      "rsco": null,
+      "categoria": "Insecticidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "RESCUE 20 PS/ MOSPILAN 20 PS",
+      "ingrediente_activo": "ACETAMIPRID",
+      "concentracion": "20.0",
+      "empresa": "SUMMIT AGRO OF MEXICO SA de CV",
+      "rsco": "RSCO-INAC-0101U-307-003-020",
+      "categoria": "Insecticidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "ZELK 20 HP",
+      "ingrediente_activo": "ACETAMIPRID",
+      "concentracion": "20",
+      "empresa": "LAPISA SA de CV",
+      "rsco": null,
+      "categoria": "Insecticidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "SAF-T-SIDE",
+      "ingrediente_activo": "PARAFFINIC OIL OF PETROLEUM",
+      "concentracion": "80",
+      "empresa": "DISTRIBUCIONES IMEX S.A. 0 S. de R.L.",
+      "rsco": null,
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "CITRULLINE",
+      "ingrediente_activo": "PARAFFINIC OIL OF PETROLEUM",
+      "concentracion": "83",
+      "empresa": "VARIOUS",
+      "rsco": null,
+      "categoria": "Fungicidas",
+      "unidad": null
+    },
+    {
+      "nombre_comercial": "KANEMITE 15 SC",
+      "ingrediente_activo": "ACEQUINOCYL",
+      "concentracion": "15.8",
+      "empresa": "ARYSTA LIFESCIENCE MEXICO, S.A. DE C.V.",
+      "rsco": "RSCO-INAC-0103N-301-064-016",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "Stinger",
+      "ingrediente_activo": "ELEMENTAL SULFUR + OIL PARAFFINIC",
+      "concentracion": "35.53 / 39.21",
+      "empresa": "QUIIMICA LUCAVA SA de CV",
+      "rsco": "RSCO-MEZC-INAC-0671A-0302-X0034-064-74.74",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "TALSTAR 100 CE",
+      "ingrediente_activo": "BIFENTHRIN",
+      "concentracion": "12.15",
+      "empresa": "FMC AGROCHEMICAL OF MEXICO, S. DE R.L. DE C.V.",
+      "rsco": "RSCO-INAC-0176-001-009-012",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "AKARIS 100 CE",
+      "ingrediente_activo": "BIFENTHRIN",
+      "concentracion": "12.15",
+      "empresa": "NATIONAL AGRICULTURE SA DE CV",
+      "rsco": "RSCO-INAC-0176-X0120-009-12.15",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "BRIGADIER 0.3 G",
+      "ingrediente_activo": "BIFENTHRIN",
+      "concentracion": "0.3",
+      "empresa": "FMC AGRICHEMICAL OF MEXICO, S. DE R.L. DE C.V.",
+      "rsco": "RSCO-INAC-0176-318-005-0.30",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "DIABLOSTAR",
+      "ingrediente_activo": "BIFENTHRIN",
+      "concentracion": "12.15",
+      "empresa": "TRIDENT AGRICHEMICAL SA OF CV",
+      "rsco": "RSCO-INAC-0176-X0102-009-12.15",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "ALLECTUS GR / ESCUDO 7 GR",
+      "ingrediente_activo": "BIFENTHRIN + IMIDACLOPRID",
+      "concentracion": "0.30 / 0.40",
+      "empresa": "FMC AGROCHEMICAL OF MEXICO, S. DE R.L. DE C.V.",
+      "rsco": "RSCO-MEZC-INAC-1101N-0649-005-0.7",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "ALLECTUS 300 SC",
+      "ingrediente_activo": "BIFENTHRIN + IMIDACLOPRID",
+      "concentracion": "4.58/22.87",
+      "empresa": "",
+      "rsco": "RSCO-MEZC-1101N-0232-064-27.45",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "ACRAMITE 50 WS",
+      "ingrediente_activo": "Bifenazate",
+      "concentracion": "50",
+      "empresa": "ARYSTA LIFESCIENCE MEXICO, S.A. DE C.V.",
+      "rsco": "RSCO-INAC-0103U-303-034-050",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "CORAGEN 20 SC",
+      "ingrediente_activo": "CLORANTRANILIPROLE",
+      "concentracion": "18.4",
+      "empresa": "FMC Agrochemical of MEXICO S. DE R. L. DE C. V.",
+      "rsco": "RSCO-INAC-0104A-301-026-018",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "VELSIDOL 5G",
+      "ingrediente_activo": "DIAZINON",
+      "concentracion": "5",
+      "empresa": "VELSIMEX S.A. DE C.V.",
+      "rsco": null,
+      "categoria": "Fungicidas",
+      "unidad": null
+    },
+    {
+      "nombre_comercial": "DIAZIN 25 CE",
+      "ingrediente_activo": "DIAZINON",
+      "concentracion": "25",
+      "empresa": "SUPPLIER AGROINDUSTRIAL OF SINALOA, S.A. DE C.V.",
+      "rsco": "RSCO-INAC-0120-378-009-025",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "VELSIDOL 25 CE",
+      "ingrediente_activo": "DIAZINON",
+      "concentracion": "25",
+      "empresa": "VELSIMEX S.A DE C.V",
+      "rsco": "RSCO-INAC-0120-054-009-025",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "HERCULES 5G",
+      "ingrediente_activo": "DIAZINON",
+      "concentracion": "5",
+      "empresa": "PROVINDUSTRIES OF OCCIDENTE, S.A. DE C.V.",
+      "rsco": "RSCO-INAC-0120-364-005-005",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "TETRASAN 11 SC",
+      "ingrediente_activo": "ETOXAZOLE",
+      "concentracion": "10.34",
+      "empresa": "VALENT OF MEXICO, S.A. S.C.",
+      "rsco": "RSCO-INAC-0103E-301-064-010",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "MAGISTER 200 SC",
+      "ingrediente_activo": "FENAZAQUIN",
+      "concentracion": "18.32 G",
+      "empresa": "OWAN MEXICANA SAPI DE CV 0",
+      "rsco": "RSCO-INAC-0103T-301-064-018",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "HERALD 375 CE",
+      "ingrediente_activo": "FENPROPATRIN",
+      "concentracion": "38.5",
+      "empresa": "VALENT OF MEXICO, S.A. S. de R.L.",
+      "rsco": "RSCO-INAC-0193-312-009-039",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "FLANK",
+      "ingrediente_activo": "HEXITIAZOX",
+      "concentracion": "24",
+      "empresa": "AMVAC MEXICO S DE RL DE CV",
+      "rsco": "RSCO-INAC-0102R-X0331-064-24.0",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "SAVEY 50 GD/HEXIGON 50 GD",
+      "ingrediente_activo": "HEXITIAZOX",
+      "concentracion": "50",
+      "empresa": "GOWAN MEXICANA, S.A.P.I. S.A. de C.V.",
+      "rsco": "RSCO-INAC-0102R-303-034-050",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "HELMFIDOR",
+      "ingrediente_activo": "IMIDACLOPRID",
+      "concentracion": "30.2",
+      "empresa": "HELM OF MEXICO, S.A. OF C.V",
+      "rsco": "RSCO-INAC-0199-351-064-030",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "MANAGER 350 SC",
+      "ingrediente_activo": "IMIDACLOPRID",
+      "concentracion": "32.65",
+      "empresa": "LAPISA SA DE CV",
+      "rsco": "RSCO-INAC-0199-339-064-033",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "CONFIDOR 350 SC",
+      "ingrediente_activo": "IMIDACLOPRID",
+      "concentracion": "30.2",
+      "empresa": "BAYER DE MÉXICO, S.A. OF C.V.",
+      "rsco": "RSCO-INAC-0199-303-064-030",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "CONFINAL",
+      "ingrediente_activo": "IMIDACLOPRID + BIFENTRIN",
+      "concentracion": "18.92 / 6.49",
+      "empresa": "NATIONAL AGRICULTURE SA de CV",
+      "rsco": null,
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "MALATION 1000 TRIDENT",
+      "ingrediente_activo": "MALATHION",
+      "concentracion": "83.6",
+      "empresa": "TRIDENT CHEMICALS SA Of CV",
+      "rsco": "RSCO-INAC-0143-025-009-084",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "MALATHION 1000 E",
+      "ingrediente_activo": "MALATHION",
+      "concentracion": "84",
+      "empresa": "NATIONAL AGRICULTURE Limited Liability Company",
+      "rsco": null,
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "TAPPS'O",
+      "ingrediente_activo": "Metaldehyde",
+      "concentracion": "6",
+      "empresa": "NATIONAL AGRICULTURE S.A. DE C.V",
+      "rsco": null,
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "ACARITOUCH",
+      "ingrediente_activo": "Monolaurate of PROPYLENE GLYCOL",
+      "concentracion": "70.81",
+      "empresa": "ARYSTA LIFESCIENCE MEXICO, S.A. DE C.V.",
+      "rsco": "RSCO-INAC-0105D-301-009-071",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "PROXY 100 CE",
+      "ingrediente_activo": "PYRIPROXIFEN",
+      "concentracion": "10.99",
+      "empresa": "KOOR INTERCOMMERCIAL SA OF CV",
+      "rsco": "RSCO-INAC-1104P-X0033-009-10.99",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "STONE 100 CE",
+      "ingrediente_activo": "PYRIPROXIFEN",
+      "concentracion": "10.99",
+      "empresa": "FMC AGROCHEMICAL OF MEXICO S DE RL DE CV",
+      "rsco": "RSCO-INAC-1104P-X0033-009-10.99",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "ENTRUST SC/SPINTOR GREE",
+      "ingrediente_activo": "SPINOSAD",
+      "concentracion": "N 22.14",
+      "empresa": "DOW AGROSCIENCES OF MEXICO, S.A. DE C.V.",
+      "rsco": "RSCO-INAC-0101Y-313-002-080ForTripsmake2appointmentsatintervalsof7days",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "PALGUS",
+      "ingrediente_activo": "SPINETORAM",
+      "concentracion": "5.9",
+      "empresa": "DOW AGROSCIENCES DE MEXICO, S.A. DE C.V.",
+      "rsco": "RSCO-INAC-0103X-301-064-006",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "EXALT",
+      "ingrediente_activo": "SPINETORAM",
+      "concentracion": "5.87",
+      "empresa": "DOW AGROSCIENCES OF MEXICO, S.A. DE C.V.",
+      "rsco": "RSCO-INAC-0103X-301-064-006",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "ACTARA 25 GS / ACTARA 25 WG",
+      "ingrediente_activo": "THIAMETHOXAM",
+      "concentracion": "25",
+      "empresa": "SYNGENTA AGRO, S.A. OF C.V.",
+      "rsco": "RSCO-INAC-0102U-301-034-025",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "UNIKUM/ THIAMETOZA 25 WG/ HELMTOXAM/ MACHINE",
+      "ingrediente_activo": "THIAMETHOXAM",
+      "concentracion": "25",
+      "empresa": "HELM OF MEXICO, S.A.",
+      "rsco": "RSCO-INAC-0102U-0739-424-25",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "KYGO 250 WG",
+      "ingrediente_activo": "THIAMETHOXAM",
+      "concentracion": "25",
+      "empresa": "LAPISA SA de CV",
+      "rsco": "RSCO-INAC-0102U-X0328-034-25.0",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "MUSTANG MAX EW",
+      "ingrediente_activo": "ZETA- CYPERMETHRIN",
+      "concentracion": "9.22",
+      "empresa": "FMC AGROCHEMICAL OF MEXICO, S. DE R.L. DE C.V.",
+      "rsco": "RSCO-INAC-0106-312-337-009",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "HERO",
+      "ingrediente_activo": "ZETA- CYPERMETHRIN + BIFENTHRIN",
+      "concentracion": "3.25 / 11.25",
+      "empresa": "FMC AGROCHEMICAL OF MEXICO, S. DE R.L. DE C.V.",
+      "rsco": "RSCO-MEZC-1101J-301-009-015.DT857-2017",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "AMISTAR / HERITAGE",
+      "ingrediente_activo": "AZOXYSTROBIN",
+      "concentracion": "50",
+      "empresa": "SYNGENTA AGRO, S.A. OF C.V.",
+      "rsco": "RSCO-FUNG-0386-303-032-050",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "MAXTROBIN",
+      "ingrediente_activo": "AZOXYSTROBIN",
+      "concentracion": "23.2",
+      "empresa": "HELM OF MEXICO S.A.",
+      "rsco": "RSCO-FUNG-0386-0219-064-23.20",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "AXOTRON SC",
+      "ingrediente_activo": "AZOXYSTROBIN",
+      "concentracion": "22.9",
+      "empresa": "NATIONAL AGRICULTURE SA de CV",
+      "rsco": null,
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "VALGO 50 WG",
+      "ingrediente_activo": "AZOXYSTROBIN",
+      "concentracion": "50.0",
+      "empresa": "LAPISA SA de CV",
+      "rsco": "RSCO-FUNG-0386-0444-034-050",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "IMPALA 25 SC",
+      "ingrediente_activo": "AZOXYSTROBIN",
+      "concentracion": "22.94",
+      "empresa": "INDUSTRIAL ENGINEERING, S. of C.V.",
+      "rsco": "RSCO-FUNG-0386-0554-064-22.94",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "MILITANT",
+      "ingrediente_activo": "AZOXYSTROBIN",
+      "concentracion": "50",
+      "empresa": "AGROCHEMICALS VERSA SA Of CV",
+      "rsco": "RSCO-FUNG-0386-X0106-343-050",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "L UNIFORM",
+      "ingrediente_activo": "AZOXYSTROBIN + METALAXI M",
+      "concentracion": "27.73/ 10.66",
+      "empresa": "SYNGENTA AGRO, S.A. OF C.V.",
+      "rsco": "RSCO-MEZC-1301T-301-425-028",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "QUILT 200 SE / QUILT",
+      "ingrediente_activo": "AZOXYSTROBIN + PROPICONAZOLE",
+      "concentracion": "7.07 / 11.79",
+      "empresa": "SYNGENTA AGRO, S.A. OF C.V.",
+      "rsco": "RSCO-MEZC-1301K-301-377-019",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "SULTRON 725 XL",
+      "ingrediente_activo": "ELEMENTAL SULFUR",
+      "concentracion": "52",
+      "empresa": "BIOCHEMICAL GROUP MEXICANO, S.A. DE C.V.",
+      "rsco": "RSCO-FUNG--0302-366-008-052",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "SUL-CO-FLU",
+      "ingrediente_activo": "ELEMENTAL SULFUR + Copper Oxychloride",
+      "concentracion": "50",
+      "empresa": "AZUMOR, S.A. DE C.V.",
+      "rsco": null,
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "SULFOCOP F",
+      "ingrediente_activo": "ELEMENTAL SULFUR + Copper Oxychloride",
+      "concentracion": "50",
+      "empresa": "",
+      "rsco": null,
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "KALIGREEN",
+      "ingrediente_activo": "POTASSIUM BICARBONATE",
+      "concentracion": "82",
+      "empresa": "ARYSTA LIFESCIENCE MEXICO, S.A. DE C.V.",
+      "rsco": "RSCO-FUNG-0302I-301-003-082",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "PHC MILSTOP PLUS",
+      "ingrediente_activo": "POTASSIUM BICARBONATE",
+      "concentracion": "85",
+      "empresa": "PLANT HEALTH CARE OF MEXICO S DE RL DE CV",
+      "rsco": "RSCO-FUNG-0301N-301-002-085",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "PROGRANIC MIX-TOP",
+      "ingrediente_activo": "POTASSIUM BICARBONATE",
+      "concentracion": "85",
+      "empresa": "ULTRAQUIMIA AGRICULTURAL S.A. DE C.V.",
+      "rsco": "RSCO-FUNG-0301N-0487-003-85.0",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "SIFACARB",
+      "ingrediente_activo": "POTASSIUM BICARBONATE",
+      "concentracion": "82",
+      "empresa": "SYNTHESIS AND FORMULATI HIGH TECHNOLOGY SA DE CV",
+      "rsco": "RSCO-FUNG-0302I-303-003-082",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "CANTUS",
+      "ingrediente_activo": "BOSCALID",
+      "concentracion": "50",
+      "empresa": "BASF MEXICANA, S.A. DE C.V.",
+      "rsco": "RSCO-FUNG-0301V-301-034-050",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "CABRIO C",
+      "ingrediente_activo": "BOSCALID+ PYRACLOSTROBIN",
+      "concentracion": "12.8 / 25.2",
+      "empresa": "BASF MEXICANA, S.A. DE C.V.",
+      "rsco": "RSCO-FUNG-1301A-301-034-038",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "CAPTAN 50 WP",
+      "ingrediente_activo": "CAPTAIN",
+      "concentracion": "50",
+      "empresa": "INDUSTRIAL ENGINEERING S. S.C.",
+      "rsco": "RSCO-FUNG-0306-008-002-050",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "CAPTAN ULTRA 50 WP",
+      "ingrediente_activo": "CAPTAIN",
+      "concentracion": "50",
+      "empresa": "ARYSTA LIFESCIENCE MEXICO S.A. DE C.V.",
+      "rsco": "RSCO-FUNG-0306-352-002-050",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "SWITCH 62.5 WG",
+      "ingrediente_activo": "CYPRODINIL + FLUDIOXONIL",
+      "concentracion": "37.5 / 25",
+      "empresa": "SYNGENTA AGRO, S.A. OF C.V.",
+      "rsco": "RSCO-MEZC-1386-301-034-063",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "SIFAPEROX 27 SC/ SIFAPEROX",
+      "ingrediente_activo": "DIOXYGEN",
+      "concentracion": "27",
+      "empresa": "SYNTHESIS AND FORMULATI HIGH TECHNOLOGY SA CV",
+      "rsco": "RSCO-FUNG-0302X-301-013-025",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "OXIDATE 2.0",
+      "ingrediente_activo": "HYDROGEN DIOXIDE + Peracetic Acid",
+      "concentracion": "27.1 + 2",
+      "empresa": "BIOSAFE SYSTEMS OF MEXICO, S. DE R.L. DE C.V.",
+      "rsco": "RSCO-MEZC-1394-0436-375-29.11",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "ALLY",
+      "ingrediente_activo": "FOSETIL-AL (TRIS ALUMINUM",
+      "concentracion": "80",
+      "empresa": "HELM OF MEXICO, S.A.",
+      "rsco": "RSCO-FUNG-0347-306-034-080",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": ") ALLIETTE WDG",
+      "ingrediente_activo": "FOSETIL-AL (TRIS ALUMINUM",
+      "concentracion": "80",
+      "empresa": "BAYER DE MÉXICO, S.A. DE C.V.",
+      "rsco": "RSCO-FUNG-0347-304-034-080",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "FOSTHOR WDG",
+      "ingrediente_activo": "FOSETIL-AL (TRIS ALUMINUM",
+      "concentracion": "80",
+      "empresa": "AGROMONT, S.A. DE C.V.",
+      "rsco": "RSCO-FUNG-0347-306-034-080",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "ELEVATOR",
+      "ingrediente_activo": "FENHEXAMID",
+      "concentracion": "50",
+      "empresa": "ARYSTA LIFESCIENCE MEXICO, S.A. DE C.V.",
+      "rsco": "RSCO-FUNG-0399-301-034-054",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "MERIVON",
+      "ingrediente_activo": "FLUXAPIROXAD + Piraclostrobin",
+      "concentracion": "21.2 / 21.2",
+      "empresa": "BASF MEXICANA, S.A. DE C.V. 30",
+      "rsco": "RSCO-MEZC-FUNG-0399-0281-064-42.40",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "MIX PROTECTIVE-Cu",
+      "ingrediente_activo": "Copper hydroxide",
+      "concentracion": "20",
+      "empresa": "AGROSANIDAD SA DE CV",
+      "rsco": "RSCO-FUNG-0319-X0222-013-20.00",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "BLUE SHIELD 20 DF",
+      "ingrediente_activo": "Copper hydroxide",
+      "concentracion": "30.77",
+      "empresa": "AGRI-ESTRELLA, S DE R.L. OF Curriculum Vitae",
+      "rsco": "RSCO-FUNG-0319-360-034-031",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "KOCIDE 2000",
+      "ingrediente_activo": "Copper hydroxide",
+      "concentracion": "53.8",
+      "empresa": "CERTIS AGRO MEXICO S DE RL Limited",
+      "rsco": "RSCO-FUNG-0319-356-034-054",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "ROVRAL 50 PH",
+      "ingrediente_activo": "IPRODIONA",
+      "concentracion": "50",
+      "empresa": "FMC AGROCHEMICAL OF MEXICO, S. DE R.L. DE C.V.",
+      "rsco": "RSCO-FUNG-0320-001-002-050",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "KENJA 400 SC",
+      "ingrediente_activo": "ISOFETAMID",
+      "concentracion": "36",
+      "empresa": "ARYSTA LIFESCIENCE MEXICO SA de CV",
+      "rsco": "RSCO-FUNG-0379-X0115-064-036",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "RIDOMIL GOLD 480 SL / RIDOMIL GOLD 480 CS",
+      "ingrediente_activo": "METALAXIL-M (MEFENOXAM)",
+      "concentracion": "45.28",
+      "empresa": "SYNGENTA AGRO, S.A. OF C.V.",
+      "rsco": "RSCO-FUNG-0389-309-375-045",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "CONTROL XLP® 40 PH",
+      "ingrediente_activo": "MYCLOBUTANIL",
+      "concentracion": "40",
+      "empresa": "LAPISA SA DE CV",
+      "rsco": "RSCO-FUNG-0351-X0255-002-40.00",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "RALLY 40 W /EAGLE 40W",
+      "ingrediente_activo": "MYCLOBUTANIL",
+      "concentracion": "40",
+      "empresa": "DOW AGROSCIENCES OF MEXICO, S.A. DE C.V.",
+      "rsco": "RSCO-FUNG-0351-001-002-040",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "CUPERTRON",
+      "ingrediente_activo": "Copper oxychloride",
+      "concentracion": "22.73",
+      "empresa": "ARYSTA LIFESCIENCE MEXICO, S.A. DE C.V.",
+      "rsco": "RSCO-FUNG-0328-016-008-023",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "OXICOB 85",
+      "ingrediente_activo": "Copper oxychloride",
+      "concentracion": "85",
+      "empresa": "INDUSTRIAL ENGINEERING, IN S.C.",
+      "rsco": "RSCO-FUNG-0328-011-002-085",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "SYSTEM WITH",
+      "ingrediente_activo": "Copper gluconate",
+      "concentracion": "14% C 35.6 %GLU",
+      "empresa": "IDAI NATURE AMERICA, S.A. 3.0- of C.V.",
+      "rsco": "RSCO-FUNG-305G-X0050-375-35.676",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "UMBRAL",
+      "ingrediente_activo": "Copper gluconate",
+      "concentracion": "35.67",
+      "empresa": "FMC AGROCHEMICAL OF MEXICO, S. DE R.L. DE C.V.",
+      "rsco": null,
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "CAVE",
+      "ingrediente_activo": "Copper octanoate",
+      "concentracion": "10%",
+      "empresa": "SUMMIT AGRO MEXICO, S.A. Ltd.",
+      "rsco": "RSCO-FUNG-0397-0268-064-10.5",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "SCALA 60 SC",
+      "ingrediente_activo": "PIRIMETANIL",
+      "concentracion": "54.6",
+      "empresa": "BAYER DE MÉXICO, S.A. OF C.V.",
+      "rsco": "RSCO-FUNG-0301G-301-064-055",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "PROPERTY 300 SC",
+      "ingrediente_activo": "PYRIOFENONE",
+      "concentracion": "27.30",
+      "empresa": "ARYSTA LIFESCIENCE MEXICO, S.A. DE C.V.",
+      "rsco": "RSCO-FUNG-0355-X0098-064-27.30",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "HEAD LINE",
+      "ingrediente_activo": "PYRACLOSTROBIN",
+      "concentracion": "23.6",
+      "empresa": "BASF MEXICANA, S.A. DE C.V.",
+      "rsco": "RSCO-FUNG-0301O-301-009-024",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "ENDORSE WDG",
+      "ingrediente_activo": "Zinc Salt of POLYOXIN D",
+      "concentracion": "11.3",
+      "empresa": "ARYSTA LIFESCIENCE MEXICO, S.A. DE C.V.",
+      "rsco": "RSCO-FUNG-0302H-301-034-011",
+      "categoria": "Fungicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "MASTERCOP",
+      "ingrediente_activo": "COPPER SULFATE",
+      "concentracion": "21.36",
+      "empresa": "INDUSTRIAL ENGINEERING, S. of the Company",
+      "rsco": "RSCO-FUNG-0357-321-013-021",
+      "categoria": "Fungicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "BIOGIB 10 PS",
+      "ingrediente_activo": "Gibberellic Acid",
+      "concentracion": "10",
+      "empresa": "ARYSTA LIFESCIENCE MEXICO, S.A. DE C.V.",
+      "rsco": "RSCO-0038",
+      "categoria": "Reguladores",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "ETHERELMR 240",
+      "ingrediente_activo": "ETEPHON",
+      "concentracion": "21.7",
+      "empresa": "BAYER DE MEXICO, S.A. DE C.V",
+      "rsco": "RSCO-3056",
+      "categoria": "Reguladores",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "ETHEPHON 240 LS",
+      "ingrediente_activo": "ETEPHON",
+      "concentracion": "21.65",
+      "empresa": "Technical promoter INTERNATIONAL S.A. de C.V.",
+      "rsco": "RSCO-033",
+      "categoria": "Reguladores",
+      "unidad": null
+    },
+    {
+      "nombre_comercial": "SUPER CANDLE",
+      "ingrediente_activo": "CARFENTRAZONE ETHYL + Glyphosate",
+      "concentracion": "0.47/66.89",
+      "empresa": "FMC Agrochemical of MEXICO S. DE R.L. DE C.V.",
+      "rsco": "RSCO-MEZC-1257-301-345-067",
+      "categoria": "Reguladores",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "DIURON 80 WP",
+      "ingrediente_activo": "DIURON",
+      "concentracion": "80",
+      "empresa": "BAYER OF MEXICO, S.A. OF C.V.",
+      "rsco": null,
+      "categoria": "Reguladores",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "CAÑEX 80",
+      "ingrediente_activo": "DIURON",
+      "concentracion": "80",
+      "empresa": "NATIONAL AGRICULTURE SA de CV",
+      "rsco": "RSCO-HEDE-0221-316-002-080",
+      "categoria": "Reguladores",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "KATOR 80 PH",
+      "ingrediente_activo": "DIURON",
+      "concentracion": "63",
+      "empresa": "VELSIMEX, S.A. DE C.V.",
+      "rsco": "RSCO-HEDE-0221-326-008-063",
+      "categoria": "Reguladores",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "SELECT ULTRA",
+      "ingrediente_activo": "CLETHODIM",
+      "concentracion": "12.5",
+      "empresa": "ARYSTA LIFESCIENCE MEXICO, S.A. DE C.V.",
+      "rsco": "RSCO-HEDE-0270-306-009-013",
+      "categoria": "Reguladores",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "HELFOSAT",
+      "ingrediente_activo": "GLYPHOSATE",
+      "concentracion": "41",
+      "empresa": "HELM OF MEXICO, S.A.",
+      "rsco": "RSCO-HEDE-0230-326-013-041",
+      "categoria": "Reguladores",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "SEMPRA 75 GD",
+      "ingrediente_activo": "HALOSULFURON METHYL",
+      "concentracion": "75",
+      "empresa": "GOWAN MEXICANA, S.A.P.I. S.A. de C.V.",
+      "rsco": "RSCO-HEDE-0295-305-034-075",
+      "categoria": "Reguladores",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "PARAQUAT 200",
+      "ingrediente_activo": "PARAQUAT",
+      "concentracion": "25.6",
+      "empresa": "GOWAN MEXICANA, S.A.P.I. S.A. de C.V.",
+      "rsco": "RSCO-HEDE-0244-328-013-026",
+      "categoria": "Biorracionales",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "QUEMOXONE",
+      "ingrediente_activo": "PARAQUAT",
+      "concentracion": "25.6",
+      "empresa": "HELM OF MEXICO, S.A. OF C.V",
+      "rsco": "RSCO-HEDE-0244-380-013-026",
+      "categoria": "Biorracionales",
+      "unidad": null
+    },
+    {
+      "nombre_comercial": "GRAMOXONE",
+      "ingrediente_activo": "PARAQUAT",
+      "concentracion": "25",
+      "empresa": "SYNGENTA AGRO, S.A. OF Curriculum Vitae",
+      "rsco": "RSCO-HEDE-0244-004-013-025",
+      "categoria": "Biorracionales",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "GRAMOCIL",
+      "ingrediente_activo": "PARAQUAT + DIURON",
+      "concentracion": "27.6",
+      "empresa": "SYNGENTA AGRO, S.A. OF C.V.",
+      "rsco": null,
+      "categoria": "Biorracionales",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "GRAMURON",
+      "ingrediente_activo": "PARAQUAT + DIURON",
+      "concentracion": "2.76",
+      "empresa": "VELSIMEX, S.A. DE C.V.",
+      "rsco": "RSCO-MEZC-1229-307-008-038",
+      "categoria": "Biorracionales",
+      "unidad": null
+    },
+    {
+      "nombre_comercial": "BRAZA 300",
+      "ingrediente_activo": "PARAQUAT + DIURON",
+      "concentracion": "12.5 / 17.72",
+      "empresa": "SYNTHESIS AND FORMULATI HIGH TECHNOLOGY SA OF CV",
+      "rsco": "RSCO-MEZC-1229-315-008-030",
+      "categoria": "Biorracionales",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "POST",
+      "ingrediente_activo": "SETHOXYDIM",
+      "concentracion": "20",
+      "empresa": "BASF MEXICANA, S.A. DE C.V.",
+      "rsco": "RSCO-HEDE-0252-001-009-020",
+      "categoria": "Biorracionales",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "TIMOREX GOLD",
+      "ingrediente_activo": "TEA TREE OIL",
+      "concentracion": "23.8",
+      "empresa": "SYNGENTA AGRO, S.A. DE C.V.",
+      "rsco": "RSCO-FUNG-0302D-303-009-024",
+      "categoria": "Biorracionales",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "AKABROWN / ACA LESS / AKAR OUT / KILLER AC / KILLMITE",
+      "ingrediente_activo": "Cinnamon Oil Oregano oil PEPPERMINT OIL CLOVE OIL NEEM OIL",
+      "concentracion": "1.50 0.50 1.00 1.00 6.50",
+      "empresa": "GREENCORP BIORGANICS FROM MEXICO S.A. DE C.V.",
+      "rsco": "RSCO-MEZC-INAC-1101Q-0680-096-30.0",
+      "categoria": "Biorracionales",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "EPA 90",
+      "ingrediente_activo": "Vegetable Seed Oil OF SOY",
+      "concentracion": "90",
+      "empresa": "BIOKRONE SA DE CV",
+      "rsco": "RSCO-INAC-0103F-301-009-090",
+      "categoria": "Biorracionales",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "ASPHIX 90",
+      "ingrediente_activo": "Vegetable Seed Oil OF SOY",
+      "concentracion": "90",
+      "empresa": "AGRICULTURAL INNOVATION S.A. DE C.V.",
+      "rsco": "RSCO-INAC-0103F-301-009-090",
+      "categoria": "Biorracionales",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "AZADIRECT 1.2 CE",
+      "ingrediente_activo": "Vegetable Seed Oil OF SOY",
+      "concentracion": "1.2",
+      "empresa": "GOWAN MEXICANA S.A.P.I. Of the CV",
+      "rsco": "RSCO-INAC-0101B-311-009-001",
+      "categoria": "Biorracionales",
+      "unidad": null
+    },
+    {
+      "nombre_comercial": "MY AZAN",
+      "ingrediente_activo": "Vegetable Seed Oil OF SOY",
+      "concentracion": "3",
+      "empresa": "BIOKRONE SA DE CV",
+      "rsco": "RSCO-INAC-0101B-309-009-003",
+      "categoria": "Biorracionales",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "ECOZIN 3% CE",
+      "ingrediente_activo": "Vegetable Seed Oil OF SOY",
+      "concentracion": "3",
+      "empresa": "AMVAC MEXICO S DE RL OF 0.25 Water",
+      "rsco": "RSCO-INAC-0101B-309-009-003",
+      "categoria": "Biorracionales",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "NEMESIS CE",
+      "ingrediente_activo": "Vegetable Seed Oil OF SOY",
+      "concentracion": "3",
+      "empresa": "AGRICULTURAL INNOVATION 0.25 S.A. DE C.V. L of water",
+      "rsco": "RSCO-INAC-0101B-309-009-003",
+      "categoria": "Biorracionales",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "PHC NEEEM",
+      "ingrediente_activo": "Vegetable Seed Oil OF SOY",
+      "concentracion": "3",
+      "empresa": "PLANT HEALTH CARE OF MEXICO S DE RL DE CV",
+      "rsco": "RSCO-INAC-0101B-305-008-003",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "PREV-AM",
+      "ingrediente_activo": "ORANGE OIL",
+      "concentracion": "6",
+      "empresa": "ORO AGRI S DE RL DE CV",
+      "rsco": "RSCO-INAC-FUNG-0808-X0354-350-6.00",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "SONATA",
+      "ingrediente_activo": "Bacillus pumilus",
+      "concentracion": "1.38",
+      "empresa": "BASF MEXICANA, S.A. DE C.V.",
+      "rsco": "RSCO-FUNG-0301Q-303-008-001",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "SERENADE MAX 14.6 / JAZZ WP",
+      "ingrediente_activo": "Bacillus subtilis",
+      "concentracion": "14.6",
+      "empresa": "BAYER MEXICO, S.A. DE C.V.",
+      "rsco": "RSCO-FUNG-0395-319-002-015",
+      "categoria": "Nematicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "FUNGIFREE-AB",
+      "ingrediente_activo": "Bacillus subtilis",
+      "concentracion": "1",
+      "empresa": "FMC AGROCHEMICAL OF MEXICO S. DE R.L. DE C.V.",
+      "rsco": "RSCO-FUNG-0302W-301-002-001",
+      "categoria": "Nematicidas",
+      "unidad": null
+    },
+    {
+      "nombre_comercial": "BAKTILLIS",
+      "ingrediente_activo": "Bacillus subtilis",
+      "concentracion": "5.15",
+      "empresa": "BIOKRONE SA DE CV",
+      "rsco": "RSCO-FUNG-0395-0211-064-5.15",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "DOUBLE NICKEL WG",
+      "ingrediente_activo": "Bacillus subtilis var. amyloliquefaciensCEPA D747",
+      "concentracion": "25",
+      "empresa": "SUMMIT AGRO MEXICO, S.A. of C.V",
+      "rsco": "RSCO-FUNG-0395-0475-034-25.0",
+      "categoria": "Nematicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "SERIFEL",
+      "ingrediente_activo": "Bacillus amyloliquefaciens CEPA MBI 600",
+      "concentracion": "11",
+      "empresa": "BASF MEXICANA SA DE CV",
+      "rsco": "RSCO-FUNG-0395BA-X0143-002-11.0",
+      "categoria": "Nematicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "PHC CONDOR",
+      "ingrediente_activo": "Bacillus thuringiensis",
+      "concentracion": "15",
+      "empresa": "PLANT HEALTH CARE OF MEXICO, S DE R.L. DE C.V. to be",
+      "rsco": "RSCO-INAC-0105-366-002-015",
+      "categoria": "Nematicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "DIPEL DF",
+      "ingrediente_activo": "Bacillus thuringiensis",
+      "concentracion": "10.3",
+      "empresa": "VALENT OF MEXICO, S.A. OF C.V.",
+      "rsco": "RSCO-INAC-0105-362-372-010",
+      "categoria": "Nematicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "BEAUVERIA",
+      "ingrediente_activo": "Beauveria bassiana",
+      "concentracion": "0.40",
+      "empresa": "MS AGROS SA DE CV",
+      "rsco": "RSCO-INAC-0195-X0013-009-0.40",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "Venerate",
+      "ingrediente_activo": "Burkholderia spp. CEPA A396",
+      "concentracion": "94.46",
+      "empresa": "GLP STRATEGIES ADVANCED, S.A. DE C.V.",
+      "rsco": "RSCO-INAC-1102B-X0026-064-94.46EPAREGISTER8459-14",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "GRANDEVO",
+      "ingrediente_activo": "Chromobacterium subtsugaeCEPA PRAA4-1",
+      "concentracion": "30",
+      "empresa": "GLP STRATEGIES AVANZADAS, S.A. DE C.V.",
+      "rsco": "RSCO-INAC-1103C-X0027-002-030EPAREGISTER84059-17",
+      "categoria": "Nematicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "NATURAI MIM",
+      "ingrediente_activo": "ALCOHOLIC EXTRACT OF MIMOSA AND QUERCUS",
+      "concentracion": "8.3",
+      "empresa": "IDAI NATURE AMERICA, S.A. S.A. de C.V.",
+      "rsco": "RSCO-FUNG-0386-0558-009-8.3",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "SYSTEM MAX",
+      "ingrediente_activo": "ALCOHOLIC EXTRACT OF MIMOSA AND QUERCUS",
+      "concentracion": "8.3",
+      "empresa": "NEW AGROINDUSTRIES DEL NORTE S.A. DE C.V.",
+      "rsco": "RSCO-FUNG",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "PROGRANIC NIMICIDE 80",
+      "ingrediente_activo": "EXTRACT OF OIL FROM NEEM",
+      "concentracion": "80",
+      "empresa": "ULTRAQUIMIA AGRICOLA S.A. DE C.V.",
+      "rsco": null,
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "TRILOGY",
+      "ingrediente_activo": "EXTRACT OF OIL FROM NEEM",
+      "concentracion": "70",
+      "empresa": "SUMMIT AGRO OF MEXICO 0.5 S.A. de C.V.",
+      "rsco": "RSCO-INAC-01031-301-329-070",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "MIX PROCTETIVE N",
+      "ingrediente_activo": "EXTRACT OF OIL FROM NEEM",
+      "concentracion": "20",
+      "empresa": "AGROSANIDAD SA DE CV",
+      "rsco": "RSCO-INAC-0104S-X0298-064-20.0",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "PROGREEN NEEM CE 80",
+      "ingrediente_activo": "EXTRACT OF OIL FROM NEEM",
+      "concentracion": "80",
+      "empresa": "MS AGROS SA DE CV",
+      "rsco": "RSCO-INAC-0103I-303-009-080",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "DIRAXTRA 80",
+      "ingrediente_activo": "EXTRACT OF OIL FROM NEEM",
+      "concentracion": "80",
+      "empresa": "LUCAVA CHEMISTRY SA DE C",
+      "rsco": "RSCO-INAC-0103I-303-009-080",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "MIX PROTECTIVE A",
+      "ingrediente_activo": "GARLIC EXTRACT",
+      "concentracion": "20",
+      "empresa": "AGROSANIDAD SA DE CV",
+      "rsco": "RSCO-INAC-01047-X0311-064-20.0",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "X-TRAC3",
+      "ingrediente_activo": "GARLIC EXTRACT EXTRACT OF CHILE SPICY/ EXTRACT OF CINNAMON",
+      "concentracion": "25/25/10",
+      "empresa": "QUÍMICA LUCAVA SA DE CV",
+      "rsco": "RSCO-INAC-1802-0243-052-60",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "GAMMA ATTACK",
+      "ingrediente_activo": "GARLIC EXTRACT EXTRACT OF CHILE SPICY/ EXTRACT OF CINNAMON",
+      "concentracion": "25/ 25/ 10",
+      "empresa": "MS AGROS SA DE CV",
+      "rsco": "RSCO-INAC-1802-0243-052-60",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "PROGRANIC GAMMA",
+      "ingrediente_activo": "GARLIC EXTRACT EXTRACT OF CHILE SPICY/ EXTRACT OF CINNAMON",
+      "concentracion": "25/ 25/ 10",
+      "empresa": "ULTRAQUIMIA AGRICULTURAL S.A. DE C.V.",
+      "rsco": null,
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "CAPSIALIL",
+      "ingrediente_activo": "GARLIC EXTRACT + EXTRACT OF CHILE",
+      "concentracion": "23.4 / 7.6",
+      "empresa": "GOWAN MEXICANA SAPI DE Resume",
+      "rsco": "RSCO-MEZC-INAC-1108A-X0026-009-031",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "BIO CRACK",
+      "ingrediente_activo": "AQUEOUS EXTRACT OF GARLIC/AQUEOUS EXTRACT OF Chamomile and Rue",
+      "concentracion": "8.7",
+      "empresa": "BERNI LABS S DE RL",
+      "rsco": "RSCO-MEZC-1166-301-008-097",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "MIX PROTECTIVE C",
+      "ingrediente_activo": "Cinnamon Extract",
+      "concentracion": "20",
+      "empresa": "AGROSANIDAD SA DE CV",
+      "rsco": "RSCO-INAC-0104R-X0265-064-20.0",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "BIO CINNAMON",
+      "ingrediente_activo": "Cinnamon Extract",
+      "concentracion": "15",
+      "empresa": "QUIIMICA LUCAVA SA DE CV",
+      "rsco": "RSCO-RSCO-INAC-0104R-301-015-015",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "PROGREEN Acar",
+      "ingrediente_activo": "Cinnamon Extract",
+      "concentracion": "15",
+      "empresa": "MS AGROS SA DE CV",
+      "rsco": "RSCO-RSCO-INAC-0104R-301-015-015",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "PROGRANIC CINNACAR",
+      "ingrediente_activo": "Cinnamon Extract",
+      "concentracion": "15",
+      "empresa": "ULTRAAGRICULTURE S.A. DE C.V.",
+      "rsco": "RSCO-INAC-0104R-301-015-015",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "PROGRAM OMEGA",
+      "ingrediente_activo": "EXTRACT OF CHICALOTE",
+      "concentracion": "90",
+      "empresa": "ULTRAAGRICHEMISTRY 2 to S.A. DE C.V.",
+      "rsco": null,
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "PROGRANIC LARREA T",
+      "ingrediente_activo": "EXTRACT OF GOVERNOR",
+      "concentracion": "95",
+      "empresa": "MS AGROS SA DE CV",
+      "rsco": "RSCO-FUNG-0301M-303-052-095",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "MEGA PROGRANIC",
+      "ingrediente_activo": "EXTRACT OF GOVERNOR",
+      "concentracion": "95",
+      "empresa": "ULTRAQUIMIA AGRICULTURAL S.A. DE C.V.",
+      "rsco": "RSCO-FUNG-0301M-303-052-095",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "MIX PROCTETIVE M",
+      "ingrediente_activo": "MUSTARD EXTRACT",
+      "concentracion": "20",
+      "empresa": "AGROSANIDAD SA DE CV",
+      "rsco": "RSCO-INAC-1113M-X0313-064-20.0",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "QL AGRI 35",
+      "ingrediente_activo": "QUILLAY EXTRACT Quillaja saponaria",
+      "concentracion": "30.3",
+      "empresa": "BASF MEXICANA, S.A. DE C.V.",
+      "rsco": "RSCO-NEMA-0908-301-375-030",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "FLY-NOT",
+      "ingrediente_activo": "QUILLAY EXTRACT Quillaja saponaria",
+      "concentracion": "7.5",
+      "empresa": "ECOPROTECTO SA DE CV",
+      "rsco": "RSCO-INAC-0105C-301-096-008",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "VEGEX WHITE FLY",
+      "ingrediente_activo": "TORVISCO EXTRACT + WORMWOOD + HOLY LEAF",
+      "concentracion": "20/20/10",
+      "empresa": "IDAI NATURE S.L.",
+      "rsco": "RSCO-MEZC-INAC-1106R-X0009-375-050",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "REGALIA MAXX",
+      "ingrediente_activo": "EXTRACT OF Reynoutria sachalinensis",
+      "concentracion": "20",
+      "empresa": "FMC AGROCHEMICAL OF MEXICO S. DE R. L. DE C. V.",
+      "rsco": "RSCO-FUNG-0302Y-301-064-020",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "PROGRANIC PIRETRO",
+      "ingrediente_activo": "TAGETES EXTRACT",
+      "concentracion": "90",
+      "empresa": "ULTRAQUIMIA AGRICOLA S.A. de C.V.",
+      "rsco": "RSCO-INAC-0350T-X0006-009-94.5",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "Progranic Tagetes",
+      "ingrediente_activo": "TAGETES EXTRACT",
+      "concentracion": "90",
+      "empresa": "MS AGROS SA DE CV",
+      "rsco": "RSCO-INAC-0350T-X0006-009-94.5",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "RETRIX 4",
+      "ingrediente_activo": "TAGETES EXTRACT",
+      "concentracion": "90",
+      "empresa": "QUIMICA LUCAVA, S.A. OF C.V.",
+      "rsco": "RSCO-INAC-0350T-X0006-009-94.5",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "witness",
+      "ingrediente_activo": "GERANIOL EXTRACTS, CITRONELLOL, NEROLIDOL FARMESOL",
+      "concentracion": "0.4 / 0.4 / 0.4 / 0.16",
+      "empresa": "ARYSTA LIFESCIENCE MEXICO, S.A. DE C.V.",
+      "rsco": "RSCO-MEZC-0101I-0321-009-1.418",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "VEGEX KUNEKA",
+      "ingrediente_activo": "EXTRACT OF QUASSIA NEEM, KARANJA",
+      "concentracion": "2.0, 2.0, 2.0",
+      "empresa": "IDAI NATURE S.L.",
+      "rsco": "RSCO-MEZC-INAC-1107N-X0010-375-006",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "SPIDER MAX",
+      "ingrediente_activo": "EXTRACT OF QUASSIA NEEM, KARANJA",
+      "concentracion": "2.0, 2.0, 2.0",
+      "empresa": "NEW AGROINDUSTRIES DEL NORTE S.A. DE C.V.",
+      "rsco": "RSCO-MEZC-INAC-1107N-X0010-375-006",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "TEC-FORT",
+      "ingrediente_activo": "Pyrethrum Extract",
+      "concentracion": "4.50",
+      "empresa": "AGROTECHNOLOGY GROUP MEXICO TBC AND IBERFOL S OF CV",
+      "rsco": "RSCO-INAC-0185-X0358-009-4.50",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "VACCIPLANT",
+      "ingrediente_activo": "Laminaria",
+      "concentracion": "4.27",
+      "empresa": "ARYSTA LIFESCIENCE MEXICO, S.A. DE C.V.",
+      "rsco": "RSCO-FUNG-0382-X0132-375-4.27",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "DTRUXIN",
+      "ingrediente_activo": "Metarhizium anisopliae",
+      "concentracion": "10",
+      "empresa": "BIOKRONE SA DE CV",
+      "rsco": "RSCO-INAC-0101B-309-009-003",
+      "categoria": "Nematicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "PYRETHRUN 5% EC",
+      "ingrediente_activo": "Metarhizium anisopliae",
+      "concentracion": "5",
+      "empresa": "AGRICULTURAL INNOVATION S.A. DE C.V.",
+      "rsco": "RSCO-INAC-0185-X0205-009-005",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "CRYSATRYN 0.2 PH",
+      "ingrediente_activo": "Pyrethrins",
+      "concentracion": "0.2",
+      "empresa": "AGRICULTURE INNOVATION S.A. DE C.V.",
+      "rsco": "RSCO-INAC-0101I-329-002-0.20",
+      "categoria": "Nematicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "PYREMAX",
+      "ingrediente_activo": "Pyrethrins",
+      "concentracion": "0.2",
+      "empresa": "AGRICULTURAL INNOVATION S.A. DE C.V.",
+      "rsco": "RSCO-INAC-0101I-329-002-0.20",
+      "categoria": "Nematicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "BIRDCROWN",
+      "ingrediente_activo": "Pyrethrins",
+      "concentracion": "0.2",
+      "empresa": "BIOKRONE SA DE CV",
+      "rsco": "RSCO-INAC-0101I-329-002-0.20",
+      "categoria": "Nematicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "PORTRIN",
+      "ingrediente_activo": "Pyrethrins",
+      "concentracion": "0.2 A",
+      "empresa": "MVAC MEXICO S DE RL DE",
+      "rsco": "RSCO-INAC-0101I-329-002-0.20",
+      "categoria": "Nematicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "BIOLETRUM 5% EC",
+      "ingrediente_activo": "Pyrethrins",
+      "concentracion": "5 G",
+      "empresa": "RICOLA INNOVACION SA DE C",
+      "rsco": "RSCO-INAC-0185-X0205-009-005",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "PAECIL",
+      "ingrediente_activo": "Paecilomyces fumosoroseus",
+      "concentracion": "20",
+      "empresa": "BIOAMIN SA DE CV",
+      "rsco": "RSCO-INAC-0907-0409-002-20",
+      "categoria": "Nematicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "SLEEPING PLACE",
+      "ingrediente_activo": "Paecilomyces fumosoroseus",
+      "concentracion": "3",
+      "empresa": "AGROBIOLOGICALS OF NORTHWEST SA DE CV",
+      "rsco": "RSCO-INAC-0910-0014-034-020",
+      "categoria": "Nematicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "PFR-97 20% WDG",
+      "ingrediente_activo": "Isaria fumosoroseus",
+      "concentracion": "20",
+      "empresa": "CERTIS AGRO MEXICO S DE RL Inc.",
+      "rsco": "RSCO-INAC-0910-0014-034-020",
+      "categoria": "Nematicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "IMPEDES",
+      "ingrediente_activo": "Sales Potassium Acids FATS",
+      "concentracion": "49",
+      "empresa": "GOWAN MEXICANA, S.A.P.I. 0.5 - S.C.",
+      "rsco": "RSCO-INAC-0101W-303-052-049",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "THE SOAP K",
+      "ingrediente_activo": "Sales Potassium Acids FATS",
+      "concentracion": "50",
+      "empresa": "MS AGROS SA DE CV",
+      "rsco": "RSCO-INAC-0101W-0426-375-50",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "ULTRALUX S",
+      "ingrediente_activo": "Sales Potassium Acids FATS",
+      "concentracion": "50",
+      "empresa": "ULTRA AGRICULTURE S.A. de C.V.",
+      "rsco": "RSCO-INAC-0101W-0426-375-50",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "NATUCONTROL",
+      "ingrediente_activo": "Trichoderma harzianum",
+      "concentracion": "1.15%",
+      "empresa": "BIOKRONE SA DE CV",
+      "rsco": "RSCO-FUNG-0301B-307-002-001",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "PHC T-22",
+      "ingrediente_activo": "Trichoderma harzianum",
+      "concentracion": "107UFC/g of Trichoderma harzianum strain T-22",
+      "empresa": "PLANT HEALTH CARE DE MEXICO S DE RL DE CV",
+      "rsco": "RSCO-FUNG-0301B-303-002-001",
+      "categoria": "Nematicidas",
+      "unidad": "kg"
+    },
+    {
+      "nombre_comercial": "BLITE FREE / CASTLE",
+      "ingrediente_activo": "Streptomyces spp.",
+      "concentracion": "62.45",
+      "empresa": "ALTUS BIOPHARM, SA DE CV",
+      "rsco": "RSCO-FUNG-0315S-X0165-52-62.46",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "ECOSWING",
+      "ingrediente_activo": "Swinglea glutinosa Blanco Merry",
+      "concentracion": "82",
+      "empresa": "GOWAN MEXICANA SAPI DE CV",
+      "rsco": "RSCO-FUNG-0350S-X0138-009-82.0",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "CAPSIKRON",
+      "ingrediente_activo": "GARLIC EXTRACT AND CAPSAICIN",
+      "concentracion": "87%/3.5%",
+      "empresa": "BIOKRONE SA DE CV",
+      "rsco": "RSCO-MEZC-INAC-1108A-X0023-009-90.50",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "FOS POT IN",
+      "ingrediente_activo": "POTASSIUM ACID PHOSPHITE",
+      "concentracion": "55",
+      "empresa": "SYNTHESIS AND FORMULATI HIGH TECHNOLOGY SA OF CV",
+      "rsco": "RSCO-FUNG-0633-0283-013-55.4",
+      "categoria": "Nematicidas",
+      "unidad": "L"
+    },
+    {
+      "nombre_comercial": "EDAY",
+      "ingrediente_activo": "Verticillium lecanii",
+      "concentracion": "6",
+      "empresa": "AGROCHEMICALS VERSA SA Of CV",
+      "rsco": null,
+      "categoria": "Nematicidas",
+      "unidad": "kg"
+    }
+  ],
+  "producto_autorizaciones": [
+    {
+      "producto_key": {
+        "nombre_comercial": "THOR 3.6 EW",
+        "ingrediente_activo": "ABAMECTIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 3,
+      "reentrada_hrs": 24,
+      "lmr_ppm": "0.20",
+      "dosis_texto": "112.5-137.5 ml /1000 L of water",
+      "dosis_min": 112.5,
+      "dosis_max": 137.5,
+      "intervalo_aplicacion": "21 days",
+      "grupo_quimico": "Avermectins",
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettle",
+      "observaciones": "Make three applications to the foliage at intervals 21 days during flowering, budding vegetativa y formación del fruto . RSCO-INAC- 0174-326-330-004",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "Globectin",
+        "ingrediente_activo": "ABAMECTIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 14,
+      "reentrada_hrs": null,
+      "lmr_ppm": null,
+      "dosis_texto": "80-100 ml/100 L of water",
+      "dosis_min": 80.0,
+      "dosis_max": 100.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettles",
+      "observaciones": "Application to the foliage. Repeat the application to the less with intervals of 7 days. RSCO-INAC- 0174-336-009-002",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "INSTAR AD",
+        "ingrediente_activo": "ABAMECTIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 3,
+      "reentrada_hrs": 12,
+      "lmr_ppm": null,
+      "dosis_texto": "A. 80-100 ml/100 L of water",
+      "dosis_min": 80.0,
+      "dosis_max": 100.0,
+      "intervalo_aplicacion": null,
+      "grupo_quimico": null,
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettle",
+      "observaciones": "Should not be mixed with strong products. alkaline reaction (Bordeaux mixture) to prevent the decomposition of the product RSCO-INAC- 0174-340-009-002",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "ARCH 18 CE",
+        "ingrediente_activo": "ABAMECTIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 3,
+      "reentrada_hrs": 12,
+      "lmr_ppm": null,
+      "dosis_texto": "0.5 - 1.0 L",
+      "dosis_min": 0.5,
+      "dosis_max": 1.0,
+      "intervalo_aplicacion": null,
+      "grupo_quimico": null,
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tentranychus nettles",
+      "observaciones": "Apply 3 treatments to the foliage at intervals of 7 days when the first ones are detected individuals; application volume 162-262 L of water/ha. RSCO-INAC-0174-362-009-002",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "ABAMIT 3.6 EW",
+        "ingrediente_activo": "ABAMECTIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 3,
+      "reentrada_hrs": 24,
+      "lmr_ppm": null,
+      "dosis_texto": "137.5 ml / 1000 L of water",
+      "dosis_min": 137.5,
+      "dosis_max": 1000.0,
+      "intervalo_aplicacion": "21 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tentranychus nettle",
+      "observaciones": "Apply to the foliage ensuring coverage total. Make three applications to the foliage at 21-day interval during sprouting vegetative, flowering, and fruit formation. RSCO-INAC-0174-326-330-004",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "ZEPHYR / CENTRIC / THIABA",
+        "ingrediente_activo": "ABAMECTIN + THIAMETHOXAM"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 3,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "0.20 / 0.35",
+      "dosis_texto": "100 - 300 ml",
+      "dosis_min": 100.0,
+      "dosis_max": 300.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Avermectin Neonicotinoids",
+      "plaga_comun": "Aphid / Lygus bug",
+      "plaga_cientifica": "Myzus persicae Lygussp",
+      "observaciones": "Make applications to the foliage at intervals of 7 days, use a volume of 700L of water / ha. RSCO-MEZC-1101Y-301-064-017",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "Trigger",
+        "ingrediente_activo": "ABAMECTIN + BIFENTHRIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 3,
+      "reentrada_hrs": 24,
+      "lmr_ppm": "0.20 / 1.00",
+      "dosis_texto": "1.0 - 1.5 ml / L of Water",
+      "dosis_min": 1.0,
+      "dosis_max": 1.5,
+      "intervalo_aplicacion": "5 days",
+      "grupo_quimico": "Avermectins Piretroides",
+      "plaga_comun": "Trips / Red spider",
+      "plaga_cientifica": "Frankliniella western Tetranychus nettle",
+      "observaciones": "Make 2 applications to the foliage at intervals of 5 days. Suggested application volume 533- 633 L of water per Ha. DT 415/2019",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "RESCUE 20 PS/ MOSPILAN 20 PS",
+        "ingrediente_activo": "ACETAMIPRID"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "1.60",
+      "dosis_texto": "200 - 400 g",
+      "dosis_min": 200.0,
+      "dosis_max": 400.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Neonicotinoid is",
+      "plaga_comun": "whitefly / thrips",
+      "plaga_cientifica": "Bemisia tabaci Frankliniella occidental Thrips tabaci",
+      "observaciones": "Do not make more than 5 applications per season and at intervals no less than 5 days. USE ONLY WHEN BEES AND OTHERS BENEFITS SHOULD NOT BE AFFECTED. RSCO-INAC- 0101U-307-003-020",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "ZELK 20 HP",
+        "ingrediente_activo": "ACETAMIPRID"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": 12,
+      "lmr_ppm": null,
+      "dosis_texto": "240 - 320 gr",
+      "dosis_min": 240.0,
+      "dosis_max": 320.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Neonicotinoid es",
+      "plaga_comun": "Trips",
+      "plaga_cientifica": "Ankleanilla occidenta",
+      "observaciones": "Suggested application volume 551 - 651 L of water / Ha. DT 748/2018",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "SAF-T-SIDE",
+        "ingrediente_activo": "PARAFFINIC OIL OF PETROLEUM"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": ".99 - 1.98 L/100 L of water",
+      "dosis_min": 99.0,
+      "dosis_max": 1.98,
+      "intervalo_aplicacion": "3-7 days",
+      "grupo_quimico": "Aliphatic",
+      "plaga_comun": "Aphid / Red spider Velvety mildew / Rust / White fly",
+      "plaga_cientifica": "Pentatrichopussp Tetranychus spp Peronospora rubi Pucciniastrum American Bemisia tabaci",
+      "observaciones": "Do not use it in combination or immediately. before or after applying components of dinitro, fungicides such as captan or sevin, or any other product containing sulfur. Do not use it in combination with fertilizers foliar NPK",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "CITRULLINE",
+        "ingrediente_activo": "PARAFFINIC OIL OF PETROLEUM"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 50,
+      "reentrada_hrs": 24,
+      "lmr_ppm": "ET",
+      "dosis_texto": "No specified",
+      "dosis_min": null,
+      "dosis_max": null,
+      "intervalo_aplicacion": "-",
+      "grupo_quimico": "Aliphatic",
+      "plaga_comun": "Seasoning and/or Cane defoliation",
+      "plaga_cientifica": "N/A",
+      "observaciones": "Do not use as an adhesive for applications leafy greens in the production stage.",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "KANEMITE 15 SC",
+        "ingrediente_activo": "ACEQUINOCYL"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "4.00",
+      "dosis_texto": "0.75 - 2.0 L",
+      "dosis_min": 0.75,
+      "dosis_max": 2.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Acequinocyl",
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettles",
+      "observaciones": "Avoid mixing with strongly reactive products alkaline, as it reduces its activity. Not combine with Fosetyl. RSCO-INAC-0103N-301- 064-016",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "Stinger",
+        "ingrediente_activo": "ELEMENTAL SULFUR + OIL PARAFFINIC"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": "0.5 - 1.0 L",
+      "dosis_min": 0.5,
+      "dosis_max": 1.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "gá-nico / Alifati",
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus urticae",
+      "observaciones": "Use a water volume between 450 to 550 L of water/Ha. RSCO-MEZC-INAC-0671A-0302- X0034-064-74.74",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "TALSTAR 100 CE",
+        "ingrediente_activo": "BIFENTHRIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 3,
+      "reentrada_hrs": 24,
+      "lmr_ppm": "1.00",
+      "dosis_texto": "0.8-1.0 L",
+      "dosis_min": 0.8,
+      "dosis_max": 1.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Piretroides",
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus urticaria",
+      "observaciones": "Direct the application to the back of the sheets, place where the plague is located.RSCO-INAC-0176- 001-009-012",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "AKARIS 100 CE",
+        "ingrediente_activo": "BIFENTHRIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": 24,
+      "lmr_ppm": null,
+      "dosis_texto": "800 - 1000 ml",
+      "dosis_min": 800.0,
+      "dosis_max": 1000.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettle",
+      "observaciones": "Do not apply when the crop is in stress.RSCO-INAC-0176-X0120-009-12.15",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "BRIGADIER 0.3 G",
+        "ingrediente_activo": "BIFENTHRIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 3,
+      "reentrada_hrs": 24,
+      "lmr_ppm": null,
+      "dosis_texto": "20 - 30 Kg",
+      "dosis_min": 20.0,
+      "dosis_max": 30.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Blind hen",
+      "plaga_cientifica": "Phyllophaga ravida",
+      "observaciones": "Before planting, incorporate the product into the bottom of the groove.RSCO-INAC-0176-318-005-0.30",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "DIABLOSTAR",
+        "ingrediente_activo": "BIFENTHRIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 3,
+      "reentrada_hrs": 24,
+      "lmr_ppm": null,
+      "dosis_texto": "0.8-1.0 L",
+      "dosis_min": 0.8,
+      "dosis_max": 1.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Two-spotted spider mite Tetra",
+      "plaga_cientifica": "nychus urticae",
+      "observaciones": "Application to foliage. RSCO-INAC-0176-X0102- 009-12.15",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "ALLECTUS GR / ESCUDO 7 GR",
+        "ingrediente_activo": "BIFENTHRIN + IMIDACLOPRID"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 7,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "1.00 / 2.50",
+      "dosis_texto": "20-30 Kg",
+      "dosis_min": 20.0,
+      "dosis_max": 30.0,
+      "intervalo_aplicacion": null,
+      "grupo_quimico": "Piretroids/ nicotinoid is",
+      "plaga_comun": "Blind hen",
+      "plaga_cientifica": "Phyllophaga obsolete",
+      "observaciones": "Make an application to the bottom of the groove and cover with the ground.RSCO-MEZC-INAC-1101N- 0649-005-0.7",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "ALLECTUS 300 SC",
+        "ingrediente_activo": "BIFENTHRIN + IMIDACLOPRID"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": null,
+      "reentrada_hrs": 12,
+      "lmr_ppm": null,
+      "dosis_texto": "1.0- 1.25 L",
+      "dosis_min": 1.0,
+      "dosis_max": 1.25,
+      "intervalo_aplicacion": null,
+      "grupo_quimico": null,
+      "plaga_comun": null,
+      "plaga_cientifica": "Phyllophaga ravida",
+      "observaciones": "Carry out the application through the system of drip irrigation.RSCO-MEZC-1101N-0232-064- 27.45",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "ACRAMITE 50 WS",
+        "ingrediente_activo": "Bifenazate"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 2,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "5.00",
+      "dosis_texto": "0.75 - 1.0 Kg",
+      "dosis_min": 0.75,
+      "dosis_max": 1.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Bifenazate",
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettle",
+      "observaciones": "Do not apply more than once per cycle, more than twice a year; no less than 1000 ml of water. RSCO- INAC-0103U-303-034-050",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "CORAGEN 20 SC",
+        "ingrediente_activo": "CLORANTRANILIPROLE"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "1.80",
+      "dosis_texto": "100-200 ml",
+      "dosis_min": 100.0,
+      "dosis_max": 200.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Diamidas",
+      "plaga_comun": "Soldier Worm",
+      "plaga_cientifica": "Spodoptera scanty",
+      "observaciones": "Apply to the foliage; if it is necessary to create an additional application to intervals of 7 days. Application volume: 500-600 L of water/ha. RSCO-INAC- 0104A-301-026-018",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "VELSIDOL 5G",
+        "ingrediente_activo": "DIAZINON"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 5,
+      "reentrada_hrs": 5,
+      "lmr_ppm": "0.75",
+      "dosis_texto": "20-30kg",
+      "dosis_min": 20.0,
+      "dosis_max": 30.0,
+      "intervalo_aplicacion": "-",
+      "grupo_quimico": "Organophosphoru two",
+      "plaga_comun": "Blind hen Diabrotica / Elateridae Larva / wire/ Agrotisspp cutters/",
+      "plaga_cientifica": "Phylophaga spp/ Diabrotica spp. Feltiaspp",
+      "observaciones": null,
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "DIAZIN 25 CE",
+        "ingrediente_activo": "DIAZINON"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 5,
+      "reentrada_hrs": null,
+      "lmr_ppm": null,
+      "dosis_texto": "4 - 5 L",
+      "dosis_min": 4.0,
+      "dosis_max": 5.0,
+      "intervalo_aplicacion": "-",
+      "grupo_quimico": null,
+      "plaga_comun": "Cyclamen spider",
+      "plaga_cientifica": "Steneotarsonemus pale",
+      "observaciones": "RSCO-INAC-0120-378-009-025",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "VELSIDOL 25 CE",
+        "ingrediente_activo": "DIAZINON"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 5,
+      "reentrada_hrs": null,
+      "lmr_ppm": null,
+      "dosis_texto": "4 - 5 L",
+      "dosis_min": 4.0,
+      "dosis_max": 5.0,
+      "intervalo_aplicacion": "s -",
+      "grupo_quimico": null,
+      "plaga_comun": "Cyclamen spider White fly Aphid / Thrips",
+      "plaga_cientifica": "Steneotarsonemus pale Trialeurodes packardi*** Pentatrichopus fragaefoli / Thrips spp",
+      "observaciones": "Do not apply against the wind. RSCO- INAC-0120-054-009-025",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "HERCULES 5G",
+        "ingrediente_activo": "DIAZINON"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 5,
+      "reentrada_hrs": 5,
+      "lmr_ppm": null,
+      "dosis_texto": "22.4 - 44.8 kg",
+      "dosis_min": 22.4,
+      "dosis_max": 44.8,
+      "intervalo_aplicacion": "-",
+      "grupo_quimico": null,
+      "plaga_comun": "Blind hen Diabrotica / Worm of / Diabrot wire/ worm shredder",
+      "plaga_cientifica": "Phyllophaga spp ica spp/ Agriotesspp/ Feltiaspp",
+      "observaciones": "Do not mix with strongly reactive products alkaline. RSCO-INAC-0120-364-005-005",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "TETRASAN 11 SC",
+        "ingrediente_activo": "ETOXAZOLE"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "1.50",
+      "dosis_texto": "200 ml - 450 ml",
+      "dosis_min": 200.0,
+      "dosis_max": 450.0,
+      "intervalo_aplicacion": "28 days",
+      "grupo_quimico": "Etoxazole",
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettle",
+      "observaciones": "Apply when detecting the first individuals (nymphs or adults) or when the conditions of climate favor the development of the pest. Of if necessary, make a second application a maximum of 28 days after the first. RSCO-INAC-0103E-301-064-010",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "MAGISTER 200 SC",
+        "ingrediente_activo": "FENAZAQUIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 7,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "0.70",
+      "dosis_texto": ".75 to 1.5 L",
+      "dosis_min": 75.0,
+      "dosis_max": null,
+      "intervalo_aplicacion": "14 days",
+      "grupo_quimico": "Quinazoline",
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus urticae",
+      "observaciones": "Start the applications when the first populations of mobile states or adults. Use the low dose when the pressure of the plague is low. Use medium and high doses in high pressure from the pest and/or the foliage is greater dense. Use an application volume of 400- 500 L/ha of water. RSCO-INAC-0103T-301-064-018",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "HERALD 375 CE",
+        "ingrediente_activo": "FENPROPATRIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 2,
+      "reentrada_hrs": 48,
+      "lmr_ppm": "12:00",
+      "dosis_texto": "0.5-0.6 L",
+      "dosis_min": 0.5,
+      "dosis_max": 0.6,
+      "intervalo_aplicacion": "7",
+      "grupo_quimico": "Pyrethroid",
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettle",
+      "observaciones": "Start the applications when they appear first adults and make up to 3 applications to intervals of 7 days each. RSCO-INAC- 0193-312-009-039",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "FLANK",
+        "ingrediente_activo": "HEXITIAZOX"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 3,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "1.00",
+      "dosis_texto": "400 - 800 ml",
+      "dosis_min": 400.0,
+      "dosis_max": 800.0,
+      "intervalo_aplicacion": "-",
+      "grupo_quimico": "Hexitiazox",
+      "plaga_comun": "Two-spotted Spider",
+      "plaga_cientifica": "Tetranychus nettle",
+      "observaciones": "Apply a foliar treatment when it detect the first individuals of the pest in the cultivation. Application volume 450 - 550 L of water per hectare. This application volume can vary depending on the equipment used, as well as of the crop size. RSCO-INAC-0102R- X0331-064-24.0",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "SAVEY 50 GD/HEXIGON 50 GD",
+        "ingrediente_activo": "HEXITIAZOX"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 3,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "1.00",
+      "dosis_texto": "300-400 g",
+      "dosis_min": 300.0,
+      "dosis_max": 400.0,
+      "intervalo_aplicacion": "-",
+      "grupo_quimico": "Hexitiazox",
+      "plaga_comun": "Red spider (acaricide- ovicide",
+      "plaga_cientifica": "Tetranychus nettle",
+      "observaciones": "Start the applications when they are detected. first populations of mites (eggs, larvae or nymphs). If adults are present, mix it with a acaricide with effect adulticide, DO not make more than one application to year. Do not apply SAVEY 50 GD in systems of pressurized irrigation. RSCO-INAC-0102R- 303-034-050",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "HELMFIDOR",
+        "ingrediente_activo": "IMIDACLOPRID"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 30,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "2.50",
+      "dosis_texto": "250 - 450 ml",
+      "dosis_min": 250.0,
+      "dosis_max": 450.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Neonicotinoid is",
+      "plaga_comun": "Aphid",
+      "plaga_cientifica": "Sitobion fragariae",
+      "observaciones": "Use only when bees and other beneficial insects do not be affected. Do not mix with products of strong acidic reaction nor with fertilizers that contain sulfur. RSCO-INAC-0199-351- 064-030",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "MANAGER 350 SC",
+        "ingrediente_activo": "IMIDACLOPRID"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 7,
+      "reentrada_hrs": 12,
+      "lmr_ppm": null,
+      "dosis_texto": "200-300 ml",
+      "dosis_min": 200.0,
+      "dosis_max": 300.0,
+      "intervalo_aplicacion": "8 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Green aphid",
+      "plaga_cientifica": "Myzus persicae",
+      "observaciones": "Application volume 240-340 L/Ha. RSCO- INAC-0199-339-064-033",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "CONFIDOR 350 SC",
+        "ingrediente_activo": "IMIDACLOPRID"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 7,
+      "reentrada_hrs": 12,
+      "lmr_ppm": null,
+      "dosis_texto": "250 - 300 ml",
+      "dosis_min": 250.0,
+      "dosis_max": 300.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Aphid",
+      "plaga_cientifica": "Myzus persicae",
+      "observaciones": "Use only when bees and other beneficials. do not be affected. RSCO-INAC-0199- 303-064-030",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "CONFINAL",
+        "ingrediente_activo": "IMIDACLOPRID + BIFENTRIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 7,
+      "reentrada_hrs": 24,
+      "lmr_ppm": "2.50 / 1.00",
+      "dosis_texto": "0.20 - 0.30 L",
+      "dosis_min": 0.2,
+      "dosis_max": 0.3,
+      "intervalo_aplicacion": "8 days",
+      "grupo_quimico": "Pyrethroids/ nicotinoid is",
+      "plaga_comun": "Aphid",
+      "plaga_cientifica": "Myzus persicae",
+      "observaciones": "Make two foliar applications at an interval of 8 days when the first are detected individuals of the plague; application volume suggested 450-550 L of water / ha. DT 689/2019",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "MALATION 1000 TRIDENT",
+        "ingrediente_activo": "MALATHION"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 7,
+      "reentrada_hrs": 24,
+      "lmr_ppm": "8.00",
+      "dosis_texto": "1.0 - 2.0 L",
+      "dosis_min": 1.0,
+      "dosis_max": 2.0,
+      "intervalo_aplicacion": "es 7 days",
+      "grupo_quimico": "Organophosphat forados",
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettles",
+      "observaciones": "Application directed at the foliage. Carry out 3 applications to the foliage at intervals of 7 days, start the applications when detected the presence of the pest; application volume: 400-500 L water/ha. RSCO-INAC-0143-025-009- 084",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "MALATHION 1000 E",
+        "ingrediente_activo": "MALATHION"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 3,
+      "reentrada_hrs": null,
+      "lmr_ppm": null,
+      "dosis_texto": "1.0 - 2.0 L",
+      "dosis_min": 1.0,
+      "dosis_max": 2.0,
+      "intervalo_aplicacion": null,
+      "grupo_quimico": null,
+      "plaga_comun": "Winged flies stained",
+      "plaga_cientifica": "Drosophila suzukii",
+      "observaciones": "Make 2 foliar applications at intervals of 7 days when the presence of the pest; suggested application volume 605-705 L of water/ha. DT 668/2019",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "TAPPS'O",
+        "ingrediente_activo": "Metaldehyde"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 10,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "0.15",
+      "dosis_texto": "7 - 15 kg",
+      "dosis_min": 7.0,
+      "dosis_max": 15.0,
+      "intervalo_aplicacion": "14 days",
+      "grupo_quimico": "Octane cycle",
+      "plaga_comun": "Aloe (Mollusk)",
+      "plaga_cientifica": "Vaginulus plebeius Arion hortensis Deroceras rural",
+      "observaciones": "Exclusive use on soil, avoid applying it on the cultivation. Do not apply if rain is forecasted, and did not apply irrigation for at least 2 days after the treatment.",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "ACARITOUCH",
+        "ingrediente_activo": "Monolaurate of PROPYLENE GLYCOL"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": "1.5 L/1000 L of water",
+      "dosis_min": 1.5,
+      "dosis_max": 1000.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Esters",
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettle",
+      "observaciones": "Do not mix with strong oxidizing agents, it is compatible with products that contain tebuconazole cinnamaldehyde, fatty acids, potassium sales, natural pyrethrin, and mancozeb. RSCO-INAC-0105D-301-009- 071",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "PROXY 100 CE",
+        "ingrediente_activo": "PYRIPROXIFEN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 14,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "1.00",
+      "dosis_texto": "500-600 ml",
+      "dosis_min": 500.0,
+      "dosis_max": 600.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Pyriproxyfen",
+      "plaga_comun": "Trips",
+      "plaga_cientifica": "Frankliniella western",
+      "observaciones": "Make 3 applications at intervals of 7 days. RSCO-INAC-1104P-X0033-009-10.99",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "STONE 100 CE",
+        "ingrediente_activo": "PYRIPROXIFEN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 14,
+      "reentrada_hrs": 12,
+      "lmr_ppm": null,
+      "dosis_texto": "500 - 600 ml",
+      "dosis_min": 500.0,
+      "dosis_max": 600.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Trips",
+      "plaga_cientifica": "Frankliniella western",
+      "observaciones": "Make three foliar sprayings at intervals of seven days. Application volume 350-450 L of water/ha. RSCO-INAC-1104P-X0033-009-10.99",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "ENTRUST SC/SPINTOR GREE",
+        "ingrediente_activo": "SPINOSAD"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "1.00",
+      "dosis_texto": "200-250 ml",
+      "dosis_min": 200.0,
+      "dosis_max": 250.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Spinosines",
+      "plaga_comun": "Soldier Worm",
+      "plaga_cientifica": "Spodoptera meager",
+      "observaciones": "RSCO-INAC-0101Y-313-002-080 For Trips make 2 appointments at intervals of 7 days, with caution, to avoid harming the bees. For Worm and Fly to create an application to the foliage using enough water for a good coverage. RSCO-INAC-0101Y-0195-064-22.14",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "PALGUS",
+        "ingrediente_activo": "SPINETORAM"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "0.80",
+      "dosis_texto": "200-330 ml",
+      "dosis_min": 200.0,
+      "dosis_max": 330.0,
+      "intervalo_aplicacion": "8 days",
+      "grupo_quimico": "Spinosines",
+      "plaga_comun": "Trips",
+      "plaga_cientifica": "Frankliniella western",
+      "observaciones": "Make two applications to the foliage, at intervals. in 8 days; to ensure a better control is necessary to add a surfactant to a concentration of 0.25% v/v. Application volume 300 L of water/ha RSCO-INAC-0103X-301-064-006",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "EXALT",
+        "ingrediente_activo": "SPINETORAM"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "0.80",
+      "dosis_texto": "350-400 ml",
+      "dosis_min": 350.0,
+      "dosis_max": 400.0,
+      "intervalo_aplicacion": "8 days",
+      "grupo_quimico": "Spinosines",
+      "plaga_comun": "Vinegar fly stained wings",
+      "plaga_cientifica": "Drosophila suzukii",
+      "observaciones": "Apply to the foliage twice, at intervals. of 8 days for the trip. RSCO-INAC-0103X-301- 064-006",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "ACTARA 25 GS / ACTARA 25 WG",
+        "ingrediente_activo": "THIAMETHOXAM"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 3,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "0.35",
+      "dosis_texto": "300 - 400 gr",
+      "dosis_min": 300.0,
+      "dosis_max": 400.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Neonicoti- noises",
+      "plaga_comun": "Trips",
+      "plaga_cientifica": "Frankliniella western",
+      "observaciones": "Make two applications to the foliage at intervals of 7 days when the first are detected adults. USE ONLY WHEN THE BEES AND OTHER BENEFITS SHALL NOT BE AFFECTED. RSCO-INAC-0102U-301-034-025",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "UNIKUM/ THIAMETOZA 25 WG/ HELMTOXAM/ MACHINE",
+        "ingrediente_activo": "THIAMETHOXAM"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": null,
+      "reentrada_hrs": 24,
+      "lmr_ppm": null,
+      "dosis_texto": "0.3- 0.4 Kg",
+      "dosis_min": 0.3,
+      "dosis_max": 0.4,
+      "intervalo_aplicacion": null,
+      "grupo_quimico": null,
+      "plaga_comun": null,
+      "plaga_cientifica": null,
+      "observaciones": "Make 2 applications to the foliage at intervals of 7 days RSCO- INAC-0102U-0739-424-25",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "KYGO 250 WG",
+        "ingrediente_activo": "THIAMETHOXAM"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": null,
+      "reentrada_hrs": 12,
+      "lmr_ppm": null,
+      "dosis_texto": "300 - 400 g",
+      "dosis_min": 300.0,
+      "dosis_max": 400.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": null,
+      "plaga_comun": "white fly",
+      "plaga_cientifica": "Bemisia tabaci",
+      "observaciones": "Make two applications via foliar and to the bud from the plant at intervals of 7 days between each one, upon detecting the first individuals. Apply with a water volume of 300 to 400. L/Ha. RSCO-INAC-0102U-X0328-034-25.0",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "MUSTANG MAX EW",
+        "ingrediente_activo": "ZETA- CYPERMETHRIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "0.80",
+      "dosis_texto": "500 - 700 ml",
+      "dosis_min": 500.0,
+      "dosis_max": 700.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Piretroides",
+      "plaga_comun": "Trips",
+      "plaga_cientifica": "Frankliniella western",
+      "observaciones": "Make 2 applications at intervals of 7 days. RSCO-INAC- 0106-312-337-009",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "HERO",
+        "ingrediente_activo": "ZETA- CYPERMETHRIN + BIFENTHRIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 3,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "0.80 / 1.00",
+      "dosis_texto": "500-600 ml",
+      "dosis_min": 500.0,
+      "dosis_max": 600.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Piretroides",
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettle",
+      "observaciones": "Do not make applications of less than 7 days of difference between them, do not apply more than 750 ml/ha per application, do not apply more than 2 L per season. RSCO-MEZC-1101J-301-009- 015. DT 857-2017",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "AMISTAR / HERITAGE",
+        "ingrediente_activo": "AZOXYSTROBIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "5.00",
+      "dosis_texto": "0.30 - 0.50 Kg",
+      "dosis_min": 0.3,
+      "dosis_max": 0.5,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Methacrylate os",
+      "plaga_comun": "Ashes",
+      "plaga_cientifica": "Sphaerotheca macular",
+      "observaciones": "Do not mix Amistar/Heritage in the spray tank with pesticides, surfactants or fertilizers. RSCO- FUNG-0386-303-032-050",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "MAXTROBIN",
+        "ingrediente_activo": "AZOXYSTROBIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": null,
+      "lmr_ppm": null,
+      "dosis_texto": "0.6- 1 L",
+      "dosis_min": 0.6,
+      "dosis_max": 1.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Ash",
+      "plaga_cientifica": "Sphaerotheca macularis",
+      "observaciones": "Make 2 applications to the foliage at intervals. of 7 days. Application volume 247-347 µL of water per Ha. RSCO-FUNG-0386-0219-064-23.20",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "AXOTRON SC",
+        "ingrediente_activo": "AZOXYSTROBIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": 24,
+      "lmr_ppm": null,
+      "dosis_texto": "0-6 - 0-8 L",
+      "dosis_min": 0.0,
+      "dosis_max": 6.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Ash",
+      "plaga_cientifica": "Sphaerotheca macularis",
+      "observaciones": "Make 3 applications to the foliage at intervals. 7 days. Application volume 1318-1418 L water per Ha. DT 126/2019",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "VALGO 50 WG",
+        "ingrediente_activo": "AZOXYSTROBIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": null,
+      "dosis_texto": "200-400 g",
+      "dosis_min": 200.0,
+      "dosis_max": 400.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Ashes",
+      "plaga_cientifica": "Sphaerotheca macular",
+      "observaciones": "Make 2 applications at intervals of 7 days between each one, starting the program of applications as they arise favorable environmental conditions for the appearance of the disease or is detected fruits with symptoms of the disease. RSCO-FUNG-0386-0444-034-050",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "IMPALA 25 SC",
+        "ingrediente_activo": "AZOXYSTROBIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": null,
+      "lmr_ppm": null,
+      "dosis_texto": "A. 0.6- 0.8 L",
+      "dosis_min": 0.6,
+      "dosis_max": 0.8,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Gray mold",
+      "plaga_cientifica": "Botrytis cinerea",
+      "observaciones": "Do not apply with winds exceeding 10 km/hr, nor in excessively hot hours. Do not apply through of the drip irrigation system. RSCO-FUNG-0386-0554- 064-22.94",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "MILITANT",
+        "ingrediente_activo": "AZOXYSTROBIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": null,
+      "dosis_texto": "250 - 500 g",
+      "dosis_min": 250.0,
+      "dosis_max": 500.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Ashes",
+      "plaga_cientifica": "Podosphaera aphanis",
+      "observaciones": "Carry out 3 foliar applications at intervals of 7 days when the conditions are met favorable for the development of the disease; application volume 350-450 L of water/ha. RSCO-FUNG-0386-X0106-343-050",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "L UNIFORM",
+        "ingrediente_activo": "AZOXYSTROBIN + METALAXI M"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 1,
+      "lmr_ppm": "5.00 / 0.70",
+      "dosis_texto": "1.0-2.0 L",
+      "dosis_min": 1.0,
+      "dosis_max": 2.0,
+      "intervalo_aplicacion": "14 days",
+      "grupo_quimico": "Methacrylate os/Acilylalanine s",
+      "plaga_comun": "Root rot and/or crown",
+      "plaga_cientifica": "Phytophthora species",
+      "observaciones": "I created an application in drench at the moment of the transplant. RSCO-MEZC-1301T-301-425-028",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "QUILT 200 SE / QUILT",
+        "ingrediente_activo": "AZOXYSTROBIN + PROPICONAZOLE"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 30,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "5.00 / 1.00",
+      "dosis_texto": "0.75 - 1.25 L",
+      "dosis_min": 0.75,
+      "dosis_max": 1.25,
+      "intervalo_aplicacion": "14 days",
+      "grupo_quimico": "Methoxyacrylate os/s / Triazoles",
+      "plaga_comun": "Cinder",
+      "plaga_cientifica": "Sphaerotheca macular",
+      "observaciones": "Make 2 applications to the foliage at intervals of 14 days after detecting the first symptoms of the disease. RSCO-MEZC-1301K-301- 377-019",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "SULTRON 725 XL",
+        "ingrediente_activo": "ELEMENTAL SULFUR"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": "2.0 - 3.0 L",
+      "dosis_min": 2.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Inorganic",
+      "plaga_comun": "Anthracnose",
+      "plaga_cientifica": "Colletotrichum gloeosporioides",
+      "observaciones": "From 1 to 4 applications at intervals of 7 days. RSCO-FUNG--0302-366-008-052",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "SUL-CO-FLU",
+        "ingrediente_activo": "ELEMENTAL SULFUR + Copper Oxychloride"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": "2.5 - 3.0 L",
+      "dosis_min": 2.5,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Inorganic",
+      "plaga_comun": "Roya / Red Spider",
+      "plaga_cientifica": "Pucciniomycetes Eotetranychus sp",
+      "observaciones": "Apply before observing the first ones Symptoms. Do not mix with acids. 1324-001-008-057",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "SULFOCOP F",
+        "ingrediente_activo": "ELEMENTAL SULFUR + Copper Oxychloride"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": null,
+      "reentrada_hrs": null,
+      "lmr_ppm": null,
+      "dosis_texto": "2.5-3.0 L",
+      "dosis_min": 2.5,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": null,
+      "grupo_quimico": null,
+      "plaga_comun": null,
+      "plaga_cientifica": null,
+      "observaciones": null,
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "KALIGREEN",
+        "ingrediente_activo": "POTASSIUM BICARBONATE"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "4.0 - 6.0 kg",
+      "dosis_min": 4.0,
+      "dosis_max": 6.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Inorganic",
+      "plaga_comun": "Ash",
+      "plaga_cientifica": "Sphaerotheca macular",
+      "observaciones": "Make 2 applications at intervals of 7 days. RSCO-FUNG-0302I-301-003-082",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "PHC MILSTOP PLUS",
+        "ingrediente_activo": "POTASSIUM BICARBONATE"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": null,
+      "dosis_texto": "2.0- 4.5 kg",
+      "dosis_min": 2.0,
+      "dosis_max": 4.5,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Leaf spot / Anthracnose / Gray mold Ashes",
+      "plaga_cientifica": "Alternaria / Colletotrichum spp/ Botrytis cinerea / Phoma / Sphaerotheca spp",
+      "observaciones": "Make the applications weekly during periods when outbreaks occur disease high. RSCO-FUNG-0301N-301-002-085",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "PROGRANIC MIX-TOP",
+        "ingrediente_activo": "POTASSIUM BICARBONATE"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": null,
+      "dosis_texto": "2.0- 4.0 Kg",
+      "dosis_min": 2.0,
+      "dosis_max": 4.0,
+      "intervalo_aplicacion": "6-8 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Mildew",
+      "plaga_cientifica": "Peronospora rubi",
+      "observaciones": "Make 3 applications in foliar aspiration to intervals of 6-8 days, start applications at observe illness. RSCO- FUNG-0301N-0487-003-85.0",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "SIFACARB",
+        "ingrediente_activo": "POTASSIUM BICARBONATE"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": null,
+      "dosis_texto": "ONS 2.0- 4.0 Kg",
+      "dosis_min": 2.0,
+      "dosis_max": 4.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Gray mold / Downy mildew",
+      "plaga_cientifica": "Botrytis cinerea Peronospora rubi",
+      "observaciones": "Make three applications to the foliage at intervals of 7 days, when the first ones are detected symptoms of the disease. RSCO-FUNG- 0302I-303-003-082",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "CANTUS",
+        "ingrediente_activo": "BOSCALID"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 3,
+      "lmr_ppm": "10.00",
+      "dosis_texto": "0.8- 1.2 Kg",
+      "dosis_min": 0.8,
+      "dosis_max": 1.2,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Carboxamide s",
+      "plaga_comun": "Gray mold",
+      "plaga_cientifica": "Botrytis cinerea",
+      "observaciones": "Make two applications to the foliage at intervals of 7 days, when the first are detected symptoms of the disease; volume of application 850 – 950 L of water / ha. RSCO-FUNG- 0301V-301-034-050",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "CABRIO C",
+        "ingrediente_activo": "BOSCALID+ PYRACLOSTROBIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": 3,
+      "lmr_ppm": "10.00 / 4.00",
+      "dosis_texto": "0.8 Kg",
+      "dosis_min": 0.8,
+      "dosis_max": null,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Pyridine- carboxa- Midas / Metoxicarbam acts",
+      "plaga_comun": "Mildew / Gray mold",
+      "plaga_cientifica": "Peronospora rubi Botrytis cinerea",
+      "observaciones": "Make a spray on the foliage, if necessary it is necessary to create two additional applications a 7-day period with a volume of application of 950 to 1050 L/ha or with the necessary amount of water to achieve a good coverage. RSCO- FUNG-1301A-301-034-038",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "CAPTAN 50 WP",
+        "ingrediente_activo": "CAPTAIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "25.00",
+      "dosis_texto": "A. 200 -400 gr/100 L of water",
+      "dosis_min": 200.0,
+      "dosis_max": 400.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Phthalimides",
+      "plaga_comun": "Gray mold",
+      "plaga_cientifica": "Botrytis cinerea",
+      "observaciones": "RSCO-FUNG-0306-008-002-050",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "CAPTAN ULTRA 50 WP",
+        "ingrediente_activo": "CAPTAIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": null,
+      "lmr_ppm": null,
+      "dosis_texto": "2.5 - 4 Kg",
+      "dosis_min": 2.5,
+      "dosis_max": 4.0,
+      "intervalo_aplicacion": null,
+      "grupo_quimico": null,
+      "plaga_comun": "Gray mud",
+      "plaga_cientifica": "Botrytis cinerea",
+      "observaciones": "Make 3 applications to the foliage, at intervals of 7 days; application volume 350-450 liters of water/Ha. RSCO-FUNG-0306-352-002-050",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "SWITCH 62.5 WG",
+        "ingrediente_activo": "CYPRODINIL + FLUDIOXONIL"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "10.00 / 5.00",
+      "dosis_texto": "0.8 - 1.2 kg",
+      "dosis_min": 0.8,
+      "dosis_max": 1.2,
+      "intervalo_aplicacion": "e 7 days",
+      "grupo_quimico": "Anilinopyrimidin na Fenylpyrroles",
+      "plaga_comun": "Gray mold",
+      "plaga_cientifica": "Botrytis cinerea",
+      "observaciones": "Start the applications preventively. when the first symptoms are detected of the disease. Make 3 applications to the foliage at intervals of 7 days. RSCO-MEZC- 1386-301-034-063",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "SIFAPEROX 27 SC/ SIFAPEROX",
+        "ingrediente_activo": "DIOXYGEN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "ONS 0.5 - 2 L / 100 L of water",
+      "dosis_min": 0.5,
+      "dosis_max": 2.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Inorganic",
+      "plaga_comun": "Gray mold / Downy mildew velvety",
+      "plaga_cientifica": "Botrytis cinerea Peronospora rubi",
+      "observaciones": "Should not be mixed with any other product. RSCO-FUNG-0302X- 301-013-025",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "OXIDATE 2.0",
+        "ingrediente_activo": "HYDROGEN DIOXIDE + Peracetic Acid"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": 24,
+      "lmr_ppm": "ET",
+      "dosis_texto": "5.0-10 ml / 1L of water",
+      "dosis_min": 5.0,
+      "dosis_max": 10.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Inorganic",
+      "plaga_comun": "Mancha angular de la leaf / Decay of the neck collar Rotting of the fruit",
+      "plaga_cientifica": "Alternaria / Botrytis / Mildew",
+      "observaciones": "Use from 300 to 900 liters of water per hectare RSCO-MEZC-1394-0436-375-29.11",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "ALLY",
+        "ingrediente_activo": "FOSETIL-AL (TRIS ALUMINUM"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 60,
+      "reentrada_hrs": 24,
+      "lmr_ppm": "0.10",
+      "dosis_texto": "250 - 300 g / 100 L of water",
+      "dosis_min": 250.0,
+      "dosis_max": 300.0,
+      "intervalo_aplicacion": "7 - 10 days",
+      "grupo_quimico": "Ethyl phosphonate",
+      "plaga_comun": "Fluffy mildew",
+      "plaga_cientifica": "Peronospora rubi",
+      "observaciones": "Start the applications when the are detected first symptoms. Make 4 applications to 7-day intervals according to the need to maintain the control. RSCO-FUNG-0347-306-034-080",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": ") ALLIETTE WDG",
+        "ingrediente_activo": "FOSETIL-AL (TRIS ALUMINUM"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 60,
+      "reentrada_hrs": 12,
+      "lmr_ppm": null,
+      "dosis_texto": "2-3 kg/500 L of water",
+      "dosis_min": 2.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "14 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Root rot",
+      "plaga_cientifica": "Phytophthora strawberry",
+      "observaciones": "At the time of transplanting, apply in a band on both sides of the plant, using a water volume of 500 liters per hectare. Make two applications to the ground, on both sides sides of the plant, at an interval of 14 days. RSCO-FUNG- 0347-304-034-080",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "FOSTHOR WDG",
+        "ingrediente_activo": "FOSETIL-AL (TRIS ALUMINUM"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 60,
+      "reentrada_hrs": 12,
+      "lmr_ppm": null,
+      "dosis_texto": "250-300 g /100 L of water",
+      "dosis_min": 250.0,
+      "dosis_max": 300.0,
+      "intervalo_aplicacion": "8-10 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Fluffy mildew",
+      "plaga_cientifica": "Peronospora rubi",
+      "observaciones": "start applications as soon as they arise climatic conditions that favor the incidence of the disease. RSCO-FUNG-0347- 306-034-080",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "ELEVATOR",
+        "ingrediente_activo": "FENHEXAMID"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": 24,
+      "lmr_ppm": "20.00",
+      "dosis_texto": "1.0 -1.5 kg",
+      "dosis_min": 1.0,
+      "dosis_max": 1.5,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Hydroxyanilides",
+      "plaga_comun": "Gray mold",
+      "plaga_cientifica": "Botrytis cinerea",
+      "observaciones": "Make the first application at the beginning of the preventive flowering. RSCO-FUNG-0399-301-034-054",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "MERIVON",
+        "ingrediente_activo": "FLUXAPIROXAD + Piraclostrobin"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "5.00 / 4.00",
+      "dosis_texto": "0 - 400 ml",
+      "dosis_min": 0.0,
+      "dosis_max": 400.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Pyrasolcar- my box carbamate os",
+      "plaga_comun": "Gray mold",
+      "plaga_cientifica": "Botrytis cinerea",
+      "observaciones": "Make two applications at an interval of 7 days. start the applications when the detected initial symptoms of the disease; volume from 800 to 1000 L of water / ha. RSCO- MEZC-FUNG-0399-0281-064-42.40",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "MIX PROTECTIVE-Cu",
+        "ingrediente_activo": "Copper hydroxide"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": "0.5 - 1.5 L / 100 L of Water",
+      "dosis_min": 0.5,
+      "dosis_max": 1.5,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Sales inorganic of copper",
+      "plaga_comun": "Botrytis / Mildew",
+      "plaga_cientifica": "Botrytis cinerea Downy mildew sparse",
+      "observaciones": "Make 3 applications to the foliage at intervals of 7 days, start the applications upon arrival first symptoms of diseases; application volume: 400-500 L of water/ha. RSCO-FUNG-0319-X0222-013-20.00",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "BLUE SHIELD 20 DF",
+        "ingrediente_activo": "Copper hydroxide"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": "1.0- 2.0 Kg",
+      "dosis_min": 1.0,
+      "dosis_max": 2.0,
+      "intervalo_aplicacion": "-",
+      "grupo_quimico": "Sales inorganic of copper",
+      "plaga_comun": "Mildew",
+      "plaga_cientifica": "Peronospora rubi",
+      "observaciones": "Do not apply BLUE SHIELD 20 DF when whether it threatens to rain or it is raining, in order to avoid washing the product; when the wind speed is greater than 15 km/h, to avoid product drift and during hours of intense heat to prevent product loss or foliage burns. RSCO-FUNG- 0319-360-034-031",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "KOCIDE 2000",
+        "ingrediente_activo": "Copper hydroxide"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": "1.5-2.0 Kg",
+      "dosis_min": 1.5,
+      "dosis_max": 2.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Sales inorganic of copper",
+      "plaga_comun": "Angular stain",
+      "plaga_cientifica": "Xanthomonas of strawberries",
+      "observaciones": "Application volume 350-450 L of water. RSCO-FUNG-0319-356-034-054",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "ROVRAL 50 PH",
+        "ingrediente_activo": "IPRODIONA"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "25.00",
+      "dosis_texto": "0.75-1.25 Kg",
+      "dosis_min": 0.75,
+      "dosis_max": 1.25,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Dicarboximide s",
+      "plaga_comun": "Gray mold",
+      "plaga_cientifica": "Botrytis cinerea",
+      "observaciones": "Apply preventively, and when favor the conditions for development of the disease, to carry out three applications with a 7-day interval. RSCO-FUNG-0320-001-002-050",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "KENJA 400 SC",
+        "ingrediente_activo": "ISOFETAMID"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "4.00",
+      "dosis_texto": "0.75-1.240 L",
+      "dosis_min": 0.75,
+      "dosis_max": 1.24,
+      "intervalo_aplicacion": null,
+      "grupo_quimico": "Carboxamide.",
+      "plaga_comun": "Gray mold",
+      "plaga_cientifica": "Botrytis cinerea",
+      "observaciones": "Make 2 applications with a 7-day interval. Start applications when presented with the favorable conditions for the disease. RSCO-FUNG-0379-X0115-064-036",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "RIDOMIL GOLD 480 SL / RIDOMIL GOLD 480 CS",
+        "ingrediente_activo": "METALAXIL-M (MEFENOXAM)"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "0.70",
+      "dosis_texto": "1.0 - 2.0 L",
+      "dosis_min": 1.0,
+      "dosis_max": 2.0,
+      "intervalo_aplicacion": "14 days",
+      "grupo_quimico": "Acilalaninas",
+      "plaga_comun": "Root rot",
+      "plaga_cientifica": "Phytophthora strawberry",
+      "observaciones": "Restricted use of the ground. At the beginning of each cycle of preventive cultivation, perform 3 applications to the soil at intervals of 14 days. RSCO- FUNG-0389-309-375-045",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "CONTROL XLP® 40 PH",
+        "ingrediente_activo": "MYCLOBUTANIL"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": 24,
+      "lmr_ppm": "2.00",
+      "dosis_texto": "228 - 250 gr",
+      "dosis_min": 228.0,
+      "dosis_max": 250.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Triazoles",
+      "plaga_comun": "Dusty miller",
+      "plaga_cientifica": "Sphaerotheca macular",
+      "observaciones": "Make two applications to the foliage at intervals of 7 days when the first ones appear symptoms of the disease. Volume of application 960-1060 L of water/ha. RSCO-FUNG- 0351-X0255-002-40.00",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "RALLY 40 W /EAGLE 40W",
+        "ingrediente_activo": "MYCLOBUTANIL"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": 24,
+      "lmr_ppm": null,
+      "dosis_texto": "228 g",
+      "dosis_min": 228.0,
+      "dosis_max": null,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Triazoles",
+      "plaga_comun": "Dusty miller",
+      "plaga_cientifica": "Sphaerotheca of the macula",
+      "observaciones": "Apply at intervals of 7 days, a maximum of 4 per cycle. Do not apply in drizzle RSCO-FUNG-0351-001-002-040",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "CUPERTRON",
+        "ingrediente_activo": "Copper oxychloride"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": "2.0 - 3.0 L",
+      "dosis_min": 2.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Inorganic",
+      "plaga_comun": "Anthracnose",
+      "plaga_cientifica": "Colletotrichum gloeosporioides",
+      "observaciones": "Do not apply with strong acids. The number of applications can be from 1 to 4 with a interval of 7 days between applications according to the progression of the disease and the environmental conditions that favor it. RSCO-FUNG-0328- 016-008-023",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "OXICOB 85",
+        "ingrediente_activo": "Copper oxychloride"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": "C. 3.0 - 4.0 Kg",
+      "dosis_min": 3.0,
+      "dosis_max": 4.0,
+      "intervalo_aplicacion": null,
+      "grupo_quimico": null,
+      "plaga_comun": "Gray mold",
+      "plaga_cientifica": "Botrytis cinerea",
+      "observaciones": "RSCO-FUNG-0328-011-002-085",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "SYSTEM WITH",
+        "ingrediente_activo": "Copper gluconate"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": "5.0 ml / L of water",
+      "dosis_min": 5.0,
+      "dosis_max": null,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Inorganic",
+      "plaga_comun": "Angular stain",
+      "plaga_cientifica": "Xanthomonas of strawberries",
+      "observaciones": "Make 3 applications at an interval of 7 days. apply as soon as the first ones are detected symptoms. RSCO-FUNG- 305G-X0050-375-35.676",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "UMBRAL",
+        "ingrediente_activo": "Copper gluconate"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": "3.0-5.0 ml / L of water",
+      "dosis_min": 3.0,
+      "dosis_max": 5.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Angular stain",
+      "plaga_cientifica": "Xanthomonas of strawberries",
+      "observaciones": null,
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "CAVE",
+        "ingrediente_activo": "Copper octanoate"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "1.5-2.5 L",
+      "dosis_min": 1.5,
+      "dosis_max": 2.5,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Inorganic",
+      "plaga_comun": "Dusty miller / Gray mold of strawberry",
+      "plaga_cientifica": "Sphaerotheca macularis / Botrytis ash-coloured",
+      "observaciones": "Make 4 applications at intervals of 7 days when the conditions are presented favorable for the development of the disease Application volume: 420 520 L/Ha. RSCO-FUNG-0397- 0268-064-10.5",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "SCALA 60 SC",
+        "ingrediente_activo": "PIRIMETANIL"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": 24,
+      "lmr_ppm": "15.00",
+      "dosis_texto": "1.0- 1.5 L",
+      "dosis_min": 1.0,
+      "dosis_max": 1.5,
+      "intervalo_aplicacion": "e 7 days",
+      "grupo_quimico": "Anilinopyrimidin no",
+      "plaga_comun": "Gray mold",
+      "plaga_cientifica": "Botrytis cinerea",
+      "observaciones": "Do not mix with Bordelaise sauce or with stock. sulfocalcic. RSCO-FUNG-0301G-301-064-055",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "PROPERTY 300 SC",
+        "ingrediente_activo": "PYRIOFENONE"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "0.90",
+      "dosis_texto": "333 ml",
+      "dosis_min": 333.0,
+      "dosis_max": null,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Benzoylpyridine e",
+      "plaga_comun": "Ash",
+      "plaga_cientifica": "Sphaerotheca macular",
+      "observaciones": "The use of an adjuvant is recommended. non-ionic organosilicon, at a rate of 0.025%. RSCO- FUNG-0355-X0098-064-27.30",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "HEAD LINE",
+        "ingrediente_activo": "PYRACLOSTROBIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": 24,
+      "lmr_ppm": "4.00",
+      "dosis_texto": "466 - 783 gr",
+      "dosis_min": 466.0,
+      "dosis_max": 783.0,
+      "intervalo_aplicacion": "7-14 days",
+      "grupo_quimico": "Metoxicarbam acts",
+      "plaga_comun": "Gray mold / Anthracnose Ash",
+      "plaga_cientifica": "Botrytis cinerea Colletotrichum gloeosporioides Sphaerotheca",
+      "observaciones": "RSCO-FUNG-0301O-301-009-024",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "ENDORSE WDG",
+        "ingrediente_activo": "Zinc Salt of POLYOXIN D"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "750-1500 g",
+      "dosis_min": 750.0,
+      "dosis_max": 1500.0,
+      "intervalo_aplicacion": "14 days",
+      "grupo_quimico": "Polioxins",
+      "plaga_comun": "Root rot and neck",
+      "plaga_cientifica": "Rhizoctonia solani",
+      "observaciones": "I made 2 applications in drenched or irrigation to intervals of 14 days in a preventive manner or when the first ones are presented symptoms.RSCO-FUNG-0302H-301-034-011",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "MASTERCOP",
+        "ingrediente_activo": "COPPER SULFATE"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": "A. 1.0 - 1.5 L",
+      "dosis_min": 1.0,
+      "dosis_max": 1.5,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Inorganics",
+      "plaga_comun": "Grey moho",
+      "plaga_cientifica": "Botrytis cinerea",
+      "observaciones": "Start applications preventively when the environmental conditions are favorable for the development of the disease, and make a minimum of two applications per week. RSCO-FUNG-0357-321-013- 021",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "BIOGIB 10 PS",
+        "ingrediente_activo": "Gibberellic Acid"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": 24,
+      "lmr_ppm": "ET",
+      "dosis_texto": "50-60 gr",
+      "dosis_min": 50.0,
+      "dosis_max": 60.0,
+      "intervalo_aplicacion": "15- 20 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Regulator of growth",
+      "plaga_cientifica": "N/A",
+      "observaciones": "Start the applications at the beginning of the fruit growth and repeat the same dose between 15 to 20 days. RSCO-0038/11/95",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "ETHERELMR 240",
+        "ingrediente_activo": "ETEPHON"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": null,
+      "lmr_ppm": "30.00",
+      "dosis_texto": "2.0-2.5 L/200 L",
+      "dosis_min": 2.0,
+      "dosis_max": 2.5,
+      "intervalo_aplicacion": "8 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Regulator of growth and cane ripener",
+      "plaga_cientifica": "N/A",
+      "observaciones": "Make 2 applications: The first one must to be carried out 2 weeks before defoliation, and the second must take place in a week after the first. RSCO- 3056/VI/94",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "ETHEPHON 240 LS",
+        "ingrediente_activo": "ETEPHON"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 1,
+      "reentrada_hrs": 24,
+      "lmr_ppm": "30.00",
+      "dosis_texto": "",
+      "dosis_min": null,
+      "dosis_max": null,
+      "intervalo_aplicacion": "8 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Regulator of growth and sugarcane ripener",
+      "plaga_cientifica": "N/A",
+      "observaciones": "Make 2 applications: The first must to be done 2 weeks before defoliation, and the second must take place in a week after the first. RSCO- 033/ll/02",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "SUPER CANDLE",
+        "ingrediente_activo": "CARFENTRAZONE ETHYL + Glyphosate"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": null,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "0.10 / 0.20",
+      "dosis_texto": "3.0-5.0 L",
+      "dosis_min": 3.0,
+      "dosis_max": 5.0,
+      "intervalo_aplicacion": "-",
+      "grupo_quimico": "Aril-Triazoline- nas/Glycines",
+      "plaga_comun": "Zacate Gramma Zacate Orquetilla Sunflower Little lamb",
+      "plaga_cientifica": "Cynodon dactylon Brachiaria plantaginea Helianthus annuus Acalypha sharp-leaved",
+      "observaciones": "Carry out total application in post-emergency to the weeds when they reach a height between 10- 15 cm, or application directed between the rows of the crops, ensuring there is no contact with tender shoots and the foliage of the crop. RSCO-MEZC-1257-301-345-067",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "DIURON 80 WP",
+        "ingrediente_activo": "DIURON"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 50,
+      "reentrada_hrs": 2,
+      "lmr_ppm": "0.10",
+      "dosis_texto": "2.5 - 5 Kg",
+      "dosis_min": 2.5,
+      "dosis_max": 5.0,
+      "intervalo_aplicacion": "-",
+      "grupo_quimico": "Ureas replaced",
+      "plaga_comun": "Broadleaf weed and pastures",
+      "plaga_cientifica": "N/A",
+      "observaciones": "Application according to the target weed. Consult your technician.",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "CAÑEX 80",
+        "ingrediente_activo": "DIURON"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": null,
+      "reentrada_hrs": 12,
+      "lmr_ppm": null,
+      "dosis_texto": "1 - 3 Kg",
+      "dosis_min": 1.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": null,
+      "grupo_quimico": null,
+      "plaga_comun": null,
+      "plaga_cientifica": null,
+      "observaciones": "RSCO-HEDE-0221-316-002-080",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "KATOR 80 PH",
+        "ingrediente_activo": "DIURON"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": null,
+      "reentrada_hrs": null,
+      "lmr_ppm": null,
+      "dosis_texto": "1 - 2.5 L",
+      "dosis_min": 1.0,
+      "dosis_max": 2.5,
+      "intervalo_aplicacion": null,
+      "grupo_quimico": null,
+      "plaga_comun": null,
+      "plaga_cientifica": null,
+      "observaciones": "RSCO-HEDE-0221-326-008-063",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "SELECT ULTRA",
+        "ingrediente_activo": "CLETHODIM"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 30,
+      "reentrada_hrs": 48,
+      "lmr_ppm": "0.30",
+      "dosis_texto": "2 L",
+      "dosis_min": 2.0,
+      "dosis_max": null,
+      "intervalo_aplicacion": "-",
+      "grupo_quimico": "Cyclohexanodi onas",
+      "plaga_comun": "Kikuyu grass / Grass grama / Cebadilla / Creole ryegrass / Grass forked / grass little fly",
+      "plaga_cientifica": "Pennisetum clandestine Cynodon dactylon / Bromus carinatus / Lolium multiflorum Brachiaria plantaginea Eragrostis Mexican",
+      "observaciones": "Carry out the foliar application in post-emergence. to the weeds and crops. I started the applications. when the weeds are 10 to 20 cm of height. RSCO-HEDE-0270-306-009-013",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "HELFOSAT",
+        "ingrediente_activo": "GLYPHOSATE"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": null,
+      "reentrada_hrs": 24,
+      "lmr_ppm": "0.20",
+      "dosis_texto": "2.0- 4.0 L",
+      "dosis_min": 2.0,
+      "dosis_max": 4.0,
+      "intervalo_aplicacion": "acid -",
+      "grupo_quimico": "Phosphoglyceric",
+      "plaga_comun": "Broadleaf weed and grasses",
+      "plaga_cientifica": "-",
+      "observaciones": "Post-emergent application aimed at the weed. No. registro Empresa Ingrediente Activo Enlaces RSCO-HEDE-0230-326-013-041",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "SEMPRA 75 GD",
+        "ingrediente_activo": "HALOSULFURON METHYL"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 14,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "0.05",
+      "dosis_texto": "50-70 g",
+      "dosis_min": 50.0,
+      "dosis_max": 70.0,
+      "intervalo_aplicacion": "-",
+      "grupo_quimico": "Sulfonylureas",
+      "plaga_comun": "Coquillo / Amaranth greens",
+      "plaga_cientifica": "Cyperus rotundus Amaranthus hybrid",
+      "observaciones": "Application in a semi-directed form to the part cutting of the crop stems. The application it should be directed at the weeds avoiding the direct contact of the crop. Using a application volume 300-500 L of water / ha RSCO-HEDE-0295-305-034-075",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "PARAQUAT 200",
+        "ingrediente_activo": "PARAQUAT"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 50,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "0.05",
+      "dosis_texto": "1.5 - 3 L",
+      "dosis_min": 1.5,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "-",
+      "grupo_quimico": "Bipyridyls",
+      "plaga_comun": "Broadleaf weeds and pastures",
+      "plaga_cientifica": "N/A",
+      "observaciones": "RSCO-HEDE-0244-328-013-026",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "QUEMOXONE",
+        "ingrediente_activo": "PARAQUAT"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": null,
+      "reentrada_hrs": null,
+      "lmr_ppm": null,
+      "dosis_texto": "",
+      "dosis_min": null,
+      "dosis_max": null,
+      "intervalo_aplicacion": null,
+      "grupo_quimico": null,
+      "plaga_comun": null,
+      "plaga_cientifica": null,
+      "observaciones": "RSCO-HEDE-0244-380-013-026",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "GRAMOXONE",
+        "ingrediente_activo": "PARAQUAT"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": null,
+      "reentrada_hrs": null,
+      "lmr_ppm": null,
+      "dosis_texto": "1.5 - 3 L",
+      "dosis_min": 1.5,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": null,
+      "grupo_quimico": null,
+      "plaga_comun": null,
+      "plaga_cientifica": null,
+      "observaciones": "RSCO-HEDE-0244-004-013-025",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "GRAMOCIL",
+        "ingrediente_activo": "PARAQUAT + DIURON"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 50,
+      "reentrada_hrs": 24,
+      "lmr_ppm": "0.05 / 0.10",
+      "dosis_texto": "1.5 - 3.0 L",
+      "dosis_min": 1.5,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "-",
+      "grupo_quimico": "Bipyridyls/Urea s",
+      "plaga_comun": "Broadleaf weeds and narrow",
+      "plaga_cientifica": "N/A",
+      "observaciones": "Application according to the target weed. Consult your technician.",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "GRAMURON",
+        "ingrediente_activo": "PARAQUAT + DIURON"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": null,
+      "reentrada_hrs": null,
+      "lmr_ppm": null,
+      "dosis_texto": "",
+      "dosis_min": null,
+      "dosis_max": null,
+      "intervalo_aplicacion": null,
+      "grupo_quimico": null,
+      "plaga_comun": null,
+      "plaga_cientifica": null,
+      "observaciones": "RSCO-MEZC-1229-307-008-038",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "BRAZA 300",
+        "ingrediente_activo": "PARAQUAT + DIURON"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": null,
+      "reentrada_hrs": 48,
+      "lmr_ppm": null,
+      "dosis_texto": "ONS 1.5 - 2.25 L",
+      "dosis_min": 1.5,
+      "dosis_max": 2.25,
+      "intervalo_aplicacion": null,
+      "grupo_quimico": null,
+      "plaga_comun": null,
+      "plaga_cientifica": null,
+      "observaciones": "RSCO-MEZC-1229-315-008-030",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "POST",
+        "ingrediente_activo": "SETHOXYDIM"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 45,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "5.00",
+      "dosis_texto": "1.5 L",
+      "dosis_min": 1.5,
+      "dosis_max": null,
+      "intervalo_aplicacion": "-",
+      "grupo_quimico": "Cyclohexanedi onas, Cyclohexane oxime",
+      "plaga_comun": "Grasses",
+      "plaga_cientifica": "N/A",
+      "observaciones": "Application according to the target weed. Consult your technician. RSCO- HEDE-0252-001-009-020",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "TIMOREX GOLD",
+        "ingrediente_activo": "TEA TREE OIL"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "1.0 - 1.5 L",
+      "dosis_min": 1.0,
+      "dosis_max": 1.5,
+      "intervalo_aplicacion": "7 DAYS",
+      "grupo_quimico": null,
+      "plaga_comun": "Midliú",
+      "plaga_cientifica": "Peronospora rubi",
+      "observaciones": "Create an application to the foliage. If it is necessary, to make three additional applications at intervals of 7 days . RSCO-FUNG-0302D- 303-009-024",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "AKABROWN / ACA LESS / AKAR OUT / KILLER AC / KILLMITE",
+        "ingrediente_activo": "Cinnamon Oil Oregano oil PEPPERMINT OIL CLOVE OIL NEEM OIL"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "1.0-1.5 L",
+      "dosis_min": 1.0,
+      "dosis_max": 1.5,
+      "intervalo_aplicacion": "-",
+      "grupo_quimico": "-",
+      "plaga_comun": "Acaricide",
+      "plaga_cientifica": "various",
+      "observaciones": "It is compatible with most of the agrochemicals. However, it is suggested to make tests before making the final mix. RSCO-MEZC-INAC-1101Q-0680-096-30.0",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "EPA 90",
+        "ingrediente_activo": "Vegetable Seed Oil OF SOY"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "1.0-3.0 L",
+      "dosis_min": 1.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 DAYS",
+      "grupo_quimico": "NC",
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettle",
+      "observaciones": "Make two applications to the foliage at intervals. of 7 days. RSCO-INAC- 0103F-301-009-090",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "ASPHIX 90",
+        "ingrediente_activo": "Vegetable Seed Oil OF SOY"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "1.0-3.0 L",
+      "dosis_min": 1.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 DAYS",
+      "grupo_quimico": "NC",
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettle",
+      "observaciones": "Make two applications to the foliage at intervals. of 7 days. RSCO-INAC- 0103F-301-009-090",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "AZADIRECT 1.2 CE",
+        "ingrediente_activo": "Vegetable Seed Oil OF SOY"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "1.0-1.5L",
+      "dosis_min": 1.0,
+      "dosis_max": 1.5,
+      "intervalo_aplicacion": "7 DAYS",
+      "grupo_quimico": null,
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettle",
+      "observaciones": "Apply when the first ones appear. insect populations, preventively. If necessary, repeat the applications at 7. days. RSCO-INAC-0101B-311-009-001",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "MY AZAN",
+        "ingrediente_activo": "Vegetable Seed Oil OF SOY"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": "0.250-1.00 L/100 L of water",
+      "dosis_min": 0.25,
+      "dosis_max": 1.0,
+      "intervalo_aplicacion": "7 DAYS",
+      "grupo_quimico": null,
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettle",
+      "observaciones": "Make two applications to the foliage at intervals of 7 days RSCO-INAC- 0101B-309-009-003",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "ECOZIN 3% CE",
+        "ingrediente_activo": "Vegetable Seed Oil OF SOY"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": "0-1.00 L/100 CV",
+      "dosis_min": 0.0,
+      "dosis_max": 1.0,
+      "intervalo_aplicacion": "7 DAYS",
+      "grupo_quimico": null,
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettle",
+      "observaciones": "Make two applications to the foliage, at intervals. of 7 days. RSCO- INAC-0101B-309-009-003",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "NEMESIS CE",
+        "ingrediente_activo": "Vegetable Seed Oil OF SOY"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": "0-1.00 L/100",
+      "dosis_min": 0.0,
+      "dosis_max": 1.0,
+      "intervalo_aplicacion": "7 DAYS",
+      "grupo_quimico": null,
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettles",
+      "observaciones": "Make two applications to the foliage, at intervals of 7 days. RSCO- INAC-0101B-309-009-003",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "PHC NEEEM",
+        "ingrediente_activo": "Vegetable Seed Oil OF SOY"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": "5 to 10 ml / L of water",
+      "dosis_min": 5.0,
+      "dosis_max": 10.0,
+      "intervalo_aplicacion": "10 to 15 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Araña roja / Mosca white / Ashes",
+      "plaga_cientifica": "Oligonychus punicae Trialeurodes vaporariorum Sphaerotheca spp",
+      "observaciones": "Do not use in combination with fertilizers. foliages, surfactants or systemic pesticides or those containing sulfur or metal ions such as manganese, magnesium, iron, zinc RSCO-INAC- 0101B-305-008-003",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "PREV-AM",
+        "ingrediente_activo": "ORANGE OIL"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "800 ml / 100 L of water",
+      "dosis_min": 800.0,
+      "dosis_max": 100.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettles",
+      "observaciones": "Make 2 applications to the foliage at intervals of 7 days; when the presence of the plague, protection period for at least 14 days; application volume 550-650 L of water/ha. RSCO-INAC-FUNG-0808-X0354-350-6.00",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "SONATA",
+        "ingrediente_activo": "Bacillus pumilus"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "3.0- 9.0 L",
+      "dosis_min": 3.0,
+      "dosis_max": 9.0,
+      "intervalo_aplicacion": "7 DAYS",
+      "grupo_quimico": "-",
+      "plaga_comun": "Ashes",
+      "plaga_cientifica": "Sphaerotheca macularis",
+      "observaciones": "Make 3 sprinkles on the foliage with intervals of 7 days using a approximate application volume of 600 liters of water/ha. RSCO-FUNG-0301Q-303-008-001",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "SERENADE MAX 14.6 / JAZZ WP",
+        "ingrediente_activo": "Bacillus subtilis"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "4.0 - 6.0 Kg",
+      "dosis_min": 4.0,
+      "dosis_max": 6.0,
+      "intervalo_aplicacion": "7 DAYS",
+      "grupo_quimico": "-",
+      "plaga_comun": "Ashes / Gray mold",
+      "plaga_cientifica": "Botrytis cinerea",
+      "observaciones": "Do not apply with insecticides, fungicides or nematicides. RSCO-FUNG-0395-319-002-015",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "FUNGIFREE-AB",
+        "ingrediente_activo": "Bacillus subtilis"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "1.5-2.5Kg",
+      "dosis_min": 1.5,
+      "dosis_max": 2.5,
+      "intervalo_aplicacion": null,
+      "grupo_quimico": "-",
+      "plaga_comun": "Anthracnose",
+      "plaga_cientifica": "Colletotrichum strawberry",
+      "observaciones": "In the case of Anthracnose and gray mold, carry out four applications to the foliage. In the case of apply three applications to the foliage. Interval of 7 days between each application. RSCO-FUNG-0302W-301-002-001",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "BAKTILLIS",
+        "ingrediente_activo": "Bacillus subtilis"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "2.0-3.0 L",
+      "dosis_min": 2.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": null,
+      "grupo_quimico": "-",
+      "plaga_comun": "Gray slime",
+      "plaga_cientifica": "Botrytis cinerea",
+      "observaciones": "It is compatible with fungicidal products and commonly used insecticides, except with copper compounds and antibiotics, such as streptomycin, gentamicin, kasugamycin and oxytetracycline. RSCO-FUNG-0395-0211- 064-5.15",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "DOUBLE NICKEL WG",
+        "ingrediente_activo": "Bacillus subtilis var. amyloliquefaciensCEPA D747"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "1.0-2-0 Kg",
+      "dosis_min": 1.0,
+      "dosis_max": 2.0,
+      "intervalo_aplicacion": "7 DAYS",
+      "grupo_quimico": "-",
+      "plaga_comun": "Brown rot",
+      "plaga_cientifica": "Botrytis cinerea",
+      "observaciones": "Make two applications to the foliage, to 7-day interval, when the crop is find in fruitfulness - harvest. Application volume 400 – 500 L/ha. RSCO- FUNG-0395-0475-034-25.0",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "SERIFEL",
+        "ingrediente_activo": "Bacillus amyloliquefaciens CEPA MBI 600"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "0.4 - 0.6 Kg",
+      "dosis_min": 0.4,
+      "dosis_max": 0.6,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "NC",
+      "plaga_comun": "Anthracnose C",
+      "plaga_cientifica": "olletotrichum acutatum",
+      "observaciones": "Make 3 foliar applications at intervals of 7 days in a preventive manner when present the optimal conditions for the disease development; volume of application 450-550L/ha. RSCO-FUNG-0395BA- X0143-002-11.0",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "PHC CONDOR",
+        "ingrediente_activo": "Bacillus thuringiensis"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": "2 to 5 g/L of minimum water diluted in 230 L of water.",
+      "dosis_min": 2.0,
+      "dosis_max": 5.0,
+      "intervalo_aplicacion": "5-7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Fruit worm",
+      "plaga_cientifica": "Helicoverpa zea",
+      "observaciones": "Start the application when the larvae they are in the earliest stages, repeating the application at an interval sufficient to maintain control (5-7 days later) depending on the development from the plant, the pressure of the pest and the environmental conditions. RSCO-INAC- 0105-366-002-015",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "DIPEL DF",
+        "ingrediente_activo": "Bacillus thuringiensis"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "0.75 - 1 Kg",
+      "dosis_min": 0.75,
+      "dosis_max": 1.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Fruit Worm",
+      "plaga_cientifica": "Heliothis zea",
+      "observaciones": "Make 3 applications to the foliage. 7-day intervals when detected the first individuals, use a adjuvant to improve coverage. Water volume 300-400 L/Ha. RSCO-INAC- 0105-362-372-010",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "BEAUVERIA",
+        "ingrediente_activo": "Beauveria bassiana"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "1 - 3 L",
+      "dosis_min": 1.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "White Fly",
+      "plaga_cientifica": "Bemisia tabaci",
+      "observaciones": "Make 3 applications to the foliage at intervals of 7 days, start the applications when it detect the first nymphs and adults volume of application 683-783L of water per Ha. RSCO- INAC-0195-X0013-009-0.40",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "Venerate",
+        "ingrediente_activo": "Burkholderia spp. CEPA A396"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "10-20 L",
+      "dosis_min": 10.0,
+      "dosis_max": 20.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Soldier worm / Fruit worm Sheet enrollee Measuring worm / Trips {\"Pulgon\":\"Aphid\",\"Chinche\":\"Bug\"} green",
+      "plaga_cientifica": "Spodoptera exigua / Heliothis sp/ Argyrotaenia Trichoplusia ni Frankliniella occidental Pentatrichopussp Nezara viridula",
+      "observaciones": "RSCO-INAC-1102B-X0026-064-94.46 EPA REGISTER 8459-14",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "GRANDEVO",
+        "ingrediente_activo": "Chromobacterium subtsugaeCEPA PRAA4-1"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "2.0- 3.0 Kg",
+      "dosis_min": 2.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Trips",
+      "plaga_cientifica": "Frankliniella of the west",
+      "observaciones": "RSCO-INAC-1103C-X0027-002-030 EPA REGISTER 84059-17",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "NATURAI MIM",
+        "ingrediente_activo": "ALCOHOLIC EXTRACT OF MIMOSA AND QUERCUS"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "4-5 ml/L of water",
+      "dosis_min": 4.0,
+      "dosis_max": 5.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "White mold",
+      "plaga_cientifica": "Botrytis cinerea",
+      "observaciones": "Start the application when the appear first symptoms. Application volume 470- 570 L of water/ha. RSCO-FUNG-0386-0558-009- 8.3",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "SYSTEM MAX",
+        "ingrediente_activo": "ALCOHOLIC EXTRACT OF MIMOSA AND QUERCUS"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": "4-5 ml/L of water",
+      "dosis_min": 4.0,
+      "dosis_max": 5.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "White mold",
+      "plaga_cientifica": "Botrytis cinerea",
+      "observaciones": "It is not recommended to mix with others. pesticides. Make two applications, to foliage, at intervals of 7 days. Start the applications when the first ones appear symptoms. Volume of application 470 - 570 L of water/ha. OMRI- IDA- 4639 /RSCO-FUNG–0386–0558–009–8.3",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "PROGRANIC NIMICIDE 80",
+        "ingrediente_activo": "EXTRACT OF OIL FROM NEEM"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "2.0-3.0 L",
+      "dosis_min": 2.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Red spider / Trips",
+      "plaga_cientifica": "Tetranychus nettles Frankliniella Western",
+      "observaciones": "Make 3 applications to the foliage at intervals 7 days, do not mix with strong products alkaline reaction RSCO INAC -01031-303-009",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "TRILOGY",
+        "ingrediente_activo": "EXTRACT OF OIL FROM NEEM"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "- 1.0 L/100 L of water",
+      "dosis_min": 1.0,
+      "dosis_max": 100.0,
+      "intervalo_aplicacion": "14 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettle",
+      "observaciones": "Apply during the flowering or fruiting stage of the crop, when the first are detected mites RSCO-INAC-01031-301-329-070",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "MIX PROCTETIVE N",
+        "ingrediente_activo": "EXTRACT OF OIL FROM NEEM"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "0.3 - 1.0 L / 100 L of Water",
+      "dosis_min": 0.3,
+      "dosis_max": 1.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettle",
+      "observaciones": "Apply treatments to the foliage at intervals from 7 to 10 days, consistently, during the vegetative development, in a preventive manner. Use 250 to 350 L of water/ha or whatever is requires to achieve good coverage. RSCO-INAC-0104S-X0298-064-20.0",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "PROGREEN NEEM CE 80",
+        "ingrediente_activo": "EXTRACT OF OIL FROM NEEM"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "2 - 3 L",
+      "dosis_min": 2.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Red spider / Trips",
+      "plaga_cientifica": "Tetranychus nettle Frankliniella western",
+      "observaciones": "Make 3 applications to the foliage, at intervals of 7 days, application volume 600 liters of water by Ha. RSCO-INAC-0103I-303-009-080",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "DIRAXTRA 80",
+        "ingrediente_activo": "EXTRACT OF OIL FROM NEEM"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "V 2.0-3.0 L",
+      "dosis_min": 2.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Red spider / Trips",
+      "plaga_cientifica": "Tetranychus nettle Frankliniella western",
+      "observaciones": "Make three applications to the foliage at intervals of 7 days, application volume 600 L of water/ha. RSCO-INAC-0103I-303-009-080",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "MIX PROTECTIVE A",
+        "ingrediente_activo": "GARLIC EXTRACT"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "0.3 - 1.0 L / 100 L of Water",
+      "dosis_min": 0.3,
+      "dosis_max": 1.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Trips of the flowers",
+      "plaga_cientifica": "FrankLiniella western",
+      "observaciones": "Make applications to the foliage at intervals from 7 to 10 days, consistently, during the vegetative development, preventively. Use 250 to 350 L of water/ha or what is requires to achieve good coverage. RSCO-INAC-01047-X0311-064-20.0",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "X-TRAC3",
+        "ingrediente_activo": "GARLIC EXTRACT EXTRACT OF CHILE SPICY/ EXTRACT OF CINNAMON"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "2.0- 3.0 L/ 200 L of water",
+      "dosis_min": 2.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Vinegar fly the stained wings",
+      "plaga_cientifica": "Drosophila suzukii",
+      "observaciones": "Create three applications aimed at foliage. intervals of 7 days. RSCO-INAC-1802-0243-052- 60",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "GAMMA ATTACK",
+        "ingrediente_activo": "GARLIC EXTRACT EXTRACT OF CHILE SPICY/ EXTRACT OF CINNAMON"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "2.0-3.0 L/200 L of water",
+      "dosis_min": 2.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Vinegar fly the stained wings Bemisia tab White fly / Trips",
+      "plaga_cientifica": "Drosophila suzukii aci Thrips tabaci",
+      "observaciones": "Interval of 7 days between applications, no mix with sulfurous, cupric products nor calcium hydroxide. RSCO-INAC-1802-0243-052- 60",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "PROGRANIC GAMMA",
+        "ingrediente_activo": "GARLIC EXTRACT EXTRACT OF CHILE SPICY/ EXTRACT OF CINNAMON"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "2.0-3.0 L/200 L of water",
+      "dosis_min": 2.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Vinegar fly the stained wings Bemisia tab White fly / Trips",
+      "plaga_cientifica": "Drosophila suzukii aci Thrips tabaci",
+      "observaciones": "Interval between applications of 7 days, no mix with sulfurated, cupric products neither calcium hydroxide RSCO INAC - 1802 -0243- 052-60",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "CAPSIALIL",
+        "ingrediente_activo": "GARLIC EXTRACT + EXTRACT OF CHILE"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "1.0 - 2.0 L",
+      "dosis_min": 1.0,
+      "dosis_max": 2.0,
+      "intervalo_aplicacion": "-",
+      "grupo_quimico": "-",
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tentranychus nettle",
+      "observaciones": "Make 4 applications to the foliage, at intervals of 5 days. Add a coadjuvant to the mixture. water ratio of 1.0 mL/L. RSCO-MEZC-INAC- 1108A-X0026-009-031",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "BIO CRACK",
+        "ingrediente_activo": "AQUEOUS EXTRACT OF GARLIC/AQUEOUS EXTRACT OF Chamomile and Rue"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "1 - 3 L",
+      "dosis_min": 1.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Trips of the flowers",
+      "plaga_cientifica": "Frankiniella Occidental",
+      "observaciones": "Carry out 3 foliar applications at intervals of 7 days, start applications when detected presence of the plague in the crop, volume of application 470 - 470 L per Ha. RSCO-MEZC-1166- 301-008-097",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "MIX PROTECTIVE C",
+        "ingrediente_activo": "Cinnamon Extract"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "0.3 - 1.0 L / 100 L of Water",
+      "dosis_min": 0.3,
+      "dosis_max": 1.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Trips",
+      "plaga_cientifica": "Frankliniella western",
+      "observaciones": "Apply treatments to the foliage at intervals from 7 to 10 days, consistently, during the vegetative development, in a preventive manner. Use 250 to 350 L of water/ha or whatever is needed. requires to achieve good coverage. RSCO-INAC-0104R-X0265-064-20.0",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "BIO CINNAMON",
+        "ingrediente_activo": "Cinnamon Extract"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "2 - 3 L",
+      "dosis_min": 2.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Red spider / Trips",
+      "plaga_cientifica": "Tetranychus nettles Frankliniella Western",
+      "observaciones": "Make 3 applications to the foliage, at intervals of 7 days, application volume 600 liters of water for Ha. RSCO-RSCO-INAC-0104R-301-015-015",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "PROGREEN Acar",
+        "ingrediente_activo": "Cinnamon Extract"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "2 - 3 L",
+      "dosis_min": 2.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Red spider / Trips",
+      "plaga_cientifica": "Tetranychus nettle Frankliniella occidental",
+      "observaciones": "Make 3 applications to the foliage, at intervals of 7 days, application volume 600 Lt of water by Ha. RSCO-RSCO-INAC-0104R-301-015-015",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "PROGRANIC CINNACAR",
+        "ingrediente_activo": "Cinnamon Extract"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "2.0-3.0 L",
+      "dosis_min": 2.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Red spider / Trips",
+      "plaga_cientifica": "Tetranychus nettle Frankliniella western",
+      "observaciones": "Interval between applications of 7 days, no mix with sulfur products, cupric or neither calcium hydroxide. Application volume 600 L/ha. RSCO-INAC-0104R-301-015-015",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "PROGRAM OMEGA",
+        "ingrediente_activo": "EXTRACT OF CHICALOTE"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "3 L/200 L of water",
+      "dosis_min": 3.0,
+      "dosis_max": 200.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Vinegar fly of the stained wings",
+      "plaga_cientifica": "Drosophila suzukii",
+      "observaciones": "Make 3 applications directed at the foliage to 7-day interval. 90",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "PROGRANIC LARREA T",
+        "ingrediente_activo": "EXTRACT OF GOVERNOR"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "3 - 5 L",
+      "dosis_min": 3.0,
+      "dosis_max": 5.0,
+      "intervalo_aplicacion": "6 - 8 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Mildew",
+      "plaga_cientifica": "Peronospora rubi",
+      "observaciones": "Make 3 applications in foliar sprays to intervals of 8 and 6 days, start the applications upon observing the first symptoms of the enfermedad; volumen de aplicación 680 - 780 L of water. RSCO-FUNG-0301M-303-052-095",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "MEGA PROGRANIC",
+        "ingrediente_activo": "EXTRACT OF GOVERNOR"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "3.0-5.0 L",
+      "dosis_min": 3.0,
+      "dosis_max": 5.0,
+      "intervalo_aplicacion": "8 to 6 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Mildew",
+      "plaga_cientifica": "Peronospora rubi",
+      "observaciones": "Make three applications in foliar spray to intervals of 8 and 6 days, start the applications upon observing the first symptoms of the disease. RSCO-FUNG- 0301M-303-052-095",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "MIX PROCTETIVE M",
+        "ingrediente_activo": "MUSTARD EXTRACT"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "0.3 - 1.0 L / 100 L of Water",
+      "dosis_min": 0.3,
+      "dosis_max": 1.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Trips / Red spider",
+      "plaga_cientifica": "Frankliniella occidental Tetranychus nettle",
+      "observaciones": "Apply to foliage at intervals from 7 to 10 days, continuously, during the vegetative development, preventively. Use 250 to 350 L of water/ha or what is requires to achieve good coverage. RSCO-INAC-1113M-X0313-064-20.0",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "QL AGRI 35",
+        "ingrediente_activo": "QUILLAY EXTRACT Quillaja saponaria"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "2-4 ml / 1L of water",
+      "dosis_min": 2.0,
+      "dosis_max": 4.0,
+      "intervalo_aplicacion": "5 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettle",
+      "observaciones": "Make 2 applications directed at the foliage. every 5 days; with a volume of application of 400-1050 L of water/ha. RSCO-NEMA-0908-301-375-030",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "FLY-NOT",
+        "ingrediente_activo": "QUILLAY EXTRACT Quillaja saponaria"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "0.75 - 1.5 L 400 - 500 L of Water",
+      "dosis_min": 0.75,
+      "dosis_max": 1.5,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Trips",
+      "plaga_cientifica": "Frankliniella western",
+      "observaciones": "Make 3 applications to the foliage, at intervals of 7 days. RSCO-INAC-0105C-301-096-008",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "VEGEX WHITE FLY",
+        "ingrediente_activo": "TORVISCO EXTRACT + WORMWOOD + HOLY LEAF"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "4-8 ml / L of water",
+      "dosis_min": 4.0,
+      "dosis_max": 8.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "White fly",
+      "plaga_cientifica": "Bemisia tabaci",
+      "observaciones": "Start the applications on the crop when the presence of the first ones is detected individuals. RSCO-MEZC-INAC-1106R-X0009-375- 050",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "REGALIA MAXX",
+        "ingrediente_activo": "EXTRACT OF Reynoutria sachalinensis"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "1.25- 1.5 L",
+      "dosis_min": 1.25,
+      "dosis_max": 1.5,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Cenicilla / Antracnosis / Gray Moho",
+      "plaga_cientifica": "Sphaerotheca humuli Colletotrichum strawberry/Botrytis ash-colored",
+      "observaciones": "Applications at intervals of 7 days. RSCO- FUNG-0302Y-301-064-020",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "PROGRANIC PIRETRO",
+        "ingrediente_activo": "TAGETES EXTRACT"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "2.0- 3.0 L/ 200 L of water",
+      "dosis_min": 2.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Vinegar fly the stained wings",
+      "plaga_cientifica": "Drosophila suzukii",
+      "observaciones": "Do not mix it with sulfur-containing products, copper or calcium hydroxide. RSCO-INAC- 0350T-X0006-009-94.5",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "Progranic Tagetes",
+        "ingrediente_activo": "TAGETES EXTRACT"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "2 - 3 L/200 L of Water",
+      "dosis_min": 2.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Vinegar fly of the stained wings",
+      "plaga_cientifica": "Drosophila suzukii",
+      "observaciones": "Make 3 applications aimed at foliage. RSCO- INAC-0350T-X0006-009-94.5",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "RETRIX 4",
+        "ingrediente_activo": "TAGETES EXTRACT"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "2.0- 3.0 L",
+      "dosis_min": 2.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Vinegar fly the stained wings",
+      "plaga_cientifica": "Drosophila suzukii",
+      "observaciones": "Do not mix it with sulfur-containing products. copper or calcium hydroxide. RSCO-INAC- 0350T-X0006-009-94.5",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "witness",
+        "ingrediente_activo": "GERANIOL EXTRACTS, CITRONELLOL, NEROLIDOL FARMESOL"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": "1.0 to 1.5 ml / L",
+      "dosis_min": 1.0,
+      "dosis_max": null,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettles",
+      "observaciones": "Apply when detecting the first individuals. RSCO-MEZC-0101I-0321-009-1.418",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "VEGEX KUNEKA",
+        "ingrediente_activo": "EXTRACT OF QUASSIA NEEM, KARANJA"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "4-8 ml / L of water",
+      "dosis_min": 4.0,
+      "dosis_max": 8.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "NC",
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettles",
+      "observaciones": "Start the applications when on the crop the presence of the first ones is detected individuals. Application volume 785-850 L of water/ha. RSCO-MEZC-INAC-1107N-X0010-375- 006",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "SPIDER MAX",
+        "ingrediente_activo": "EXTRACT OF QUASSIA NEEM, KARANJA"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "4-8 ml / L of water",
+      "dosis_min": 4.0,
+      "dosis_max": 8.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "NC",
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettle",
+      "observaciones": "Make two applications to the foliage with intervals of 7 days. Start the applications when the presence is detected on the crop of the first individuals. RSCO-MEZC-INAC- 1107N-X0010-375-006",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "TEC-FORT",
+        "ingrediente_activo": "Pyrethrum Extract"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "1 -3 ml / L of A Water",
+      "dosis_min": 1.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Trips/ Lygus bug Aphid",
+      "plaga_cientifica": "Frankliniella occidentalis/Lygus Pentatrichopus leaf of fragae",
+      "observaciones": "Make 2 applications to the foliage at intervals of 7 days, start the applications when observe the first pest individuals on the plants; application volume 350-450 L of water/ha. RSCO-INAC-0185-X0358-009-4.50",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "VACCIPLANT",
+        "ingrediente_activo": "Laminaria"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": "1.75 L",
+      "dosis_min": 1.75,
+      "dosis_max": null,
+      "intervalo_aplicacion": "5 - 7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Gray slime",
+      "plaga_cientifica": "Botrytis cinerea",
+      "observaciones": "If the recommendation is to be made in concentration terms, it is recommended knowing the liters of water to have a good coverage at the time of application and of the phenological state of the plant, and thus adjust the equivalence in terms of ml/liter of water. RSCO-FUNG-0382-X0132-375-4.27",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "DTRUXIN",
+        "ingrediente_activo": "Metarhizium anisopliae"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "0.5-2.0 Kg",
+      "dosis_min": 0.5,
+      "dosis_max": 2.0,
+      "intervalo_aplicacion": "10 days",
+      "grupo_quimico": "NC",
+      "plaga_comun": "Blind hen / Colaspis Cyclocep",
+      "plaga_cientifica": "Phyllophaga ravida hala lunulata / Colaspis brown",
+      "observaciones": "Apply 'in drench', make applications to ten-day interval. RSCO-INAC-0101B-309- 009-003",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "PYRETHRUN 5% EC",
+        "ingrediente_activo": "Metarhizium anisopliae"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": null,
+      "dosis_texto": "0.85 - 1.35 L",
+      "dosis_min": 0.85,
+      "dosis_max": 1.35,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettle",
+      "observaciones": "Perform two sprayings on the foliage at intervals of 7 days. RSCO-INAC-0185-X0205-009-005",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "CRYSATRYN 0.2 PH",
+        "ingrediente_activo": "Pyrethrins"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "1.00",
+      "dosis_texto": "1.0 - 3.0 Kg",
+      "dosis_min": 1.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "Pyrethrins",
+      "plaga_comun": "Red Spider",
+      "plaga_cientifica": "Tetranychus nettle",
+      "observaciones": "Make two sprays to the foliage at intervals of 7 days. RSCO-INAC-0101I-329-002-0.20",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "PYREMAX",
+        "ingrediente_activo": "Pyrethrins"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": null,
+      "dosis_texto": "1.5-3.0 Kg",
+      "dosis_min": 1.5,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettle",
+      "observaciones": "The volume of water to be used is 950-1050 L. RSCO-INAC-0101I-329-002-0.20",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "BIRDCROWN",
+        "ingrediente_activo": "Pyrethrins"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": null,
+      "dosis_texto": "1.5-3.0 Kg",
+      "dosis_min": 1.5,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettle",
+      "observaciones": "Make two applications to the foliage, at intervals. of 7 days. RSCO-INAC-0101I-329-002-0.20",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "PORTRIN",
+        "ingrediente_activo": "Pyrethrins"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": null,
+      "dosis_texto": "CV 1.5 - 3.0 Kg",
+      "dosis_min": 1.5,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus urticaria",
+      "observaciones": "Make two applications of 950-1050 L of water/ Ha. RSCO-INAC-0101I-329-002-0.20",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "BIOLETRUM 5% EC",
+        "ingrediente_activo": "Pyrethrins"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": null,
+      "dosis_texto": "0.85 - 1.35 L",
+      "dosis_min": 0.85,
+      "dosis_max": 1.35,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": null,
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettles",
+      "observaciones": "Perform two sprays on the foliage at an interval 7 days. RSCO-INAC-0185-X0205-009-005",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "PAECIL",
+        "ingrediente_activo": "Paecilomyces fumosoroseus"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "500 - 600 g",
+      "dosis_min": 500.0,
+      "dosis_max": 600.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Aphid",
+      "plaga_cientifica": "Myzus persicae",
+      "observaciones": "Make 3 applications at an interval of 7 days; when the first individuals of are detected the pest; water volume 225-325 L/Ha. RSCO- INAC-0907-0409-002-20",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "SLEEPING PLACE",
+        "ingrediente_activo": "Paecilomyces fumosoroseus"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "240 - 480 g",
+      "dosis_min": 240.0,
+      "dosis_max": 480.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "White fly",
+      "plaga_cientifica": "Bemisia tabaci",
+      "observaciones": "Make 2 applications to the foliage with an interval of 7 days. RSCO-INAC-0910-0014-034-020",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "PFR-97 20% WDG",
+        "ingrediente_activo": "Isaria fumosoroseus"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "1.0-2.0 Kg",
+      "dosis_min": 1.0,
+      "dosis_max": 2.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus nettles",
+      "observaciones": "Application volume 570-670 L of water/ Ha. RSCO-INAC-0910-0014-034-020",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "IMPEDES",
+        "ingrediente_activo": "Sales Potassium Acids FATS"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "1.5 L/ 100 L of water",
+      "dosis_min": 1.5,
+      "dosis_max": 100.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Red spider",
+      "plaga_cientifica": "Tetranychus spp",
+      "observaciones": "Due to its mode of action, applying it alone is very effective and in combination acts as synergist of the other products. RSCO-INAC- 0101W-303-052-049",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "THE SOAP K",
+        "ingrediente_activo": "Sales Potassium Acids FATS"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "1.0- 3.0 L",
+      "dosis_min": 1.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Red spider / Trips",
+      "plaga_cientifica": "Tetranychus nettle Frankliniella western",
+      "observaciones": "Do not mix it with hard water and condition it to a pH of 6.5 to 7.5 for a better product action. RSCO-INAC-0101W-0426-375-50",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "ULTRALUX S",
+        "ingrediente_activo": "Sales Potassium Acids FATS"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "1.0- 3.0 L",
+      "dosis_min": 1.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Red spider / Trips",
+      "plaga_cientifica": "Tetranychus urticae / Frankliniella western",
+      "observaciones": "Make 3 applications to the foliage at intervals of 7 days, the application volume is 550- 650l/ha. RSCO-INAC-0101W-0426-375-50",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "NATUCONTROL",
+        "ingrediente_activo": "Trichoderma harzianum"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": "400-800g /100 L of water",
+      "dosis_min": 400.0,
+      "dosis_max": 800.0,
+      "intervalo_aplicacion": "10 days",
+      "grupo_quimico": "NC",
+      "plaga_comun": "Marchitez",
+      "plaga_cientifica": "Fusarium oxysporum",
+      "observaciones": "Make three applications to the foliage at intervals of 10 days. RSCO-FUNG-0301B-307-002-001",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "PHC T-22",
+        "ingrediente_activo": "Trichoderma harzianum"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "454- 908 g",
+      "dosis_min": 454.0,
+      "dosis_max": 908.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Root rot",
+      "plaga_cientifica": "Fusarium species",
+      "observaciones": "Make 3 applications in drench every 7 days. RSCO- FUNG-0301B-303-002-001",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "BLITE FREE / CASTLE",
+        "ingrediente_activo": "Streptomyces spp."
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "2.0 - 3.0 L",
+      "dosis_min": 2.0,
+      "dosis_max": 3.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Gray mold",
+      "plaga_cientifica": "Botrytis cinerea",
+      "observaciones": "Make 4 applications to the foliage, at intervals of 7 days, start the applications when detect the first signs of the disease; vol. Application 157 – 257 L of water/ha. RSCO-FUNG-0315S-X0165-52-62.46",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "ECOSWING",
+        "ingrediente_activo": "Swinglea glutinosa Blanco Merry"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 4,
+      "lmr_ppm": "ET",
+      "dosis_texto": "1.0 - 2.0 L",
+      "dosis_min": 1.0,
+      "dosis_max": 2.0,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Gray slime",
+      "plaga_cientifica": "Botrytis cinerea",
+      "observaciones": "Caliber to use a volume of water of approximately 400-500 L/ha. RSCO-FUNG- 0350S-X0138-009-82 .0",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "CAPSIKRON",
+        "ingrediente_activo": "GARLIC EXTRACT AND CAPSAICIN"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": "0.5 - 2.0 L",
+      "dosis_min": 0.5,
+      "dosis_max": 2.0,
+      "intervalo_aplicacion": "7",
+      "grupo_quimico": "NC",
+      "plaga_comun": "Trips",
+      "plaga_cientifica": "Frankliniella occidental",
+      "observaciones": "Start the foliar applications upon detecting the first individuals in the OMRI bik-7395 culture. RSCO-MEZC-INAC-1108A-X0023-009- 90.50",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "FOS POT IN",
+        "ingrediente_activo": "POTASSIUM ACID PHOSPHITE"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": "ONS 3.25 - 4.75 L",
+      "dosis_min": 3.25,
+      "dosis_max": 4.75,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "NC",
+      "plaga_comun": "Gray mold / Downy mildew",
+      "plaga_cientifica": "Botrytis cinerea Peronospora rubi",
+      "observaciones": "Make 4 applications to the foliage at intervals of 7 days, start the applications when you detect the first symptoms. RSCO-FUNG- 0633-0283-013-55.4",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    },
+    {
+      "producto_key": {
+        "nombre_comercial": "EDAY",
+        "ingrediente_activo": "Verticillium lecanii"
+      },
+      "cultivo": "Zarzamora",
+      "mercado": "EUA",
+      "intervalo_seguridad_dias": 12,
+      "reentrada_hrs": 12,
+      "lmr_ppm": "ET",
+      "dosis_texto": "1.25 - 2.5 g / L of water",
+      "dosis_min": 1.25,
+      "dosis_max": 2.5,
+      "intervalo_aplicacion": "7 days",
+      "grupo_quimico": "-",
+      "plaga_comun": "Blind hen",
+      "plaga_cientifica": "Phyllophagasp",
+      "observaciones": "Make 3 applications to the foliage. DT 191-2018",
+      "revision_lista": "19",
+      "fecha_lista": "2020-07-15"
+    }
+  ]
+}
