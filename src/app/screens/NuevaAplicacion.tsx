@@ -25,7 +25,7 @@ export function NuevaAplicacion() {
   const [currentStep, setCurrentStep] = useState(1);
   const [saving, setSaving] = useState(false);
   const navigate = useNavigate();
-  const { profile, productor, asesorProfile, responsableProfile } = useAuthContext();
+  const { profile, productor, asesorProfile, responsableProfile, user } = useAuthContext();
   const { ranchos } = useRanchos();
 
   const [formData, setFormData] = useState({
