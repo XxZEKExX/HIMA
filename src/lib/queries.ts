@@ -4,6 +4,7 @@ import type {
   AplicacionConProductos,
   AplicacionInsert,
   AplicacionProductoInsert,
+  AplicacionRica,
   AplicacionUpdate,
   Rancho,
 } from '@/types/database.types'
@@ -82,6 +83,48 @@ export async function insertarProductosAplicacion(
   }))
   const { error } = await supabase.from('aplicacion_productos').insert(rows)
   if (error) throw error
+}
+
+const APLICACION_RICA_SELECT = `
+  *,
+  ranchos (*),
+  productores!productor_id (
+    id,
+    profile_id,
+    profiles!profile_id (nombre_completo)
+  ),
+  asesor:profiles!asesor_id (nombre_completo),
+  responsable:profiles!responsable_inocuidad_id (nombre_completo),
+  aplicacion_productos (
+    *,
+    catalogo_productos (*)
+  )
+` as const
+
+export async function getAplicacionesRicas(productorId?: string): Promise<AplicacionRica[]> {
+  let query = supabase
+    .from('aplicaciones')
+    .select(APLICACION_RICA_SELECT)
+    .order('fecha_aplicacion', { ascending: false })
+
+  if (productorId) {
+    query = query.eq('productor_id', productorId)
+  }
+
+  const { data, error } = await query
+  if (error) throw error
+  return data as unknown as AplicacionRica[]
+}
+
+export async function getAplicacionRicaById(id: string): Promise<AplicacionRica> {
+  const { data, error } = await supabase
+    .from('aplicaciones')
+    .select(APLICACION_RICA_SELECT)
+    .eq('id', id)
+    .single()
+
+  if (error) throw error
+  return data as unknown as AplicacionRica
 }
 
 export async function actualizarAplicacion(

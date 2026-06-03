@@ -14,7 +14,14 @@ export default defineConfig({
     alias: {
       // Alias @ to the src directory
       '@': path.resolve(__dirname, './src'),
+      // Buffer polyfill — needed by exceljs in the browser
+      buffer: 'buffer',
     },
+  },
+
+  // ExcelJS needs global and Buffer available in browser bundles
+  define: {
+    global: 'globalThis',
   },
 
   // File types to support raw imports. Never add .css, .tsx, or .ts files to this.

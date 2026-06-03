@@ -1,64 +1,67 @@
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
-import { X, CheckCircle } from "lucide-react";
-
-// Mock data - in real app this would come from a data store
-const mockApplicationData = {
-  id: "1",
-  status: "Completado",
-  date: "2024-03-16",
-  time: "08:30",
-  producer: "Juan Pérez",
-  huerto: "Huerto El Valle",
-  huertoCode: "HV-001",
-  crop: "Frambuesa",
-  variety: "Heritage",
-  sector: "3",
-  surface: "5.5",
-  phenology: "Producción",
-  recommendationDate: "2024-03-15",
-  applicationDate: "2024-03-16",
-  startTime: "08:30",
-  endTime: "10:15",
-  products: [
-    {
-      commercialName: "Mancozeb 80%",
-      activeIngredient: "Mancozeb",
-      rsco: "RSCO-0045-2019",
-      pest: "Botrytis cinerea",
-      infestationLevel: "Medio",
-      dosePerHa: "2.5",
-      dosePer200L: "500",
-      totalProduct: "13.75",
-      daysToHarvest: "7",
-      reentryTime: "24",
-    },
-  ],
-  applicationType: "Foliar",
-  equipment: "Bomba de motor",
-  totalWater: "2750",
-  chlorination: true,
-  chlorineQuantity: "0.5",
-  pH: "6.5",
-  weather: "Parcialmente soleado",
-  ppe: {
-    "Traje protector": true,
-    "Guantes": true,
-    "Googles": true,
-    "Botas": true,
-    "Mascarillas": true,
-  },
-  leftover: false,
-  applicator: "Pedro García",
-  technicalAdvisor: "María González",
-  inocuidadResponsible: "Carlos Ramírez",
-  observations: "Aplicación realizada según recomendación técnica. Condiciones climáticas favorables.",
-};
+import { X, CheckCircle, Loader2, FileDown, FileText } from "lucide-react";
+import { toast } from "sonner";
+import { getAplicacionRicaById } from "@/lib/queries";
+import { generarExcelHistorial } from "@/lib/excel/generarExcelHistorial";
+import { formatFenologia } from "@/lib/fenologia";
+import type { AplicacionRica } from "@/types/database.types";
 
 export function DetalleAplicacion() {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
+  const [app, setApp] = useState<AplicacionRica | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [exportandoExcel, setExportandoExcel] = useState(false);
 
-  const data = mockApplicationData; // In real app, fetch by id
+  useEffect(() => {
+    if (!id) return;
+    getAplicacionRicaById(id)
+      .then(setApp)
+      .catch(err => toast.error(`Error cargando aplicación: ${err.message}`))
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  const handleExportExcel = async () => {
+    if (!app) return;
+    setExportandoExcel(true);
+    try {
+      const fecha = app.aplicacion.fecha_aplicacion.replaceAll("-", "");
+      const rancho = (app.ranchos?.nombre ?? "rancho")
+        .toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+      await generarExcelHistorial([app], `AgroCampo_Aplicacion_${rancho}_${fecha}.xlsx`);
+    } catch (err) {
+      toast.error("No se pudo generar el Excel");
+      console.error(err);
+    } finally {
+      setExportandoExcel(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-full flex items-center justify-center">
+        <Loader2 className="w-6 h-6 animate-spin text-[#2B7AB5]" />
+      </div>
+    );
+  }
+
+  if (!app) {
+    return (
+      <div className="min-h-full flex flex-col items-center justify-center gap-4 p-8">
+        <p className="text-gray-600 text-sm">Aplicación no encontrada</p>
+        <button
+          onClick={() => navigate("/historial")}
+          className="px-4 h-10 bg-[#2B7AB5] text-white rounded-xl text-sm"
+          style={{ fontWeight: 600 }}
+        >
+          Volver al historial
+        </button>
+      </div>
+    );
+  }
+
+  const a = app.aplicacion;
 
   return (
     <div className="min-h-full bg-white pb-[calc(72px+34px+64px)]">
@@ -75,10 +78,11 @@ export function DetalleAplicacion() {
         <div className="flex items-center gap-2">
           <span className="text-xs px-3 py-1 bg-[#E3F2FD] text-[#0D5A8F] rounded-full flex items-center gap-1">
             <CheckCircle className="w-3 h-3" />
-            {data.status}
+            {a.status === "completado" ? "Completado" : "Borrador"}
           </span>
           <span className="text-sm text-gray-600">
-            {data.date} · {data.time}
+            {a.fecha_aplicacion}
+            {a.hora_inicio ? ` · ${a.hora_inicio}` : ""}
           </span>
         </div>
       </header>
@@ -86,117 +90,82 @@ export function DetalleAplicacion() {
       {/* Scrollable Content */}
       <div className="p-4 space-y-6">
         {/* Parcela y Cultivo */}
-        <div>
-          <div className="bg-[#E3F2FD] -mx-4 px-4 py-2 mb-4">
-            <h3 className="text-[13px] text-[#0D5A8F]" style={{ fontWeight: 600 }}>
-              INFORMACIÓN DE PARCELA Y CULTIVO
-            </h3>
+        <Section title="INFORMACIÓN DE PARCELA Y CULTIVO">
+          <DataRow label="Productor" value={app.productores?.profiles?.nombre_completo ?? "—"} />
+          <DataRow label="Huerto" value={app.ranchos?.nombre ?? "—"} />
+          <DataRow label="Código de huerto" value={app.ranchos?.codigo ?? "—"} />
+          <DataRow label="Cultivo" value={app.ranchos?.cultivo ?? "—"} />
+          <DataRow label="Variedad" value={a.variedad ?? "—"} />
+          <div className="grid grid-cols-2 gap-4">
+            <DataRow label="Sector" value={a.sector ?? "—"} />
+            <DataRow label="Superficie" value={a.superficie_ha ? `${a.superficie_ha} ha` : "—"} />
           </div>
-          <div className="space-y-3">
-            <DataRow label="Productor" value={data.producer} />
-            <DataRow label="Huerto" value={data.huerto} />
-            <DataRow label="Código de huerto" value={data.huertoCode} />
-            <DataRow label="Cultivo" value={data.crop} />
-            <DataRow label="Variedad" value={data.variety} />
-            <div className="grid grid-cols-2 gap-4">
-              <DataRow label="Sector" value={data.sector} />
-              <DataRow label="Superficie" value={`${data.surface} ha`} />
-            </div>
-            <DataRow label="Etapa fenológica" value={data.phenology} />
-            <DataRow
-              label="Fecha recomendación"
-              value={data.recommendationDate}
-            />
-            <DataRow label="Fecha aplicación" value={data.applicationDate} />
-            <div className="grid grid-cols-2 gap-4">
-              <DataRow label="Hora inicio" value={data.startTime} />
-              <DataRow label="Hora fin" value={data.endTime} />
-            </div>
+          <DataRow label="Etapa fenológica" value={formatFenologia(a.fenologia ?? undefined)} />
+          <DataRow label="Fecha recomendación" value={a.fecha_recomendacion ?? "—"} />
+          <DataRow label="Fecha aplicación" value={a.fecha_aplicacion} />
+          <div className="grid grid-cols-2 gap-4">
+            <DataRow label="Hora inicio" value={a.hora_inicio ?? "—"} />
+            <DataRow label="Hora fin" value={a.hora_fin ?? "—"} />
           </div>
-        </div>
+        </Section>
 
         {/* Productos */}
-        <div>
-          <div className="bg-[#E3F2FD] -mx-4 px-4 py-2 mb-4">
-            <h3 className="text-[13px] text-[#0D5A8F]" style={{ fontWeight: 600 }}>
-              PRODUCTOS APLICADOS
-            </h3>
-          </div>
-          {data.products.map((product, index) => (
-            <div key={index} className="mb-4 pb-4 border-b border-gray-200 last:border-0">
-              <div className="text-sm mb-3" style={{ fontWeight: 600 }}>
-                {product.commercialName}
-              </div>
-              <div className="space-y-3">
-                <DataRow
-                  label="Ingrediente activo"
-                  value={product.activeIngredient}
-                />
-                <DataRow label="RSCO" value={product.rsco} />
-                <DataRow label="Objetivo" value={product.pest} />
-                <DataRow
-                  label="Nivel infestación"
-                  value={product.infestationLevel}
-                />
-                <div className="grid grid-cols-2 gap-4">
-                  <DataRow label="Dosis/ha" value={`${product.dosePerHa} kg`} />
-                  <DataRow
-                    label="Dosis/200L"
-                    value={`${product.dosePer200L} g`}
-                  />
+        <Section title="PRODUCTOS APLICADOS">
+          {app.aplicacion_productos.length === 0 ? (
+            <p className="text-sm text-gray-500">Sin productos registrados</p>
+          ) : (
+            app.aplicacion_productos.map((p, index) => (
+              <div key={p.id} className="mb-4 pb-4 border-b border-gray-200 last:border-0">
+                <div className="text-sm mb-3" style={{ fontWeight: 600 }}>
+                  {p.catalogo_productos.nombre_comercial}
                 </div>
-                <DataRow
-                  label="Total usado"
-                  value={`${product.totalProduct} kg`}
-                />
-                <div className="grid grid-cols-2 gap-4">
-                  <DataRow
-                    label="Días a cosecha"
-                    value={`${product.daysToHarvest} días`}
-                  />
-                  <DataRow
-                    label="Reentrada"
-                    value={`${product.reentryTime} hrs`}
-                  />
+                <div className="space-y-3">
+                  <DataRow label="Ingrediente activo" value={p.catalogo_productos.ingrediente_activo} />
+                  <DataRow label="RSCO" value={p.catalogo_productos.rsco ?? "—"} />
+                  <DataRow label="Objetivo" value={p.plaga_objetivo ?? "—"} />
+                  <DataRow label="Nivel infestación" value={p.nivel_infestacion ?? "—"} />
+                  <div className="grid grid-cols-2 gap-4">
+                    <DataRow label="Dosis/ha" value={p.dosis_ha ? `${p.dosis_ha}` : "—"} />
+                    <DataRow label="Dosis/200L" value={p.dosis_200l ? `${p.dosis_200l}` : "—"} />
+                  </div>
+                  <DataRow label="Total usado" value={p.total_producto ? `${p.total_producto}` : "—"} />
+                  <div className="grid grid-cols-2 gap-4">
+                    <DataRow label="Días a cosecha" value={p.dias_cosecha ? `${p.dias_cosecha} días` : "—"} />
+                    <DataRow label="Reentrada" value={p.reentrada_hrs ? `${p.reentrada_hrs} hrs` : "—"} />
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))
+          )}
+        </Section>
 
         {/* Aplicación y Agua */}
-        <div>
-          <div className="bg-[#E3F2FD] -mx-4 px-4 py-2 mb-4">
-            <h3 className="text-[13px] text-[#0D5A8F]" style={{ fontWeight: 600 }}>
-              APLICACIÓN Y AGUA
-            </h3>
-          </div>
-          <div className="space-y-3">
-            <DataRow label="Tipo de aplicación" value={data.applicationType} />
-            <DataRow label="Equipo" value={data.equipment} />
-            <DataRow label="Agua utilizada" value={`${data.totalWater} L`} />
-            <DataRow label="Cloración" value={data.chlorination ? "Sí" : "No"} />
-            {data.chlorination && (
-              <>
-                <div className="grid grid-cols-2 gap-4">
-                  <DataRow label="Cantidad cloro" value={`${data.chlorineQuantity} L`} />
-                  <DataRow label="pH" value={data.pH} />
-                </div>
-              </>
-            )}
-            <DataRow label="Condiciones climáticas" value={data.weather} />
-          </div>
-        </div>
+        <Section title="APLICACIÓN Y AGUA">
+          <DataRow label="Tipo de aplicación" value={a.tipo_aplicacion} />
+          <DataRow label="Equipo" value={a.equipo ?? "—"} />
+          <DataRow label="Agua utilizada" value={a.total_agua_l ? `${a.total_agua_l} L` : "—"} />
+          <DataRow label="Cloración" value={a.cloracion ? "Sí" : "No"} />
+          {a.cloracion && (
+            <div className="grid grid-cols-2 gap-4">
+              <DataRow label="Cantidad cloro" value={a.cloro_cantidad_l ? `${a.cloro_cantidad_l} L` : "—"} />
+              <DataRow label="pH" value={a.cloro_ph ? `${a.cloro_ph}` : "—"} />
+            </div>
+          )}
+          <DataRow label="Condiciones climáticas" value={a.condicion_meteorologica ?? "—"} />
+        </Section>
 
         {/* EPP */}
-        <div>
-          <div className="bg-[#E3F2FD] -mx-4 px-4 py-2 mb-4">
-            <h3 className="text-[13px] text-[#0D5A8F]" style={{ fontWeight: 600 }}>
-              EQUIPO DE PROTECCIÓN PERSONAL
-            </h3>
-          </div>
+        <Section title="EQUIPO DE PROTECCIÓN PERSONAL">
           <div className="grid grid-cols-2 gap-3">
-            {Object.entries(data.ppe).map(([item, used]) => (
+            {(
+              [
+                ["Traje protector", a.epp_traje],
+                ["Guantes", a.epp_guantes],
+                ["Googles", a.epp_googles],
+                ["Botas", a.epp_botas],
+                ["Mascarillas", a.epp_mascarillas],
+              ] as [string, boolean][]
+            ).map(([item, used]) => (
               <div
                 key={item}
                 className={`flex items-center gap-2 px-3 py-2 rounded-lg ${
@@ -212,47 +181,54 @@ export function DetalleAplicacion() {
               </div>
             ))}
           </div>
-        </div>
+        </Section>
 
         {/* Personal */}
-        <div>
-          <div className="bg-[#E3F2FD] -mx-4 px-4 py-2 mb-4">
-            <h3 className="text-[13px] text-[#0D5A8F]" style={{ fontWeight: 600 }}>
-              PERSONAL Y RESPONSABLES
-            </h3>
-          </div>
-          <div className="space-y-3">
-            <DataRow label="Aplicador" value={data.applicator} />
-            <DataRow label="Asesor técnico" value={data.technicalAdvisor} />
-            <DataRow
-              label="Responsable inocuidad"
-              value={data.inocuidadResponsible}
-            />
-          </div>
-        </div>
+        <Section title="PERSONAL Y RESPONSABLES">
+          <DataRow label="Aplicador" value={a.aplicadores ?? "—"} />
+          <DataRow label="Asesor técnico" value={app.asesor?.nombre_completo ?? "—"} />
+          <DataRow label="Responsable inocuidad" value={app.responsable?.nombre_completo ?? "—"} />
+        </Section>
 
-        {/* Observations */}
-        {data.observations && (
-          <div>
-            <div className="bg-[#E3F2FD] -mx-4 px-4 py-2 mb-4">
-              <h3 className="text-[13px] text-[#0D5A8F]" style={{ fontWeight: 600 }}>
-                OBSERVACIONES
-              </h3>
-            </div>
-            <p className="text-sm text-gray-700">{data.observations}</p>
-          </div>
+        {a.observaciones && (
+          <Section title="OBSERVACIONES">
+            <p className="text-sm text-gray-700">{a.observaciones}</p>
+          </Section>
         )}
       </div>
 
       {/* Sticky Footer */}
       <div className="fixed bottom-[calc(72px+34px)] left-1/2 -translate-x-1/2 w-full max-w-[390px] bg-white border-t border-black/10 p-4 flex gap-3">
-        <button className="flex-1 h-12 border border-[#2B7AB5] text-[#2B7AB5] rounded-xl hover:bg-[#E3F2FD] transition-colors" style={{ fontWeight: 600 }}>
-          Exportar PDF
+        <button
+          onClick={handleExportExcel}
+          disabled={exportandoExcel}
+          className="flex-1 h-12 border border-[#2B7AB5] text-[#2B7AB5] rounded-xl hover:bg-[#E3F2FD] transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+          style={{ fontWeight: 600 }}
+        >
+          {exportandoExcel
+            ? <Loader2 className="w-4 h-4 animate-spin" />
+            : <FileDown className="w-4 h-4" />
+          }
+          Excel
         </button>
-        <button className="flex-1 h-12 bg-[#2B7AB5] text-white rounded-xl hover:bg-[#1E88C7] transition-colors" style={{ fontWeight: 600 }}>
-          Editar
+        <button className="flex-1 h-12 bg-[#2B7AB5] text-white rounded-xl hover:bg-[#1E88C7] transition-colors flex items-center justify-center gap-2" style={{ fontWeight: 600 }}>
+          <FileText className="w-4 h-4" />
+          PDF
         </button>
       </div>
+    </div>
+  );
+}
+
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <div className="bg-[#E3F2FD] -mx-4 px-4 py-2 mb-4">
+        <h3 className="text-[13px] text-[#0D5A8F]" style={{ fontWeight: 600 }}>
+          {title}
+        </h3>
+      </div>
+      <div className="space-y-3">{children}</div>
     </div>
   );
 }
@@ -261,7 +237,7 @@ function DataRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex justify-between items-start">
       <span className="text-sm text-gray-600">{label}</span>
-      <span className="text-sm text-right" style={{ fontWeight: 600 }}>
+      <span className="text-sm text-right max-w-[55%]" style={{ fontWeight: 600 }}>
         {value}
       </span>
     </div>

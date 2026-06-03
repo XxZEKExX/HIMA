@@ -2,7 +2,7 @@
 // Actualizar si se agregan columnas o tablas nuevas.
 
 export type Rol = 'super_admin' | 'admin_hima' | 'asesor_tecnico' | 'operario'
-export type CategoriaProducto = 'Fungicidas' | 'Insecticidas' | 'Adherentes' | 'Herbicidas'
+export type CategoriaProducto = 'Fungicidas' | 'Insecticidas' | 'Adherentes' | 'Herbicidas' | 'Reguladores' | 'Biorracionales' | 'Nematicidas'
 export type UnidadProducto = 'kg' | 'L'
 export type Fenologia = 'establecimiento' | 'floracion' | 'cuajado' | 'engorde' | 'produccion' | 'cosecha'
 export type TipoAplicacion = 'Foliar' | 'Drench'
@@ -116,13 +116,15 @@ export type Database = {
           id: string
           nombre_comercial: string
           ingrediente_activo: string
+          concentracion: string | null
+          empresa: string | null
           rsco: string | null
           categoria: CategoriaProducto
           dias_cosecha: number | null
           reentrada_hrs: number | null
           dosis_ha: number | null
           dosis_200l: number | null
-          unidad: UnidadProducto
+          unidad: UnidadProducto | null
           activo: boolean
           created_at: string
           updated_at: string
@@ -131,13 +133,15 @@ export type Database = {
           id?: string
           nombre_comercial: string
           ingrediente_activo: string
+          concentracion?: string | null
+          empresa?: string | null
           rsco?: string | null
           categoria: CategoriaProducto
           dias_cosecha?: number | null
           reentrada_hrs?: number | null
           dosis_ha?: number | null
           dosis_200l?: number | null
-          unidad: UnidadProducto
+          unidad?: UnidadProducto | null
           activo?: boolean
           created_at?: string
           updated_at?: string
@@ -146,13 +150,15 @@ export type Database = {
           id?: string
           nombre_comercial?: string
           ingrediente_activo?: string
+          concentracion?: string | null
+          empresa?: string | null
           rsco?: string | null
           categoria?: CategoriaProducto
           dias_cosecha?: number | null
           reentrada_hrs?: number | null
           dosis_ha?: number | null
           dosis_200l?: number | null
-          unidad?: UnidadProducto
+          unidad?: UnidadProducto | null
           activo?: boolean
           created_at?: string
           updated_at?: string
@@ -763,6 +769,21 @@ export type InventarioMovimientoUpdate = Database['public']['Tables']['inventari
 
 // Tipo compuesto: aplicación con productos (para vistas de detalle)
 export type AplicacionConProductos = Aplicacion & {
+  aplicacion_productos: (AplicacionProducto & {
+    catalogo_productos: CatalogoProducto
+  })[]
+}
+
+// Tipo rico: aplicación con todos los joins necesarios para PDF y Excel
+export type AplicacionRica = Aplicacion & {
+  ranchos: Rancho
+  productores: {
+    id: string
+    profile_id: string
+    profiles: { nombre_completo: string }
+  }
+  asesor: { nombre_completo: string } | null
+  responsable: { nombre_completo: string } | null
   aplicacion_productos: (AplicacionProducto & {
     catalogo_productos: CatalogoProducto
   })[]

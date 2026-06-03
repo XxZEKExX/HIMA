@@ -3,14 +3,18 @@ import { ChevronLeft, AlertTriangle } from "lucide-react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { useAuthContext } from "@/context/AuthContext";
+import { useRanchos } from "@/hooks/useRanchos";
 import { crearAplicacion, insertarProductosAplicacion } from "@/lib/queries";
+import { generarAplicacionPDF } from "@/lib/pdf/generarPDF";
 import type {
   AplicacionInsert,
   AplicacionProductoInsert,
+  CategoriaProducto,
   CondicionMeteorologica,
   Fenologia,
   NivelInfestacion,
   TipoEquipo,
+  UnidadProducto,
 } from "@/types/database.types";
 import { Step1ParcelaYCultivo } from "../components/nueva-aplicacion/Step1ParcelaYCultivo";
 import { Step2Productos } from "../components/nueva-aplicacion/Step2Productos";
@@ -22,6 +26,7 @@ export function NuevaAplicacion() {
   const [saving, setSaving] = useState(false);
   const navigate = useNavigate();
   const { profile, productor, asesorProfile, responsableProfile } = useAuthContext();
+  const { ranchos } = useRanchos();
 
   const [formData, setFormData] = useState({
     // Step 1
@@ -169,6 +174,53 @@ export function NuevaAplicacion() {
           }));
 
         await insertarProductosAplicacion(aplicacion.id, productos);
+      }
+
+      // ── Paso 3: generar PDF (no bloquea el guardado si falla) ────────────
+      const ranchoSeleccionado = ranchos.find((r) => r.id === formData.huerto)
+      if (ranchoSeleccionado && profile) {
+        const productosParaPDF = formData.products.map((p: any) => ({
+          id: crypto.randomUUID(),
+          aplicacion_id: aplicacion.id,
+          producto_id: p.productId as string,
+          plaga_objetivo: p.pest || null,
+          nivel_infestacion: (p.infestationLevel || null) as NivelInfestacion | null,
+          dosis_ha: p.dosePerHa ? parseFloat(p.dosePerHa) : null,
+          dosis_200l: p.dosePer200L ? parseFloat(p.dosePer200L) : null,
+          total_producto: p.totalProduct ? parseFloat(p.totalProduct) : null,
+          dias_cosecha: p.daysToHarvest ? parseInt(p.daysToHarvest, 10) : null,
+          reentrada_hrs: p.reentryTime ? parseInt(p.reentryTime, 10) : null,
+          created_at: new Date().toISOString(),
+          catalogo_productos: {
+            id: p.productId as string,
+            nombre_comercial: p.commercialName as string,
+            ingrediente_activo: p.activeIngredient as string,
+            rsco: p.rsco || null,
+            categoria: 'Fungicidas' as CategoriaProducto,
+            dias_cosecha: p.daysToHarvest ? parseInt(p.daysToHarvest, 10) : null,
+            reentrada_hrs: p.reentryTime ? parseInt(p.reentryTime, 10) : null,
+            dosis_ha: p.dosePerHa ? parseFloat(p.dosePerHa) : null,
+            dosis_200l: p.dosePer200L ? parseFloat(p.dosePer200L) : null,
+            unidad: 'kg' as UnidadProducto,
+            activo: true,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          },
+        }))
+
+        try {
+          await generarAplicacionPDF({
+            aplicacion,
+            productos: productosParaPDF,
+            rancho: ranchoSeleccionado,
+            asesor: asesorProfile,
+            responsable: responsableProfile,
+            operario: profile,
+            operarioEmail: user?.email,
+          })
+        } catch {
+          toast.warning("Registro guardado. No se pudo generar el PDF — descárgalo desde el historial.")
+        }
       }
 
       toast.success("Aplicación guardada correctamente");
