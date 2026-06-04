@@ -10,6 +10,7 @@ interface Props {
   updateFormData: (data: any) => void;
   onNext: () => void;
   onBack: () => void;
+  productosEnInventario?: string[]
 }
 
 const pestOptions = [
@@ -45,7 +46,7 @@ function calcularTotal(dosePerHa: string, surface: string): string {
   return (dose * sup).toFixed(4);
 }
 
-export function Step2Productos({ formData, updateFormData, onNext, onBack }: Props) {
+export function Step2Productos({ formData, updateFormData, onNext, onBack, productosEnInventario }: Props) {
   const { productos, loading: loadingCatalogo } = useCatalogoProductos();
   const [isAddingProduct, setIsAddingProduct] = useState(false);
   const [currentProduct, setCurrentProduct] = useState<typeof emptyProduct>({ ...emptyProduct });
@@ -148,6 +149,7 @@ export function Step2Productos({ formData, updateFormData, onNext, onBack }: Pro
                 productos={productos}
                 value={currentProduct.productId}
                 onSelect={handleProductSelect}
+                productosEnInventario={productosEnInventario}
               />
             )}
           </div>

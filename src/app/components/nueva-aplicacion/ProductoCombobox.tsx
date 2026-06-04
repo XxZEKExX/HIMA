@@ -32,8 +32,7 @@ interface Props {
   value: string                  // productId actualmente seleccionado
   onSelect: (id: string) => void
   disabled?: boolean
-  // TODO Sprint 3: poblar productosEnInventario desde saldos M2
-  productosEnInventario?: string[]  // ids de productos con stock en inventario del productor
+  productosEnInventario?: string[]
 }
 
 export function ProductoCombobox({ productos, value, onSelect, disabled, productosEnInventario }: Props) {

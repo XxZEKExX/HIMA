@@ -6,8 +6,14 @@ import type {
   AplicacionProductoInsert,
   AplicacionRica,
   AplicacionUpdate,
+  InventarioMovimiento,
+  InventarioSaldoRancho,
+  InventarioSaldoProductor,
   Rancho,
+  TipoMovimiento,
 } from '@/types/database.types'
+
+export type MovimientoConRancho = InventarioMovimiento & { ranchos: { nombre: string } }
 
 // ── Ranchos ──────────────────────────────────────────────────────────────────
 
@@ -140,4 +146,114 @@ export async function actualizarAplicacion(
 
   if (error) throw error
   return data
+}
+
+// ── Inventario ────────────────────────────────────────────────────────────────
+
+export async function getSaldosRancho(productorId: string): Promise<InventarioSaldoRancho[]> {
+  const { data, error } = await supabase
+    .from('v_inventario_saldo_rancho')
+    .select('*')
+    .eq('productor_id', productorId)
+    .order('nombre_comercial')
+  if (error) throw error
+  return (data ?? []) as InventarioSaldoRancho[]
+}
+
+export async function getSaldosProductor(productorId: string): Promise<InventarioSaldoProductor[]> {
+  const { data, error } = await supabase
+    .from('v_inventario_saldo_productor')
+    .select('*')
+    .eq('productor_id', productorId)
+    .order('nombre_comercial')
+  if (error) throw error
+  return (data ?? []) as InventarioSaldoProductor[]
+}
+
+export async function getMovimientosProducto(
+  productoId: string,
+  ranchoId?: string,
+): Promise<MovimientoConRancho[]> {
+  let query = supabase
+    .from('inventario_movimientos')
+    .select('*, ranchos(nombre)')
+    .eq('producto_id', productoId)
+    .order('fecha', { ascending: false })
+    .order('created_at', { ascending: false })
+    .limit(50) as ReturnType<typeof supabase.from>
+
+  if (ranchoId) query = (query as any).eq('rancho_id', ranchoId)
+
+  const { data, error } = await (query as any)
+  if (error) throw error
+  return (data ?? []) as MovimientoConRancho[]
+}
+
+export async function getSaldoActual(ranchoId: string, productoId: string): Promise<number> {
+  const { data, error } = await supabase.rpc('saldo_inventario', {
+    p_rancho_id: ranchoId,
+    p_producto_id: productoId,
+  })
+  if (error) throw error
+  return Number(data) ?? 0
+}
+
+export async function registrarMovimiento(mov: {
+  rancho_id: string
+  producto_id: string
+  tipo: TipoMovimiento
+  cantidad: number
+  fecha: string
+  referencia?: string | null
+  notas?: string | null
+  registrado_por: string
+}): Promise<void> {
+  const saldoActual = await getSaldoActual(mov.rancho_id, mov.producto_id)
+  if (mov.tipo === 'salida' && saldoActual < mov.cantidad) {
+    throw new Error(`Stock insuficiente. Disponible: ${saldoActual}`)
+  }
+  const delta = mov.tipo === 'salida' ? -mov.cantidad : mov.cantidad
+  const balance = saldoActual + delta
+  const { error } = await supabase.from('inventario_movimientos').insert({
+    rancho_id: mov.rancho_id,
+    producto_id: mov.producto_id,
+    tipo: mov.tipo,
+    cantidad: mov.cantidad,
+    balance,
+    referencia: mov.referencia ?? null,
+    notas: mov.notas ?? null,
+    fecha: mov.fecha,
+    registrado_por: mov.registrado_por,
+  })
+  if (error) throw error
+}
+
+export async function registrarSalidasAplicacion(
+  aplicacionId: string,
+  ranchoId: string,
+  productos: Array<{ productId: string; totalProduct: string }>,
+  registradoPor: string,
+  fecha: string,
+): Promise<void> {
+  for (const p of productos) {
+    const cantidad = parseFloat(p.totalProduct)
+    if (!cantidad || cantidad <= 0) continue
+    try {
+      const saldoActual = await getSaldoActual(ranchoId, p.productId)
+      const balance = saldoActual - cantidad
+      const { error } = await supabase.from('inventario_movimientos').insert({
+        rancho_id: ranchoId,
+        producto_id: p.productId,
+        tipo: 'salida' as TipoMovimiento,
+        cantidad,
+        balance,
+        aplicacion_id: aplicacionId,
+        fecha,
+        registrado_por: registradoPor,
+      })
+      if (error) console.warn(`[inv] insert error ${p.productId}:`, error.message)
+    } catch (err) {
+      console.warn(`[inv] salida fallida ${p.productId}:`, err)
+    }
+  }
 }

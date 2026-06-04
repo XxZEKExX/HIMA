@@ -4,7 +4,8 @@ import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { useAuthContext } from "@/context/AuthContext";
 import { useRanchos } from "@/hooks/useRanchos";
-import { crearAplicacion, insertarProductosAplicacion } from "@/lib/queries";
+import { crearAplicacion, insertarProductosAplicacion, registrarSalidasAplicacion } from "@/lib/queries";
+import { supabase } from "@/lib/supabase";
 import { generarAplicacionPDF } from "@/lib/pdf/generarPDF";
 import type {
   AplicacionInsert,
@@ -27,6 +28,7 @@ export function NuevaAplicacion() {
   const navigate = useNavigate();
   const { profile, productor, asesorProfile, responsableProfile, user } = useAuthContext();
   const { ranchos } = useRanchos();
+  const [productosEnInventario, setProductosEnInventario] = useState<string[]>([])
 
   const [formData, setFormData] = useState({
     // Step 1
@@ -80,6 +82,23 @@ export function NuevaAplicacion() {
       inocuidadResponsible: responsableProfile?.nombre_completo ?? prev.inocuidadResponsible,
     }));
   }, [profile, asesorProfile, responsableProfile]);
+
+  // Carga los IDs de productos con saldo > 0 para el rancho seleccionado
+  useEffect(() => {
+    if (!formData.huerto) {
+      setProductosEnInventario([])
+      return
+    }
+    supabase
+      .from('v_inventario_saldo_rancho')
+      .select('producto_id')
+      .eq('rancho_id', formData.huerto)
+      .gt('saldo', 0)
+      .then(({ data }) => {
+        setProductosEnInventario((data ?? []).map((r) => r.producto_id as string))
+      })
+      .catch(() => { /* silently ignore — no bloquea el flujo */ })
+  }, [formData.huerto])
 
   const updateFormData = (data: Partial<typeof formData>) => {
     setFormData((prev) => ({ ...prev, ...data }));
@@ -176,7 +195,21 @@ export function NuevaAplicacion() {
         await insertarProductosAplicacion(aplicacion.id, productos);
       }
 
-      // ── Paso 3: generar PDF (no bloquea el guardado si falla) ────────────
+      // ── Paso 3: registrar salidas de inventario (fire-and-forget) ────────
+      if (formData.products.length > 0 && user) {
+        registrarSalidasAplicacion(
+          aplicacion.id,
+          formData.huerto,
+          formData.products.map((p: any) => ({
+            productId: p.productId as string,
+            totalProduct: p.totalProduct as string,
+          })),
+          user.id,
+          formData.applicationDate,
+        ).catch((err) => console.warn('[inv] auto-salida:', err))
+      }
+
+      // ── Paso 4: generar PDF (no bloquea el guardado si falla) ────────────
       const ranchoSeleccionado = ranchos.find((r) => r.id === formData.huerto)
       if (ranchoSeleccionado && profile) {
         const productosParaPDF = formData.products.map((p: any) => ({
@@ -289,6 +322,7 @@ export function NuevaAplicacion() {
             updateFormData={updateFormData}
             onNext={nextStep}
             onBack={prevStep}
+            productosEnInventario={productosEnInventario}
           />
         )}
         {currentStep === 3 && (

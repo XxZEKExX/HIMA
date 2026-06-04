@@ -732,8 +732,41 @@ export type Database = {
         }
       }
     }
-    Views: Record<string, never>
-    Functions: Record<string, never>
+    Views: {
+      v_inventario_saldo_rancho: {
+        Row: {
+          rancho_id: string
+          rancho_nombre: string
+          productor_id: string
+          producto_id: string
+          nombre_comercial: string
+          ingrediente_activo: string
+          categoria: string
+          unidad: string | null
+          saldo: number
+          ultimo_movimiento: string | null
+          num_movimientos: number
+        }
+      }
+      v_inventario_saldo_productor: {
+        Row: {
+          productor_id: string
+          producto_id: string
+          nombre_comercial: string
+          ingrediente_activo: string
+          categoria: string
+          unidad: string | null
+          saldo: number
+          ultimo_movimiento: string | null
+        }
+      }
+    }
+    Functions: {
+      saldo_inventario: {
+        Args: { p_rancho_id: string; p_producto_id: string }
+        Returns: number
+      }
+    }
     Enums: Record<string, never>
   }
 }
@@ -766,6 +799,9 @@ export type AplicacionProductoUpdate = Database['public']['Tables']['aplicacion_
 export type InventarioMovimiento = Database['public']['Tables']['inventario_movimientos']['Row']
 export type InventarioMovimientoInsert = Database['public']['Tables']['inventario_movimientos']['Insert']
 export type InventarioMovimientoUpdate = Database['public']['Tables']['inventario_movimientos']['Update']
+
+export type InventarioSaldoRancho = Database['public']['Views']['v_inventario_saldo_rancho']['Row']
+export type InventarioSaldoProductor = Database['public']['Views']['v_inventario_saldo_productor']['Row']
 
 // Tipo compuesto: aplicación con productos (para vistas de detalle)
 export type AplicacionConProductos = Aplicacion & {
