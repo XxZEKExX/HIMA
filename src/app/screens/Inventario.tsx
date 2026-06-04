@@ -569,13 +569,15 @@ export function Inventario() {
         )}
       </div>
 
-      {/* FAB */}
-      <button
-        onClick={() => setShowSheet(true)}
-        className="fixed bottom-[calc(72px+34px+16px)] right-4 w-14 h-14 bg-primary rounded-full flex items-center justify-center shadow-lg z-10 hover:bg-agro-blue transition-colors"
-      >
-        <Plus className="w-6 h-6 text-white" />
-      </button>
+      {/* FAB — mismo ancla que el bottom-nav para quedar dentro del contenedor de 390px */}
+      <div className="fixed bottom-[calc(72px+34px+16px)] left-1/2 -translate-x-1/2 w-full max-w-[390px] flex justify-end px-4 pointer-events-none z-10">
+        <button
+          onClick={() => setShowSheet(true)}
+          className="pointer-events-auto w-14 h-14 bg-primary rounded-full flex items-center justify-center shadow-lg hover:bg-agro-blue transition-colors"
+        >
+          <Plus className="w-6 h-6 text-white" />
+        </button>
+      </div>
 
       {/* Bottom sheet */}
       {showSheet && user && (
