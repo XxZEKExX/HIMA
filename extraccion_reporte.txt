@@ -1,0 +1,82 @@
+======================================================================
+REPORTE DE EXTRACCIÓN ANEBERRIES
+======================================================================
+
+CULTIVO: Frambuesa
+  Productos en catálogo:     285
+  Autorizaciones:            287
+  dosis_texto nulas:         11
+  intervalo_seguridad nulos: 38
+  Categorías detectadas:     ['Biorracionales', 'Fungicidas', 'Herbicidas', 'Insecticidas', 'Rodenticidas']
+
+  PRODUCTOS SIN DOSIS (11 filas):
+      Frambuesa | Pag 3 | CONCORD 100 CE                 | IA: BIFENTRINA
+      Frambuesa | Pag 4 | HERCULES 5G                    | IA: DIAZINON
+      Frambuesa | Pag 4 | BALAZO 25                      | IA: DIAZINON
+      Frambuesa | Pag 5 | BRIANTUS                       | IA: SPIRODICLOFEN
+      Frambuesa | Pag 12 | GREEN SA                       | IA: DIOXIDO DE HIDROGENO
+      Frambuesa | Pag 14 | DF HB/ HiBio BLUESHIELD 20 WG, | IA: HIDROXIDO CUPRICO
+      Frambuesa | Pag 18 | QUEMOXONE                      | IA: PARAQUAT
+      Frambuesa | Pag 18 | GRAMOXONE                      | IA: PARAQUAT
+      Frambuesa | Pag 19 | GEMELOS                        | IA: PARAQUAT + DIURON
+      Frambuesa | Pag 19 | GRAMURON                       | IA: PARAQUAT + DIURON
+      Frambuesa | Pag 32 | NATURACIDE                     | IA: ARGEMONINA, BERBERINA, RI
+
+CULTIVO: Fresa
+  Productos en catálogo:     302
+  Autorizaciones:            307
+  dosis_texto nulas:         20
+  intervalo_seguridad nulos: 139
+  Categorías detectadas:     ['Biorracionales', 'Fungicidas', 'Herbicidas', 'Insecticidas']
+
+  PRODUCTOS SIN DOSIS (20 filas):
+      Fresa | Pag 2 | CENTRIC 185.6 SC / THIABA 185. | IA: ABAMECTINA + THIAMETOXAM
+      Fresa | Pag 4 | SUMATRUS                       | IA: FENPYROXIMATO
+      Fresa | Pag 5 | TACSAFOR 1000                  | IA: MALATHION
+      Fresa | Pag 5 | MALATION 1000 TRIDENTE         | IA: MALATHION
+      Fresa | Pag 7 | BRIANTUS                       | IA: SPIRODICLOFEN
+      Fresa | Pag 9 | MAXTROBIN / MUNIN              | IA: AZOXISTROBIN
+      Fresa | Pag 17 | ZIO 60 WP                      | IA: TETRACONAZOLE
+      Fresa | Pag 18 | CERCOBIN-M                     | IA: TIOFANATO DE METILO
+      Fresa | Pag 18 | FUNSIN 70 / PIREOS 70          | IA: TIOFANATO DE METILO
+      Fresa | Pag 18 | TOPNATE 70                     | IA: TIOFANATO DE METILO
+      Fresa | Pag 18 | PRONTIUS                       | IA: TIOFANATO DE METILO
+      Fresa | Pag 18 | TERRAGUARD                     | IA: TIOFANATO DE METILO
+      Fresa | Pag 20 | AKAR OUT / KILLER AC / KILLMIT | IA: ACEITE DE CANELA ACEITE D
+      Fresa | Pag 22 | NEEM CE 80                     | IA: EXTRACTO DE ACEITE DE NEE
+      Fresa | Pag 23 | AGRICOLA OMEGA                 | IA: EXTRACTO DE CHICALOTE
+      Fresa | Pag 23 | STAR AGRICOLA MEGA             | IA: EXTRACTO DE GOBERNADORA
+      Fresa | Pag 23 | PIRETRINAS / NATURACIDE        | IA: EXTRACTO DE TAGETES
+      Fresa | Pag 23 | PIRETRO                        | IA: EXTRACTO DE TAGETES
+      Fresa | Pag 24 | ULTRA CANELA / PRO CANELA /    | IA: EXTRACTO DE CANELA
+      Fresa | Pag 28 | JABON K / POTASIUM SALT        | IA: SALES POTÁSICAS DE ÁCIDOS
+
+CULTIVO: Mora azul
+  Productos en catálogo:     165
+  Autorizaciones:            165
+  dosis_texto nulas:         1
+  intervalo_seguridad nulos: 10
+  Categorías detectadas:     ['Biorracionales', 'Fungicidas', 'Herbicidas', 'Insecticidas']
+
+  PRODUCTOS SIN DOSIS (1 filas):
+      Mora azul | Pag 1 | ABAMIT 3.6 EW                  | IA: ABAMECTINA
+
+======================================================================
+NOTAS PARA REVISIÓN ANTES DE CARGAR A SUPABASE
+======================================================================
+
+1. RODENTICIDAS (Frambuesa): 'Rodenticidas' no está en el CHECK de
+   categorías válidas del seed actual. Ampliar el CHECK antes de cargar.
+
+2. DOSIS VACÍAS: Las filas con dosis_texto nulo/vacío son blancos
+   REALES en el PDF — no errores de extracción. Decidir valor antes de
+   cargar (dosis_texto es NOT NULL en BD).
+
+3. HERBICIDAS con encabezados repetidos (PARAQUAT, DIURON, GLIFOSATO,
+   PARAQUAT+DIURON): verificar en los JSON que categoria='Herbicidas'.
+
+4. Categoría 'Biorracionales' puede no estar en enum de BD; verificar.
+
+5. Sub-tablas de pocas columnas en Fresa (pág.1 ABAMECTINA block,
+   pág.19 BIORRACIONALES): intv_apl, obs, lmr, grupo_quimico son null
+   para esos productos — completar manualmente si es necesario.
