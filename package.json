@@ -6,7 +6,8 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite",
-    "seed:aneberries": "tsx scripts/seed-aneberries-zarzamora.ts"
+    "seed:aneberries": "tsx scripts/seed-aneberries-zarzamora.ts",
+    "seed:aneberries:todos": "tsx scripts/seed-aneberries-todos.ts"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
