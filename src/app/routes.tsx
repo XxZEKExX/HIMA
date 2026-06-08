@@ -1,7 +1,10 @@
 import { createBrowserRouter } from "react-router";
 import { Layout } from "./components/Layout";
 import { RequireAuth } from "./components/RequireAuth";
+import { RequireOrg } from "./components/RequireOrg";
 import { Login } from "./screens/Login";
+import { Registro } from "./screens/Registro";
+import { CompletarOrganizacion } from "./screens/CompletarOrganizacion";
 import { Home } from "./screens/Home";
 import { NuevaAplicacion } from "./screens/NuevaAplicacion";
 import { Inventario } from "./screens/Inventario";
@@ -27,25 +30,40 @@ export const router = createBrowserRouter([
     Component: Login,
   },
   {
+    path: "/registro",
+    Component: Registro,
+  },
+  {
     path: "/",
     Component: RequireAuth,
     children: [
+      // Accesible sin org — para completar el alta después del signUp
       {
-        Component: Layout,
+        path: "completar-organizacion",
+        Component: CompletarOrganizacion,
+      },
+      // Resto de la app requiere org_id configurado
+      {
+        Component: RequireOrg,
         children: [
-          { index: true, Component: Home },
-          { path: "nueva-aplicacion", Component: NuevaAplicacion },
-          { path: "inventario", Component: Inventario },
-          { path: "historial", Component: Historial },
-          { path: "historial/:id", Component: DetalleAplicacion },
-          { path: "perfil", Component: Perfil },
-          { path: "inocuidad/botiquin", Component: BotiquinPrimerosAuxilios },
-          { path: "inocuidad/vidrio-plastico", Component: InspeccionVidrioPlastico },
-          { path: "inocuidad/fertilizacion", Component: RegistroFertilizacion },
-          { path: "inocuidad/perimetral", Component: InspeccionPerimetral },
-          { path: "inocuidad/cosecha", Component: RegistroCosechaLiberacion },
-          { path: "inocuidad/preoperacional", Component: InspeccionPreoperacionalCosecha },
-          { path: "inocuidad/limpieza-banos", Component: RegistroLimpiezaBanos },
+          {
+            Component: Layout,
+            children: [
+              { index: true, Component: Home },
+              { path: "nueva-aplicacion", Component: NuevaAplicacion },
+              { path: "inventario", Component: Inventario },
+              { path: "historial", Component: Historial },
+              { path: "historial/:id", Component: DetalleAplicacion },
+              { path: "perfil", Component: Perfil },
+              { path: "inocuidad/botiquin", Component: BotiquinPrimerosAuxilios },
+              { path: "inocuidad/vidrio-plastico", Component: InspeccionVidrioPlastico },
+              { path: "inocuidad/fertilizacion", Component: RegistroFertilizacion },
+              { path: "inocuidad/perimetral", Component: InspeccionPerimetral },
+              { path: "inocuidad/cosecha", Component: RegistroCosechaLiberacion },
+              { path: "inocuidad/preoperacional", Component: InspeccionPreoperacionalCosecha },
+              { path: "inocuidad/limpieza-banos", Component: RegistroLimpiezaBanos },
+            ],
+          },
         ],
       },
     ],

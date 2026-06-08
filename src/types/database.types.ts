@@ -1,7 +1,9 @@
-// Tipos TypeScript generados manualmente desde supabase/migrations/001_initial_schema.sql
-// Actualizar si se agregan columnas o tablas nuevas.
+// Tipos TypeScript generados manualmente — actualizar si se agregan columnas o tablas.
 
-export type Rol = 'super_admin' | 'admin_hima' | 'asesor_tecnico' | 'operario'
+export type Rol = 'super_admin' | 'admin_org' | 'asesor_tecnico' | 'operario'
+export type TipoOrganizacion = 'empresa' | 'individuo'
+export type PlanOrganizacion = 'free' | 'basico' | 'pro' | 'enterprise'
+export type EstadoOrganizacion = 'activa' | 'suspendida' | 'cancelada'
 export type CategoriaProducto = 'Fungicidas' | 'Insecticidas' | 'Adherentes' | 'Herbicidas' | 'Reguladores' | 'Biorracionales' | 'Nematicidas'
 export type UnidadProducto = 'kg' | 'L'
 export type Fenologia = 'establecimiento' | 'floracion' | 'cuajado' | 'engorde' | 'produccion' | 'cosecha'
@@ -21,12 +23,43 @@ export type ResultadoPreoperacional = 'SI' | 'NO' | 'NA'
 export type Database = {
   public: {
     Tables: {
+      organizaciones: {
+        Row: {
+          id: string
+          nombre: string
+          tipo: TipoOrganizacion
+          plan: PlanOrganizacion
+          estado: EstadoOrganizacion
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          nombre: string
+          tipo?: TipoOrganizacion
+          plan?: PlanOrganizacion
+          estado?: EstadoOrganizacion
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          nombre?: string
+          tipo?: TipoOrganizacion
+          plan?: PlanOrganizacion
+          estado?: EstadoOrganizacion
+          created_at?: string
+          updated_at?: string
+        }
+      }
+
       profiles: {
         Row: {
           id: string
           nombre_completo: string
           rol: Rol
           activo: boolean
+          org_id: string | null
           created_at: string
           updated_at: string
         }
@@ -35,6 +68,7 @@ export type Database = {
           nombre_completo: string
           rol: Rol
           activo?: boolean
+          org_id?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -43,6 +77,7 @@ export type Database = {
           nombre_completo?: string
           rol?: Rol
           activo?: boolean
+          org_id?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -54,6 +89,7 @@ export type Database = {
           profile_id: string
           asesor_id: string | null
           responsable_inocuidad_id: string | null
+          org_id: string
           created_at: string
           updated_at: string
         }
@@ -62,6 +98,7 @@ export type Database = {
           profile_id: string
           asesor_id?: string | null
           responsable_inocuidad_id?: string | null
+          org_id: string
           created_at?: string
           updated_at?: string
         }
@@ -70,6 +107,7 @@ export type Database = {
           profile_id?: string
           asesor_id?: string | null
           responsable_inocuidad_id?: string | null
+          org_id?: string
           created_at?: string
           updated_at?: string
         }
@@ -84,6 +122,7 @@ export type Database = {
           cultivo: string
           superficie_ha: number | null
           activo: boolean
+          org_id: string
           created_at: string
           updated_at: string
         }
@@ -95,6 +134,7 @@ export type Database = {
           cultivo: string
           superficie_ha?: number | null
           activo?: boolean
+          org_id: string
           created_at?: string
           updated_at?: string
         }
@@ -106,6 +146,7 @@ export type Database = {
           cultivo?: string
           superficie_ha?: number | null
           activo?: boolean
+          org_id?: string
           created_at?: string
           updated_at?: string
         }
@@ -199,6 +240,7 @@ export type Database = {
           responsable_inocuidad_id: string | null
           observaciones: string | null
           status: StatusAplicacion
+          org_id: string
           created_at: string
           updated_at: string
         }
@@ -235,6 +277,7 @@ export type Database = {
           responsable_inocuidad_id?: string | null
           observaciones?: string | null
           status?: StatusAplicacion
+          org_id: string
           created_at?: string
           updated_at?: string
         }
@@ -271,6 +314,7 @@ export type Database = {
           responsable_inocuidad_id?: string | null
           observaciones?: string | null
           status?: StatusAplicacion
+          org_id?: string
           created_at?: string
           updated_at?: string
         }
@@ -288,6 +332,7 @@ export type Database = {
           total_producto: number | null
           dias_cosecha: number | null
           reentrada_hrs: number | null
+          org_id: string
           created_at: string
         }
         Insert: {
@@ -301,6 +346,7 @@ export type Database = {
           total_producto?: number | null
           dias_cosecha?: number | null
           reentrada_hrs?: number | null
+          org_id: string
           created_at?: string
         }
         Update: {
@@ -314,6 +360,7 @@ export type Database = {
           total_producto?: number | null
           dias_cosecha?: number | null
           reentrada_hrs?: number | null
+          org_id?: string
           created_at?: string
         }
       }
@@ -331,6 +378,7 @@ export type Database = {
           notas: string | null
           fecha: string
           registrado_por: string
+          org_id: string
           created_at: string
           updated_at: string
         }
@@ -346,6 +394,7 @@ export type Database = {
           notas?: string | null
           fecha: string
           registrado_por: string
+          org_id: string
           created_at?: string
           updated_at?: string
         }
@@ -361,6 +410,7 @@ export type Database = {
           notas?: string | null
           fecha?: string
           registrado_por?: string
+          org_id?: string
           created_at?: string
           updated_at?: string
         }
@@ -380,6 +430,7 @@ export type Database = {
           desinfectante: boolean
           responsable_id: string | null
           firma_verificacion: boolean
+          org_id: string
           created_at: string
           updated_at: string
         }
@@ -396,6 +447,7 @@ export type Database = {
           desinfectante?: boolean
           responsable_id?: string | null
           firma_verificacion?: boolean
+          org_id: string
           created_at?: string
           updated_at?: string
         }
@@ -412,6 +464,7 @@ export type Database = {
           desinfectante?: boolean
           responsable_id?: string | null
           firma_verificacion?: boolean
+          org_id?: string
           created_at?: string
           updated_at?: string
         }
@@ -428,6 +481,7 @@ export type Database = {
           estado: EstadoVidrio
           observaciones: string | null
           registrado_por: string | null
+          org_id: string
           created_at: string
           updated_at: string
         }
@@ -441,6 +495,7 @@ export type Database = {
           estado: EstadoVidrio
           observaciones?: string | null
           registrado_por?: string | null
+          org_id: string
           created_at?: string
           updated_at?: string
         }
@@ -454,6 +509,7 @@ export type Database = {
           estado?: EstadoVidrio
           observaciones?: string | null
           registrado_por?: string | null
+          org_id?: string
           created_at?: string
           updated_at?: string
         }
@@ -474,6 +530,7 @@ export type Database = {
           cantidad_total: number
           operario_id: string | null
           verificacion_semanal: boolean
+          org_id: string
           created_at: string
           updated_at: string
         }
@@ -491,6 +548,7 @@ export type Database = {
           cantidad_total: number
           operario_id?: string | null
           verificacion_semanal?: boolean
+          org_id: string
           created_at?: string
           updated_at?: string
         }
@@ -508,6 +566,7 @@ export type Database = {
           cantidad_total?: number
           operario_id?: string | null
           verificacion_semanal?: boolean
+          org_id?: string
           created_at?: string
           updated_at?: string
         }
@@ -520,6 +579,7 @@ export type Database = {
           mes: string
           tiene_almacen: boolean
           responsable_id: string | null
+          org_id: string
           created_at: string
         }
         Insert: {
@@ -528,6 +588,7 @@ export type Database = {
           mes: string
           tiene_almacen?: boolean
           responsable_id?: string | null
+          org_id: string
           created_at?: string
         }
         Update: {
@@ -536,6 +597,7 @@ export type Database = {
           mes?: string
           tiene_almacen?: boolean
           responsable_id?: string | null
+          org_id?: string
           created_at?: string
         }
       }
@@ -549,6 +611,7 @@ export type Database = {
           item_clave: ItemPerimetral
           resultado: ResultadoPerimetral | null
           registrado_por: string | null
+          org_id: string
           created_at: string
           updated_at: string
         }
@@ -560,6 +623,7 @@ export type Database = {
           item_clave: ItemPerimetral
           resultado?: ResultadoPerimetral | null
           registrado_por?: string | null
+          org_id: string
           created_at?: string
           updated_at?: string
         }
@@ -571,6 +635,7 @@ export type Database = {
           item_clave?: ItemPerimetral
           resultado?: ResultadoPerimetral | null
           registrado_por?: string | null
+          org_id?: string
           created_at?: string
           updated_at?: string
         }
@@ -594,6 +659,7 @@ export type Database = {
           hora_fin_cosecha: string | null
           verificacion_semanal: boolean
           observaciones: string | null
+          org_id: string
           created_at: string
           updated_at: string
         }
@@ -614,6 +680,7 @@ export type Database = {
           hora_fin_cosecha?: string | null
           verificacion_semanal?: boolean
           observaciones?: string | null
+          org_id: string
           created_at?: string
           updated_at?: string
         }
@@ -634,6 +701,7 @@ export type Database = {
           hora_fin_cosecha?: string | null
           verificacion_semanal?: boolean
           observaciones?: string | null
+          org_id?: string
           created_at?: string
           updated_at?: string
         }
@@ -650,6 +718,7 @@ export type Database = {
           resultado: ResultadoPreoperacional | null
           codigo_correctivo: string | null
           registrado_por: string | null
+          org_id: string
           created_at: string
           updated_at: string
         }
@@ -663,6 +732,7 @@ export type Database = {
           resultado?: ResultadoPreoperacional | null
           codigo_correctivo?: string | null
           registrado_por?: string | null
+          org_id: string
           created_at?: string
           updated_at?: string
         }
@@ -676,6 +746,7 @@ export type Database = {
           resultado?: ResultadoPreoperacional | null
           codigo_correctivo?: string | null
           registrado_por?: string | null
+          org_id?: string
           created_at?: string
           updated_at?: string
         }
@@ -695,6 +766,7 @@ export type Database = {
           succion: boolean
           realizado_por_id: string | null
           firma_semanal: boolean
+          org_id: string
           created_at: string
           updated_at: string
         }
@@ -711,6 +783,7 @@ export type Database = {
           succion?: boolean
           realizado_por_id?: string | null
           firma_semanal?: boolean
+          org_id: string
           created_at?: string
           updated_at?: string
         }
@@ -727,6 +800,7 @@ export type Database = {
           succion?: boolean
           realizado_por_id?: string | null
           firma_semanal?: boolean
+          org_id?: string
           created_at?: string
           updated_at?: string
         }
@@ -766,12 +840,19 @@ export type Database = {
         Args: { p_rancho_id: string; p_producto_id: string }
         Returns: number
       }
+      completar_registro_organizacion: {
+        Args: { p_nombre_org: string }
+        Returns: string
+      }
     }
     Enums: Record<string, never>
   }
 }
 
 // Aliases de conveniencia por tabla
+export type Organizacion = Database['public']['Tables']['organizaciones']['Row']
+export type OrganizacionInsert = Database['public']['Tables']['organizaciones']['Insert']
+
 export type Profile = Database['public']['Tables']['profiles']['Row']
 export type ProfileInsert = Database['public']['Tables']['profiles']['Insert']
 export type ProfileUpdate = Database['public']['Tables']['profiles']['Update']

@@ -1,10 +1,15 @@
 import { createContext, useContext, type ReactNode } from 'react'
 import { supabase } from '@/lib/supabase'
-import { useAuth, type AuthState } from '@/hooks/useAuth'
+import { useAuth, type UseAuthReturn } from '@/hooks/useAuth'
 
-interface AuthContextValue extends AuthState {
+interface AuthContextValue extends UseAuthReturn {
   signIn: (email: string, password: string) => Promise<{ error: string | null }>
   signOut: () => Promise<void>
+  signUp: (
+    email: string,
+    password: string,
+    nombreCompleto: string
+  ) => Promise<{ error: string | null; requiresConfirmation: boolean }>
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
@@ -21,8 +26,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await supabase.auth.signOut()
   }
 
+  async function signUp(
+    email: string,
+    password: string,
+    nombreCompleto: string
+  ): Promise<{ error: string | null; requiresConfirmation: boolean }> {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: { nombre_completo: nombreCompleto } },
+    })
+    if (error) return { error: error.message, requiresConfirmation: false }
+    // Si no hay sesión, Supabase requiere confirmación por correo
+    return { error: null, requiresConfirmation: !data.session }
+  }
+
   return (
-    <AuthContext.Provider value={{ ...authState, signIn, signOut }}>
+    <AuthContext.Provider value={{ ...authState, signIn, signOut, signUp }}>
       {children}
     </AuthContext.Provider>
   )

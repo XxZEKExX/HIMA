@@ -1,87 +1,143 @@
-import { ChevronRight, User, MapPin, Package, Users, Bell, LogOut } from "lucide-react";
+import { useState } from 'react'
+import { LogOut, Pencil, Check, X } from 'lucide-react'
+import { toast } from 'sonner'
+import { useAuthContext } from '@/context/AuthContext'
+import { actualizarNombreCompleto } from '@/lib/queries'
 
-const settingsItems = [
-  { icon: MapPin, label: "Mis ranchos", path: "/ranchos" },
-  { icon: Package, label: "Mis cultivos", path: "/cultivos" },
-  { icon: Package, label: "Gestión de productos", path: "/productos" },
-  { icon: Users, label: "Asesores", path: "/asesores" },
-  { icon: Bell, label: "Notificaciones", path: "/notificaciones" },
-];
+const ROL_LABEL: Record<string, string> = {
+  super_admin: 'Super Admin',
+  admin_org: 'Administrador',
+  asesor_tecnico: 'Asesor Técnico',
+  operario: 'Operario de campo',
+}
+
+function inicialesDe(nombre: string): string {
+  return nombre
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((p) => p[0].toUpperCase())
+    .join('')
+}
 
 export function Perfil() {
+  const { user, profile, signOut, refreshProfile } = useAuthContext()
+
+  const [editando, setEditando] = useState(false)
+  const [nuevoNombre, setNuevoNombre] = useState(profile?.nombre_completo ?? '')
+  const [guardando, setGuardando] = useState(false)
+
+  async function handleGuardarNombre() {
+    if (!user || !nuevoNombre.trim()) return
+    setGuardando(true)
+    try {
+      await actualizarNombreCompleto(user.id, nuevoNombre.trim())
+      await refreshProfile()
+      setEditando(false)
+      toast.success('Nombre actualizado')
+    } catch {
+      toast.error('No se pudo actualizar el nombre')
+    } finally {
+      setGuardando(false)
+    }
+  }
+
+  function handleCancelarEdicion() {
+    setNuevoNombre(profile?.nombre_completo ?? '')
+    setEditando(false)
+  }
+
+  const nombre = profile?.nombre_completo ?? '—'
+  const rol = profile?.rol ? (ROL_LABEL[profile.rol] ?? profile.rol) : '—'
+  const iniciales = nombre !== '—' ? inicialesDe(nombre) : '?'
+
   return (
     <div className="min-h-full pb-[calc(72px+34px)]">
       {/* Header */}
-      <header className="bg-white border-b border-black/10 px-4 py-4">
-        <h1 className="text-gray-900" style={{ fontWeight: 600 }}>
+      <header className="bg-card border-b border-border px-4 py-4">
+        <h1 className="text-foreground" style={{ fontWeight: 600 }}>
           Perfil y Configuración
         </h1>
       </header>
 
-      <div className="p-4 space-y-6">
-        {/* User Profile Card */}
-        <div className="bg-white border border-black/10 rounded-xl p-6">
+      <div className="p-4 space-y-4">
+        {/* Tarjeta de usuario */}
+        <div className="bg-card border border-border rounded-xl p-6">
           <div className="flex items-center gap-4">
-            {/* Avatar */}
-            <div className="w-16 h-16 bg-[#2B7AB5] rounded-full flex items-center justify-center flex-shrink-0">
-              <span className="text-white text-xl" style={{ fontWeight: 600 }}>
-                JP
-              </span>
+            <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+              <span className="text-white text-xl" style={{ fontWeight: 600 }}>{iniciales}</span>
             </div>
-            <div className="flex-1">
-              <h2 className="text-gray-900 mb-1" style={{ fontWeight: 600 }}>
-                Juan Pérez
-              </h2>
-              <div className="text-sm text-gray-600">Huerto El Valle</div>
-              <div className="text-xs text-gray-600">
-                Operador de campo · Hortifrut
-              </div>
+
+            <div className="flex-1 min-w-0">
+              {editando ? (
+                <div className="flex items-center gap-2">
+                  <input
+                    value={nuevoNombre}
+                    onChange={(e) => setNuevoNombre(e.target.value)}
+                    autoFocus
+                    className="flex-1 h-9 px-3 rounded-lg border border-border bg-input-background text-sm
+                      focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                  />
+                  <button
+                    onClick={handleGuardarNombre}
+                    disabled={guardando || !nuevoNombre.trim()}
+                    className="p-1.5 rounded-lg bg-primary text-white disabled:opacity-50"
+                  >
+                    <Check className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={handleCancelarEdicion}
+                    className="p-1.5 rounded-lg border border-border text-muted-foreground"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <h2 className="text-foreground truncate" style={{ fontWeight: 600 }}>{nombre}</h2>
+                  <button
+                    onClick={() => {
+                      setNuevoNombre(profile?.nombre_completo ?? '')
+                      setEditando(true)
+                    }}
+                    className="p-1 text-muted-foreground hover:text-foreground flex-shrink-0"
+                  >
+                    <Pencil className="w-4 h-4" />
+                  </button>
+                </div>
+              )}
+              <p className="text-sm text-muted-foreground mt-0.5">{rol}</p>
+              {user?.email && (
+                <p className="text-xs text-muted-foreground truncate mt-0.5">{user.email}</p>
+              )}
             </div>
           </div>
         </div>
 
-        {/* Settings List */}
-        <div className="bg-white border border-black/10 rounded-xl overflow-hidden">
-          {settingsItems.map((item, index) => (
-            <button
-              key={item.label}
-              className={`w-full px-4 py-4 flex items-center gap-3 hover:bg-gray-50 transition-colors ${
-                index !== settingsItems.length - 1 ? "border-b border-black/10" : ""
-              }`}
-            >
-              <item.icon className="w-5 h-5 text-gray-600" />
-              <span className="flex-1 text-left text-sm" style={{ fontWeight: 600 }}>
-                {item.label}
-              </span>
-              <ChevronRight className="w-5 h-5 text-gray-400" />
-            </button>
-          ))}
-        </div>
-
-        {/* App Info */}
-        <div className="bg-white border border-black/10 rounded-xl p-4">
+        {/* Info de la app */}
+        <div className="bg-card border border-border rounded-xl p-4">
           <div className="text-center">
-            <div className="w-12 h-12 bg-[#2B7AB5] rounded-lg mx-auto mb-2 flex items-center justify-center">
-              <span className="text-white text-sm" style={{ fontWeight: 600 }}>
-                HF
-              </span>
+            <div className="w-12 h-12 bg-primary rounded-lg mx-auto mb-2 flex items-center justify-center">
+              <span className="text-white text-sm" style={{ fontWeight: 600 }}>HF</span>
             </div>
-            <div className="text-sm mb-1" style={{ fontWeight: 600 }}>
-              AgroCampo
-            </div>
-            <div className="text-xs text-gray-600 mb-2">Versión 2.1.0</div>
-            <div className="text-xs text-gray-600">
-              © 2024 Hortifrut. Todos los derechos reservados.
+            <div className="text-sm mb-1" style={{ fontWeight: 600 }}>AgroCampo</div>
+            <div className="text-xs text-muted-foreground mb-1">Versión 2.1.0</div>
+            <div className="text-xs text-muted-foreground">
+              © 2026 DuoMind Solutions &amp; Hima Inocuidad Alimentaria
             </div>
           </div>
         </div>
 
-        {/* Logout Button */}
-        <button className="w-full h-14 bg-white border border-[#C02A2A] text-[#C02A2A] rounded-xl flex items-center justify-center gap-2" style={{ fontWeight: 600 }}>
+        {/* Cerrar sesión */}
+        <button
+          onClick={() => signOut()}
+          className="w-full h-14 bg-card border border-agro-red text-agro-red rounded-xl flex items-center justify-center gap-2 hover:bg-agro-danger-fill transition-colors"
+          style={{ fontWeight: 600 }}
+        >
           <LogOut className="w-5 h-5" />
           Cerrar sesión
         </button>
       </div>
     </div>
-  );
+  )
 }

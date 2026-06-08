@@ -155,11 +155,12 @@ interface SheetProps {
   onClose: () => void
   onSaved: () => void
   registradoPor: string
+  orgId: string
   ranchoOptions: { value: string; label: string }[]
   productos: ReturnType<typeof useCatalogoProductos>["productos"]
 }
 
-function RegistrarMovimientoSheet({ onClose, onSaved, registradoPor, ranchoOptions, productos }: SheetProps) {
+function RegistrarMovimientoSheet({ onClose, onSaved, registradoPor, orgId, ranchoOptions, productos }: SheetProps) {
   const [form, setForm] = useState({ ...emptyForm })
   const [saving, setSaving] = useState(false)
 
@@ -184,6 +185,7 @@ function RegistrarMovimientoSheet({ onClose, onSaved, registradoPor, ranchoOptio
         referencia: form.referencia || null,
         notas: form.notas || null,
         registrado_por: registradoPor,
+        org_id: orgId,
       })
       toast.success("Movimiento registrado")
       onSaved()
@@ -321,7 +323,7 @@ function RegistrarMovimientoSheet({ onClose, onSaved, registradoPor, ranchoOptio
 // ── Componente principal ──────────────────────────────────────────────────────
 
 export function Inventario() {
-  const { productor, user } = useAuthContext()
+  const { productor, user, profile } = useAuthContext()
   const { ranchos } = useRanchos()
   const { productos } = useCatalogoProductos()
   const { saldosRancho, saldosProductor, loading, error, refetch } = useInventario(
@@ -580,11 +582,12 @@ export function Inventario() {
       </div>
 
       {/* Bottom sheet */}
-      {showSheet && user && (
+      {showSheet && user && profile?.org_id && (
         <RegistrarMovimientoSheet
           onClose={() => setShowSheet(false)}
           onSaved={handleSaved}
           registradoPor={user.id}
+          orgId={profile.org_id}
           ranchoOptions={ranchoOptions}
           productos={productos}
         />

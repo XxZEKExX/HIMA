@@ -13,6 +13,10 @@ export interface AuthState {
   error: string | null
 }
 
+export type UseAuthReturn = AuthState & {
+  refreshProfile: () => Promise<void>
+}
+
 const SIN_SESION: Omit<AuthState, 'loading'> = {
   user: null,
   profile: null,
@@ -112,7 +116,7 @@ async function cargarDatosPerfil(
   }
 }
 
-export function useAuth(): AuthState {
+export function useAuth(): UseAuthReturn {
   const [state, setState] = useState<AuthState>({
     ...SIN_SESION,
     loading: true,
@@ -207,5 +211,12 @@ export function useAuth(): AuthState {
     }
   }, [])
 
-  return state
+  async function refreshProfile() {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return
+    const datos = await cargarDatosPerfil(user.id)
+    setState(prev => ({ ...prev, ...datos }))
+  }
+
+  return { ...state, refreshProfile }
 }

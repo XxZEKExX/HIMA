@@ -80,12 +80,14 @@ export async function crearAplicacion(datos: AplicacionInsert): Promise<Aplicaci
 
 export async function insertarProductosAplicacion(
   aplicacionId: string,
-  productos: Omit<AplicacionProductoInsert, 'aplicacion_id'>[]
+  productos: Omit<AplicacionProductoInsert, 'aplicacion_id' | 'org_id'>[],
+  orgId: string,
 ): Promise<void> {
   if (productos.length === 0) return
   const rows: AplicacionProductoInsert[] = productos.map((p) => ({
     ...p,
     aplicacion_id: aplicacionId,
+    org_id: orgId,
   }))
   const { error } = await supabase.from('aplicacion_productos').insert(rows)
   if (error) throw error
@@ -148,6 +150,19 @@ export async function actualizarAplicacion(
   return data
 }
 
+// ── Perfil ────────────────────────────────────────────────────────────────────
+
+export async function actualizarNombreCompleto(
+  userId: string,
+  nombreCompleto: string,
+): Promise<void> {
+  const { error } = await supabase
+    .from('profiles')
+    .update({ nombre_completo: nombreCompleto, updated_at: new Date().toISOString() })
+    .eq('id', userId)
+  if (error) throw error
+}
+
 // ── Inventario ────────────────────────────────────────────────────────────────
 
 export async function getSaldosRancho(productorId: string): Promise<InventarioSaldoRancho[]> {
@@ -204,6 +219,7 @@ export async function registrarMovimiento(mov: {
   tipo: TipoMovimiento
   cantidad: number
   fecha: string
+  org_id: string
   referencia?: string | null
   notas?: string | null
   registrado_por: string
@@ -224,6 +240,7 @@ export async function registrarMovimiento(mov: {
     notas: mov.notas ?? null,
     fecha: mov.fecha,
     registrado_por: mov.registrado_por,
+    org_id: mov.org_id,
   })
   if (error) throw error
 }
@@ -234,6 +251,7 @@ export async function registrarSalidasAplicacion(
   productos: Array<{ productId: string; totalProduct: string }>,
   registradoPor: string,
   fecha: string,
+  orgId: string,
 ): Promise<void> {
   for (const p of productos) {
     const cantidad = parseFloat(p.totalProduct)
@@ -250,6 +268,7 @@ export async function registrarSalidasAplicacion(
         aplicacion_id: aplicacionId,
         fecha,
         registrado_por: registradoPor,
+        org_id: orgId,
       })
       if (error) console.warn(`[inv] insert error ${p.productId}:`, error.message)
     } catch (err) {

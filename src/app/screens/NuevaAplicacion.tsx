@@ -174,6 +174,7 @@ export function NuevaAplicacion() {
         responsable_inocuidad_id: productor.responsable_inocuidad_id,
         observaciones: formData.observations || null,
         status: "completado",
+        org_id: profile!.org_id!,
       };
 
       const aplicacion = await crearAplicacion(datosAplicacion);
@@ -192,7 +193,7 @@ export function NuevaAplicacion() {
             reentrada_hrs: p.reentryTime ? parseInt(p.reentryTime, 10) : null,
           }));
 
-        await insertarProductosAplicacion(aplicacion.id, productos);
+        await insertarProductosAplicacion(aplicacion.id, productos, profile!.org_id!);
       }
 
       // ── Paso 3: registrar salidas de inventario (fire-and-forget) ────────
@@ -206,6 +207,7 @@ export function NuevaAplicacion() {
           })),
           user.id,
           formData.applicationDate,
+          profile!.org_id!,
         ).catch((err) => console.warn('[inv] auto-salida:', err))
       }
 

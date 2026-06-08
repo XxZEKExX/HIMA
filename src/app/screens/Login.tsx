@@ -1,5 +1,5 @@
 import { useState, useEffect, type FormEvent } from 'react'
-import { useNavigate } from 'react-router'
+import { useNavigate, Link } from 'react-router'
 import { useAuthContext } from '@/context/AuthContext'
 
 export function Login() {
@@ -98,6 +98,13 @@ export function Login() {
             {submitting ? 'Iniciando sesión...' : 'Iniciar sesión'}
           </button>
         </form>
+
+        <p className="text-sm text-center text-muted-foreground">
+          ¿No tienes cuenta?{' '}
+          <Link to="/registro" className="text-primary" style={{ fontWeight: 600 }}>
+            Regístrate
+          </Link>
+        </p>
       </div>
     </div>
   )
