@@ -9,7 +9,7 @@
 // ╚══════════════════════════════════════════════════════════════════════╝
 
 import { useState } from 'react'
-import { ChevronLeft, Plus, FileDown, X, Loader2, Shield } from 'lucide-react'
+import { ChevronLeft, Plus, FileDown, X, Loader2, Shield, Files } from 'lucide-react'
 import { useNavigate } from 'react-router'
 import { toast } from 'sonner'
 import { useAuthContext } from '@/context/AuthContext'
@@ -17,6 +17,7 @@ import { useRanchos } from '@/hooks/useRanchos'
 import { useBotiquin, type M6BotiquinConRancho } from '@/hooks/useBotiquin'
 import { supabase } from '@/lib/supabase'
 import { generarBotiquinPDF } from '@/lib/pdf/m6/generarBotiquinPDF'
+import { generarBotiquinConsolidadoPDF } from '@/lib/pdf/m6/generarBotiquinConsolidadoPDF'
 import type { BotiquinPDFProps } from '@/lib/pdf/m6/BotiquinPDF'
 
 // ── Constantes ───────────────────────────────────────────────────────────────
@@ -123,6 +124,15 @@ export function BotiquinPrimerosAuxilios() {
   const [errRancho, setErrRancho] = useState(false)
   const [generandoPDF, setGenerandoPDF] = useState<string | null>(null)
 
+  // Consolidado
+  const [sheetConsolidadoAbierto, setSheetConsolidadoAbierto] = useState(false)
+  const [consRanchoId, setConsRanchoId] = useState('')
+  const [consDesde, setConsDesde] = useState('')
+  const [consHasta, setConsHasta] = useState(hoy())
+  const [generandoConsolidado, setGenerandoConsolidado] = useState(false)
+  const [errConsRancho, setErrConsRancho] = useState(false)
+  const [errConsFechas, setErrConsFechas] = useState(false)
+
   const ranchoOptions = ranchos.map((r) => ({ value: r.id, label: r.nombre }))
 
   function abrirSheet() {
@@ -216,6 +226,55 @@ export function BotiquinPrimerosAuxilios() {
     }
   }
 
+  async function handleGenerarConsolidado() {
+    let valido = true
+    if (!consRanchoId) { setErrConsRancho(true); valido = false }
+    if (!consDesde || !consHasta) { setErrConsFechas(true); valido = false }
+    if (!valido) return
+    if (!profile?.org_id) { toast.error('Sin organización activa'); return }
+
+    setGenerandoConsolidado(true)
+    try {
+      const { data, error } = await supabase
+        .from('m6_botiquin')
+        .select('*, ranchos(nombre, codigo), profiles!responsable_id(nombre_completo)')
+        .eq('org_id', profile.org_id)
+        .eq('rancho_id', consRanchoId)
+        .gte('fecha_verificacion', consDesde)
+        .lte('fecha_verificacion', consHasta)
+        .order('fecha_verificacion', { ascending: true })
+
+      if (error) throw error
+      if (!data || data.length === 0) {
+        toast.warning('No hay registros en ese rango de fechas para el rancho seleccionado')
+        return
+      }
+
+      const rancho = ranchos.find((r) => r.id === consRanchoId)
+      const ranchoNombre = rancho?.nombre ?? 'Rancho'
+
+      const propsList: BotiquinPDFProps[] = (data as any[]).map((r) => ({
+        folio: (r.id as string).slice(0, 8).toUpperCase(),
+        rancho: r.ranchos?.nombre ?? ranchoNombre,
+        ranchoCodigo: r.ranchos?.codigo ?? '—',
+        fechaVerificacion: r.fecha_verificacion,
+        parches_curitas: r.parches_curitas,
+        guantes_curacion: r.guantes_curacion,
+        vendas_tijeras: r.vendas_tijeras,
+        gasas_cinta: r.gasas_cinta,
+        desinfectante: r.desinfectante,
+        responsableNombre: r.profiles?.nombre_completo ?? profile.nombre_completo,
+      }))
+
+      await generarBotiquinConsolidadoPDF(propsList, ranchoNombre, consDesde, consHasta)
+      setSheetConsolidadoAbierto(false)
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : 'No se pudo generar el PDF consolidado')
+    } finally {
+      setGenerandoConsolidado(false)
+    }
+  }
+
   // ── Render ──────────────────────────────────────────────────────────────────
 
   return (
@@ -241,6 +300,25 @@ export function BotiquinPrimerosAuxilios() {
           </div>
         </div>
       </header>
+
+      {/* Acción consolidado */}
+      <div className="px-4 pt-3">
+        <button
+          onClick={() => {
+            setConsRanchoId('')
+            setConsDesde('')
+            setConsHasta(hoy())
+            setErrConsRancho(false)
+            setErrConsFechas(false)
+            setSheetConsolidadoAbierto(true)
+          }}
+          className="w-full h-10 flex items-center justify-center gap-2 rounded-xl border border-primary text-primary text-sm hover:bg-primary/5 transition-colors"
+          style={{ fontWeight: 600 }}
+        >
+          <Files className="w-4 h-4" />
+          Exportar consolidado
+        </button>
+      </div>
 
       {/* Historial */}
       <div className="p-4 space-y-3">
@@ -337,6 +415,101 @@ export function BotiquinPrimerosAuxilios() {
           <Plus className="w-6 h-6" />
         </button>
       </div>
+
+      {/* Bottom Sheet — exportar consolidado */}
+      {sheetConsolidadoAbierto && (
+        <>
+          <div
+            className="fixed inset-0 bg-black/40 z-30"
+            onClick={() => setSheetConsolidadoAbierto(false)}
+          />
+          <div
+            className="fixed bottom-0 left-0 right-0 z-40 bg-card flex flex-col"
+            style={{
+              borderRadius: '0.625rem 0.625rem 0 0',
+              maxWidth: 390,
+              margin: '0 auto',
+            }}
+          >
+            <div className="flex justify-center pt-3 pb-1 flex-shrink-0">
+              <div className="w-10 h-1 rounded-full bg-border" />
+            </div>
+            <div className="flex items-center justify-between px-4 py-3 border-b border-border flex-shrink-0">
+              <h2 className="text-base text-foreground" style={{ fontWeight: 600 }}>
+                Exportar consolidado
+              </h2>
+              <button onClick={() => setSheetConsolidadoAbierto(false)} className="p-1">
+                <X className="w-5 h-5 text-muted-foreground" />
+              </button>
+            </div>
+
+            <div className="overflow-y-auto p-4 space-y-4">
+              {/* Rancho */}
+              <div>
+                <label className="block text-xs text-muted-foreground mb-1.5" style={{ fontWeight: 600 }}>
+                  RANCHO *
+                </label>
+                <select
+                  value={consRanchoId}
+                  onChange={(e) => { setConsRanchoId(e.target.value); setErrConsRancho(false) }}
+                  className={`w-full h-11 px-3 rounded-lg bg-input-background border text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary ${
+                    errConsRancho ? 'border-agro-red' : 'border-border'
+                  } ${!consRanchoId ? 'text-muted-foreground' : 'text-foreground'}`}
+                >
+                  <option value="" disabled>Seleccionar rancho</option>
+                  {ranchoOptions.map((o) => (
+                    <option key={o.value} value={o.value}>{o.label}</option>
+                  ))}
+                </select>
+                {errConsRancho && <p className="text-xs text-agro-red mt-1">Selecciona un rancho</p>}
+              </div>
+
+              {/* Desde */}
+              <div>
+                <label className="block text-xs text-muted-foreground mb-1.5" style={{ fontWeight: 600 }}>
+                  DESDE *
+                </label>
+                <input
+                  type="date"
+                  value={consDesde}
+                  onChange={(e) => { setConsDesde(e.target.value); setErrConsFechas(false) }}
+                  className={`w-full h-11 px-3 rounded-lg bg-input-background border text-sm text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary ${
+                    errConsFechas && !consDesde ? 'border-agro-red' : 'border-border'
+                  }`}
+                />
+              </div>
+
+              {/* Hasta */}
+              <div>
+                <label className="block text-xs text-muted-foreground mb-1.5" style={{ fontWeight: 600 }}>
+                  HASTA *
+                </label>
+                <input
+                  type="date"
+                  value={consHasta}
+                  onChange={(e) => { setConsHasta(e.target.value); setErrConsFechas(false) }}
+                  className={`w-full h-11 px-3 rounded-lg bg-input-background border text-sm text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary ${
+                    errConsFechas && !consHasta ? 'border-agro-red' : 'border-border'
+                  }`}
+                />
+                {errConsFechas && <p className="text-xs text-agro-red mt-1">Indica el rango de fechas</p>}
+              </div>
+            </div>
+
+            <div className="p-4 border-t border-border flex-shrink-0">
+              <button
+                onClick={handleGenerarConsolidado}
+                disabled={generandoConsolidado}
+                className="w-full h-14 bg-primary text-white rounded-3xl flex items-center justify-center gap-2 disabled:opacity-50 hover:bg-agro-blue transition-colors"
+                style={{ fontWeight: 600 }}
+              >
+                {generandoConsolidado && <Loader2 className="w-4 h-4 animate-spin" />}
+                Generar PDF consolidado
+              </button>
+            </div>
+          </div>
+        </>
+      )}
 
       {/* Bottom Sheet — formulario */}
       {sheetAbierto && (

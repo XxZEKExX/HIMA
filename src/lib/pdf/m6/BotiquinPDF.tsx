@@ -1,7 +1,7 @@
 // PATRÓN INOCUIDAD — PDF M6
-// M7-M12 crean su componente PDF en src/lib/pdf/m<N>/<Modulo>PDF.tsx
-// Cada componente recibe props tipadas con los datos del registro y retorna
-// un <Document> de @react-pdf/renderer en formato A4 portrait.
+// BotiquinPagina: una página del formato oficial (reutilizable en individual y consolidado).
+// BotiquinPDF:    documento individual (1 página).
+// BotiquinConsolidadoPDF: documento multi-página, una BotiquinPagina por registro.
 
 import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer'
 
@@ -18,12 +18,23 @@ export interface BotiquinPDFProps {
   responsableNombre: string
 }
 
+export interface BotiquinConsolidadoPDFProps {
+  registros: BotiquinPDFProps[]
+  ranchoNombre: string
+  desde: string
+  hasta: string
+}
+
+// ── Paleta ────────────────────────────────────────────────────────────────────
+
 const PRIMARY = '#2B7AB5'
 const DARK = '#1A1A1A'
 const BORDER = '#CCCCCC'
 const WHITE = '#FFFFFF'
 const MUTED = '#555555'
 const ROW_ALT = '#F5F9FE'
+
+// ── Estilos ───────────────────────────────────────────────────────────────────
 
 const s = StyleSheet.create({
   page: {
@@ -179,7 +190,7 @@ const s = StyleSheet.create({
   firmaLabel: { fontSize: 7, color: MUTED },
   firmaNombre: { fontSize: 9, fontFamily: 'Helvetica-Bold', marginTop: 2 },
 
-  // ── Footer ─────────────────────────────────────────────────────────────
+  // ── Footer (fijo por página) ────────────────────────────────────────────
   footer: {
     position: 'absolute',
     bottom: 20,
@@ -195,7 +206,11 @@ const s = StyleSheet.create({
   footerText: { fontSize: 6, color: '#888888' },
 })
 
-const ARTICULOS: { key: keyof Pick<BotiquinPDFProps, 'parches_curitas' | 'guantes_curacion' | 'vendas_tijeras' | 'gasas_cinta' | 'desinfectante'>; label: string }[] = [
+// ── Catálogo de artículos (compartido por ambos documentos) ───────────────────
+
+type ArticuloKey = 'parches_curitas' | 'guantes_curacion' | 'vendas_tijeras' | 'gasas_cinta' | 'desinfectante'
+
+const ARTICULOS: { key: ArticuloKey; label: string }[] = [
   { key: 'parches_curitas', label: 'Parches / Curitas' },
   { key: 'guantes_curacion', label: 'Guantes de curación' },
   { key: 'vendas_tijeras', label: 'Vendas y tijeras' },
@@ -203,7 +218,24 @@ const ARTICULOS: { key: keyof Pick<BotiquinPDFProps, 'parches_curitas' | 'guante
   { key: 'desinfectante', label: 'Desinfectante' },
 ]
 
-export function BotiquinPDF({
+function formatFechaPDF(iso: string): string {
+  try {
+    return new Date(iso + 'T12:00:00').toLocaleDateString('es-MX', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+  } catch {
+    return iso
+  }
+}
+
+// ── BotiquinPagina ────────────────────────────────────────────────────────────
+// Unidad de contenido: una página A4 con el formato oficial de un registro.
+// Usada por BotiquinPDF (1 página) y BotiquinConsolidadoPDF (N páginas).
+
+export function BotiquinPagina({
   folio,
   rancho,
   ranchoCodigo,
@@ -216,137 +248,153 @@ export function BotiquinPDF({
   responsableNombre,
 }: BotiquinPDFProps) {
   const emision = new Date().toLocaleDateString('es-MX')
-  const valores = { parches_curitas, guantes_curacion, vendas_tijeras, gasas_cinta, desinfectante }
+  const valores: Record<ArticuloKey, boolean> = {
+    parches_curitas,
+    guantes_curacion,
+    vendas_tijeras,
+    gasas_cinta,
+    desinfectante,
+  }
   const presentes = Object.values(valores).filter(Boolean).length
 
-  const fechaFormateada = (() => {
-    try {
-      return new Date(fechaVerificacion + 'T12:00:00').toLocaleDateString('es-MX', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })
-    } catch {
-      return fechaVerificacion
-    }
-  })()
+  return (
+    <Page size="A4" style={s.page}>
 
+      {/* Footer fijo en esta página */}
+      <View fixed style={s.footer}>
+        <Text style={s.footerText}>
+          AgroCampo — DuoMind Solutions &amp; Hima Inocuidad Alimentaria
+        </Text>
+        <Text
+          style={s.footerText}
+          render={({ pageNumber, totalPages }) => `Pagina ${pageNumber} de ${totalPages}`}
+        />
+      </View>
+
+      {/* Header */}
+      <View style={s.header}>
+        <View style={{ flex: 2 }}>
+          <Text style={s.headerLogo}>AgroCampo</Text>
+          <Text style={s.headerLogoSub}>Hima Inocuidad Alimentaria</Text>
+        </View>
+        <View style={{ flex: 6 }}>
+          <Text style={s.headerTitle}>
+            REVISION DE MATERIALES DE BOTIQUIN DE PRIMEROS AUXILIOS
+          </Text>
+          <Text style={s.headerTitleSub}>
+            Clave: MXA-F-SC-SIG · FORMATOS MANUAL DEL SAIA Y BPA's
+          </Text>
+        </View>
+        <View style={{ flex: 2, alignItems: 'flex-end' }}>
+          <Text style={s.headerMeta}>Folio: {folio}</Text>
+          <Text style={s.headerMeta}>Emision: {emision}</Text>
+        </View>
+      </View>
+
+      {/* Sección 1 — Datos del rancho */}
+      <Text style={s.sectionTitle}>1. DATOS DEL RANCHO Y VERIFICACION</Text>
+      <View style={s.infoTable}>
+        <View style={s.infoRow}>
+          <View style={s.infoCell}>
+            <Text style={s.infoCellLabel}>RANCHO / HUERTO</Text>
+            <Text style={s.infoCellValue}>{rancho}</Text>
+          </View>
+          <View style={s.infoCell}>
+            <Text style={s.infoCellLabel}>CODIGO</Text>
+            <Text style={s.infoCellValue}>{ranchoCodigo}</Text>
+          </View>
+        </View>
+        <View style={s.infoRow}>
+          <View style={s.infoCell}>
+            <Text style={s.infoCellLabel}>FECHA DE VERIFICACION</Text>
+            <Text style={s.infoCellValue}>{formatFechaPDF(fechaVerificacion)}</Text>
+          </View>
+          <View style={s.infoCell}>
+            <Text style={s.infoCellLabel}>ARTICULOS PRESENTES</Text>
+            <Text style={s.infoCellValue}>{presentes} / {ARTICULOS.length}</Text>
+          </View>
+        </View>
+      </View>
+
+      {/* Sección 2 — Materiales */}
+      <Text style={s.sectionTitle}>2. REVISION DE MATERIALES</Text>
+      <View style={s.artTable}>
+        <View style={s.artHeaderRow}>
+          <Text style={[s.artHeaderCell, { flex: 4 }]}>Articulo</Text>
+          <Text style={[s.artHeaderCell, { flex: 1, textAlign: 'center' }]}>Tiene</Text>
+          <Text style={[s.artHeaderCell, { flex: 1, textAlign: 'center' }]}>Llenar</Text>
+        </View>
+        {ARTICULOS.map((art, i) => {
+          const tiene = valores[art.key]
+          return (
+            <View key={art.key} style={i % 2 === 0 ? s.artRow : s.artRowAlt}>
+              <Text style={[s.artCell, { flex: 4 }]}>{art.label}</Text>
+              {/* Tiene: marca si el articulo esta disponible. Usar 'Si' — Helvetica no soporta Unicode ✓ */}
+              <Text style={[s.artCellEstado, { flex: 1 }, tiene ? s.estadoSi : {}]}>
+                {tiene ? 'Si' : ''}
+              </Text>
+              {/* Llenar: marca si hay que reponerlo */}
+              <Text style={[s.artCellEstado, { flex: 1 }, !tiene ? s.estadoLlenar : {}]}>
+                {!tiene ? 'Si' : ''}
+              </Text>
+            </View>
+          )
+        })}
+      </View>
+
+      {/* Sección 3 — Firmas */}
+      <Text style={[s.sectionTitle, { marginTop: 20 }]}>3. FIRMAS Y RESPONSABLES</Text>
+      <View style={s.firmasSection}>
+        <View style={s.firmasRow}>
+          <View style={s.firmaBox}>
+            <Text style={s.firmaLabel}>Responsable que realizo la verificacion</Text>
+            <Text style={s.firmaNombre}>{responsableNombre}</Text>
+            <View style={s.firmaLinea}>
+              <Text style={s.firmaLabel}>Firma del responsable</Text>
+            </View>
+          </View>
+          <View style={s.firmaBox}>
+            <Text style={s.firmaLabel}>&nbsp;</Text>
+            <Text style={s.firmaNombre}>&nbsp;</Text>
+            <View style={s.firmaLinea}>
+              <Text style={s.firmaLabel}>Responsable de Inocuidad — Firma</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+
+    </Page>
+  )
+}
+
+// ── BotiquinPDF ───────────────────────────────────────────────────────────────
+// Documento individual: exactamente 1 página.
+
+export function BotiquinPDF(props: BotiquinPDFProps) {
   return (
     <Document
-      title={`Botiquín ${folio}`}
+      title={`Botiquin ${props.folio}`}
       author="AgroCampo — DuoMind Solutions"
-      subject="Revisión de Materiales de Botiquín de Primeros Auxilios"
+      subject="Revision de Materiales de Botiquin de Primeros Auxilios"
     >
-      <Page size="A4" style={s.page}>
+      <BotiquinPagina {...props} />
+    </Document>
+  )
+}
 
-        {/* Footer fijo en todas las páginas */}
-        <View fixed style={s.footer}>
-          <Text style={s.footerText}>
-            AgroCampo — DuoMind Solutions &amp; Hima Inocuidad Alimentaria
-          </Text>
-          <Text
-            style={s.footerText}
-            render={({ pageNumber, totalPages }) => `Página ${pageNumber} de ${totalPages}`}
-          />
-        </View>
+// ── BotiquinConsolidadoPDF ────────────────────────────────────────────────────
+// Documento consolidado: una BotiquinPagina por cada registro, en orden de fecha.
 
-        {/* Header */}
-        <View style={s.header}>
-          <View style={{ flex: 2 }}>
-            <Text style={s.headerLogo}>AgroCampo</Text>
-            <Text style={s.headerLogoSub}>Hima Inocuidad Alimentaria</Text>
-          </View>
-          <View style={{ flex: 6 }}>
-            <Text style={s.headerTitle}>
-              REVISIÓN DE MATERIALES DE BOTIQUÍN DE PRIMEROS AUXILIOS
-            </Text>
-            <Text style={s.headerTitleSub}>
-              Clave: MXA-F-SC-SIG · FORMATOS MANUAL DEL SAIA Y BPA's
-            </Text>
-          </View>
-          <View style={{ flex: 2, alignItems: 'flex-end' }}>
-            <Text style={s.headerMeta}>Folio: {folio}</Text>
-            <Text style={s.headerMeta}>Emisión: {emision}</Text>
-          </View>
-        </View>
-
-        {/* Sección 1 — Datos del rancho */}
-        <Text style={s.sectionTitle}>1. DATOS DEL RANCHO Y VERIFICACIÓN</Text>
-        <View style={s.infoTable}>
-          <View style={s.infoRow}>
-            <View style={s.infoCell}>
-              <Text style={s.infoCellLabel}>RANCHO / HUERTO</Text>
-              <Text style={s.infoCellValue}>{rancho}</Text>
-            </View>
-            <View style={s.infoCell}>
-              <Text style={s.infoCellLabel}>CÓDIGO</Text>
-              <Text style={s.infoCellValue}>{ranchoCodigo}</Text>
-            </View>
-          </View>
-          <View style={s.infoRow}>
-            <View style={s.infoCell}>
-              <Text style={s.infoCellLabel}>FECHA DE VERIFICACIÓN</Text>
-              <Text style={s.infoCellValue}>{fechaFormateada}</Text>
-            </View>
-            <View style={s.infoCell}>
-              <Text style={s.infoCellLabel}>ARTÍCULOS PRESENTES</Text>
-              <Text style={s.infoCellValue}>{presentes} / {ARTICULOS.length}</Text>
-            </View>
-          </View>
-        </View>
-
-        {/* Sección 2 — Materiales */}
-        <Text style={s.sectionTitle}>2. REVISIÓN DE MATERIALES</Text>
-        <View style={s.artTable}>
-          <View style={s.artHeaderRow}>
-            <Text style={[s.artHeaderCell, { flex: 4 }]}>Artículo</Text>
-            <Text style={[s.artHeaderCell, { flex: 1, textAlign: 'center' }]}>Tiene</Text>
-            <Text style={[s.artHeaderCell, { flex: 1, textAlign: 'center' }]}>Llenar</Text>
-          </View>
-          {ARTICULOS.map((art, i) => {
-            const tiene = valores[art.key]
-            return (
-              <View key={art.key} style={i % 2 === 0 ? s.artRow : s.artRowAlt}>
-                <Text style={[s.artCell, { flex: 4 }]}>{art.label}</Text>
-                {/* Tiene: marca si está disponible. Helvetica no soporta ✓, se usa 'Si' */}
-                <Text style={[s.artCellEstado, { flex: 1 }, tiene ? s.estadoSi : {}]}>
-                  {tiene ? 'Si' : ''}
-                </Text>
-                {/* Llenar: marca si hay que reponerlo */}
-                <Text style={[s.artCellEstado, { flex: 1 }, !tiene ? s.estadoLlenar : {}]}>
-                  {!tiene ? 'Si' : ''}
-                </Text>
-              </View>
-            )
-          })}
-        </View>
-
-        {/* Sección 3 — Firmas */}
-        <Text style={[s.sectionTitle, { marginTop: 20 }]}>3. FIRMAS Y RESPONSABLES</Text>
-        <View style={s.firmasSection}>
-          <View style={s.firmasRow}>
-            {/* Firma del responsable que verificó */}
-            <View style={s.firmaBox}>
-              <Text style={s.firmaLabel}>Responsable que realizó la verificación</Text>
-              <Text style={s.firmaNombre}>{responsableNombre}</Text>
-              <View style={s.firmaLinea}>
-                <Text style={s.firmaLabel}>Firma del responsable</Text>
-              </View>
-            </View>
-
-            {/* Firma del Responsable de Inocuidad — espacio separado */}
-            <View style={s.firmaBox}>
-              <Text style={s.firmaLabel}>&nbsp;</Text>
-              <Text style={s.firmaNombre}>&nbsp;</Text>
-              <View style={s.firmaLinea}>
-                <Text style={s.firmaLabel}>Responsable de Inocuidad — Firma</Text>
-              </View>
-            </View>
-          </View>
-        </View>
-
-      </Page>
+export function BotiquinConsolidadoPDF({ registros, ranchoNombre, desde, hasta }: BotiquinConsolidadoPDFProps) {
+  return (
+    <Document
+      title={`Botiquin Consolidado ${ranchoNombre} ${desde} ${hasta}`}
+      author="AgroCampo — DuoMind Solutions"
+      subject="Revision Consolidada de Materiales de Botiquin de Primeros Auxilios"
+    >
+      {registros.map((r) => (
+        <BotiquinPagina key={r.folio} {...r} />
+      ))}
     </Document>
   )
 }
