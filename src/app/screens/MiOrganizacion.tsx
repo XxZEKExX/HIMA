@@ -1,0 +1,424 @@
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router'
+import { ChevronLeft, Plus, Pencil, Trash2, X, Loader2 } from 'lucide-react'
+import { toast } from 'sonner'
+import { useAuthContext } from '@/context/AuthContext'
+import { supabase } from '@/lib/supabase'
+import {
+  getOrganizacion,
+  getRanchos,
+  crearRancho,
+  actualizarRancho,
+  desactivarRancho,
+} from '@/lib/queries'
+import type { Organizacion, Rancho } from '@/types/database.types'
+
+const CULTIVOS = ['Zarzamora', 'Frambuesa', 'Fresa', 'Mora azul']
+
+interface FormRancho {
+  nombre: string
+  codigo: string
+  cultivo: string
+  superficie_ha: string
+}
+
+const FORM_VACÍO: FormRancho = { nombre: '', codigo: '', cultivo: '', superficie_ha: '' }
+
+export function MiOrganizacion() {
+  const navigate = useNavigate()
+  const { profile, productor } = useAuthContext()
+
+  const [organizacion, setOrganizacion] = useState<Organizacion | null>(null)
+  const [ranchos, setRanchos] = useState<Rancho[]>([])
+  const [cargando, setCargando] = useState(true)
+
+  const [sheetAbierto, setSheetAbierto] = useState(false)
+  const [ranchoEditando, setRanchoEditando] = useState<Rancho | null>(null)
+  const [form, setForm] = useState<FormRancho>(FORM_VACÍO)
+  const [guardando, setGuardando] = useState(false)
+  const [errores, setErrores] = useState<Partial<FormRancho>>({})
+
+  useEffect(() => {
+    if (!profile?.org_id) return
+    cargar()
+  }, [profile?.org_id, productor?.id])
+
+  async function cargar() {
+    setCargando(true)
+    try {
+      const [org, listaRanchos] = await Promise.all([
+        getOrganizacion(profile!.org_id!),
+        productor ? getRanchos(productor.id) : Promise.resolve([]),
+      ])
+      setOrganizacion(org)
+      setRanchos(listaRanchos)
+    } catch {
+      toast.error('Error al cargar los datos')
+    } finally {
+      setCargando(false)
+    }
+  }
+
+  function abrirCrear() {
+    setRanchoEditando(null)
+    setForm(FORM_VACÍO)
+    setErrores({})
+    setSheetAbierto(true)
+  }
+
+  function abrirEditar(rancho: Rancho) {
+    setRanchoEditando(rancho)
+    setForm({
+      nombre: rancho.nombre,
+      codigo: rancho.codigo,
+      cultivo: rancho.cultivo,
+      superficie_ha: rancho.superficie_ha?.toString() ?? '',
+    })
+    setErrores({})
+    setSheetAbierto(true)
+  }
+
+  function cerrarSheet() {
+    setSheetAbierto(false)
+    setRanchoEditando(null)
+  }
+
+  function validar(): boolean {
+    const e: Partial<FormRancho> = {}
+    if (!form.nombre.trim()) e.nombre = 'El nombre es requerido'
+    if (!ranchoEditando && !form.codigo.trim()) e.codigo = 'El código es requerido'
+    if (!form.cultivo) e.cultivo = 'Selecciona un cultivo'
+    const sup = parseFloat(form.superficie_ha)
+    if (!form.superficie_ha || isNaN(sup) || sup <= 0) e.superficie_ha = 'Debe ser mayor a 0'
+    setErrores(e)
+    return Object.keys(e).length === 0
+  }
+
+  async function obtenerProductorId(): Promise<string> {
+    if (productor?.id) return productor.id
+    // Busca el productor por profile_id (creado automáticamente en el onboarding)
+    const { data: existente } = await supabase
+      .from('productores')
+      .select('id')
+      .eq('profile_id', profile!.id)
+      .single()
+    if (existente?.id) return existente.id
+    // Fallback: crear productor si no existe
+    const { data: nuevo, error } = await supabase
+      .from('productores')
+      .insert({ profile_id: profile!.id, org_id: profile!.org_id! })
+      .select('id')
+      .single()
+    if (error) throw new Error('No se pudo crear el productor: ' + error.message)
+    return nuevo.id
+  }
+
+  async function handleGuardar() {
+    if (!validar()) return
+    setGuardando(true)
+    try {
+      if (ranchoEditando) {
+        await actualizarRancho(ranchoEditando.id, {
+          nombre: form.nombre.trim(),
+          cultivo: form.cultivo,
+          superficie_ha: parseFloat(form.superficie_ha),
+        })
+        toast.success('Rancho actualizado')
+      } else {
+        const productorId = await obtenerProductorId()
+        await crearRancho({
+          nombre: form.nombre.trim(),
+          codigo: form.codigo.trim().toUpperCase(),
+          cultivo: form.cultivo,
+          superficie_ha: parseFloat(form.superficie_ha),
+          productor_id: productorId,
+          org_id: profile!.org_id!,
+        })
+        toast.success('Rancho creado')
+      }
+      cerrarSheet()
+      await cargar()
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : ''
+      if (msg.includes('23505') || msg.includes('duplicate')) {
+        setErrores({ codigo: 'Ya existe un rancho con este código' })
+      } else {
+        toast.error('No se pudo guardar el rancho')
+      }
+    } finally {
+      setGuardando(false)
+    }
+  }
+
+  async function handleEliminar(rancho: Rancho) {
+    if (!window.confirm(`¿Eliminar el rancho "${rancho.nombre}"?`)) return
+    try {
+      await desactivarRancho(rancho.id)
+      toast.success('Rancho eliminado')
+      await cargar()
+    } catch {
+      toast.error('No se pudo eliminar el rancho')
+    }
+  }
+
+  return (
+    <div className="min-h-full pb-[calc(72px+34px)]">
+      {/* Header */}
+      <header className="bg-card border-b border-border px-4 py-4 flex items-center gap-3">
+        <button
+          onClick={() => navigate('/perfil')}
+          className="p-1 text-muted-foreground"
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+        <h1 className="text-foreground" style={{ fontWeight: 600 }}>
+          Mi organización
+        </h1>
+      </header>
+
+      <div className="p-4 space-y-4">
+        {cargando ? (
+          <div className="flex justify-center py-12">
+            <Loader2 className="w-8 h-8 text-primary animate-spin" />
+          </div>
+        ) : (
+          <>
+            {/* Nombre de la organización */}
+            {organizacion && (
+              <div className="bg-card border border-border rounded-xl p-4">
+                <p className="text-xs text-muted-foreground mb-1" style={{ fontWeight: 600 }}>
+                  ORGANIZACIÓN
+                </p>
+                <p className="text-foreground" style={{ fontWeight: 600 }}>
+                  {organizacion.nombre}
+                </p>
+              </div>
+            )}
+
+            {/* Lista de ranchos */}
+            <div>
+              <p
+                className="text-xs text-muted-foreground mb-2 px-1"
+                style={{ fontWeight: 600 }}
+              >
+                RANCHOS ({ranchos.length})
+              </p>
+
+              {ranchos.length === 0 ? (
+                <div className="bg-card border border-border rounded-xl p-6 text-center">
+                  <p className="text-sm text-muted-foreground">No hay ranchos registrados</p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Toca + para agregar el primero
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {ranchos.map((r) => (
+                    <div
+                      key={r.id}
+                      className="bg-card border border-border rounded-xl p-4 flex items-start justify-between gap-3"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2 mb-0.5">
+                          <span
+                            className="text-foreground text-sm truncate"
+                            style={{ fontWeight: 600 }}
+                          >
+                            {r.nombre}
+                          </span>
+                          <span className="text-[11px] bg-muted text-muted-foreground rounded px-1.5 py-0.5 flex-shrink-0 font-mono">
+                            {r.codigo}
+                          </span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          {r.cultivo}
+                          {r.superficie_ha ? ` · ${r.superficie_ha} ha` : ''}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-0.5 flex-shrink-0">
+                        <button
+                          onClick={() => abrirEditar(r)}
+                          className="p-2 text-muted-foreground hover:text-primary transition-colors"
+                          aria-label="Editar rancho"
+                        >
+                          <Pencil className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleEliminar(r)}
+                          className="p-2 text-muted-foreground hover:text-agro-red transition-colors"
+                          aria-label="Eliminar rancho"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* FAB */}
+      <div className="fixed bottom-[calc(72px+34px+16px)] left-1/2 -translate-x-1/2 w-full max-w-[390px] flex justify-end px-4 pointer-events-none z-10">
+        <button
+          onClick={abrirCrear}
+          className="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center shadow-lg pointer-events-auto hover:bg-agro-blue transition-colors"
+          aria-label="Agregar rancho"
+        >
+          <Plus className="w-6 h-6" />
+        </button>
+      </div>
+
+      {/* Bottom Sheet */}
+      {sheetAbierto && (
+        <>
+          <div
+            className="fixed inset-0 bg-black/40 z-30"
+            onClick={cerrarSheet}
+          />
+          <div
+            className="fixed bottom-0 left-0 right-0 z-40 bg-card flex flex-col overflow-hidden"
+            style={{
+              height: '85%',
+              borderRadius: '0.625rem 0.625rem 0 0',
+              maxWidth: 390,
+              margin: '0 auto',
+            }}
+          >
+            {/* Handle */}
+            <div className="flex justify-center pt-3 pb-1 flex-shrink-0">
+              <div className="w-10 h-1 rounded-full bg-border" />
+            </div>
+
+            {/* Header */}
+            <div className="flex items-center justify-between px-4 py-3 border-b border-border flex-shrink-0">
+              <h2 className="text-base text-foreground" style={{ fontWeight: 600 }}>
+                {ranchoEditando ? 'Editar rancho' : 'Nuevo rancho'}
+              </h2>
+              <button onClick={cerrarSheet} className="p-1">
+                <X className="w-5 h-5 text-muted-foreground" />
+              </button>
+            </div>
+
+            {/* Campos */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              {/* Nombre */}
+              <div>
+                <label
+                  className="block text-xs text-muted-foreground mb-1.5"
+                  style={{ fontWeight: 600 }}
+                >
+                  NOMBRE DEL RANCHO *
+                </label>
+                <input
+                  value={form.nombre}
+                  onChange={(e) => setForm((f) => ({ ...f, nombre: e.target.value }))}
+                  placeholder="Ej: Rancho El Solar"
+                  className={`w-full h-11 px-3 rounded-lg bg-input-background border text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary ${
+                    errores.nombre ? 'border-agro-red' : 'border-border'
+                  }`}
+                />
+                {errores.nombre && (
+                  <p className="text-xs text-agro-red mt-1">{errores.nombre}</p>
+                )}
+              </div>
+
+              {/* Código — solo al crear */}
+              {!ranchoEditando && (
+                <div>
+                  <label
+                    className="block text-xs text-muted-foreground mb-1.5"
+                    style={{ fontWeight: 600 }}
+                  >
+                    CÓDIGO *
+                  </label>
+                  <input
+                    value={form.codigo}
+                    onChange={(e) =>
+                      setForm((f) => ({ ...f, codigo: e.target.value.toUpperCase() }))
+                    }
+                    placeholder="Ej: RS-01"
+                    className={`w-full h-11 px-3 rounded-lg bg-input-background border text-sm font-mono focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary ${
+                      errores.codigo ? 'border-agro-red' : 'border-border'
+                    }`}
+                  />
+                  {errores.codigo && (
+                    <p className="text-xs text-agro-red mt-1">{errores.codigo}</p>
+                  )}
+                </div>
+              )}
+
+              {/* Cultivo */}
+              <div>
+                <label
+                  className="block text-xs text-muted-foreground mb-1.5"
+                  style={{ fontWeight: 600 }}
+                >
+                  CULTIVO *
+                </label>
+                <select
+                  value={form.cultivo}
+                  onChange={(e) => setForm((f) => ({ ...f, cultivo: e.target.value }))}
+                  className={`w-full h-11 px-3 rounded-lg bg-input-background border text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary ${
+                    errores.cultivo ? 'border-agro-red' : 'border-border'
+                  } ${!form.cultivo ? 'text-muted-foreground' : 'text-foreground'}`}
+                >
+                  <option value="" disabled>
+                    Seleccionar cultivo
+                  </option>
+                  {CULTIVOS.map((c) => (
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
+                  ))}
+                </select>
+                {errores.cultivo && (
+                  <p className="text-xs text-agro-red mt-1">{errores.cultivo}</p>
+                )}
+              </div>
+
+              {/* Superficie */}
+              <div>
+                <label
+                  className="block text-xs text-muted-foreground mb-1.5"
+                  style={{ fontWeight: 600 }}
+                >
+                  SUPERFICIE (ha) *
+                </label>
+                <input
+                  type="number"
+                  min="0.01"
+                  step="0.01"
+                  value={form.superficie_ha}
+                  onChange={(e) => setForm((f) => ({ ...f, superficie_ha: e.target.value }))}
+                  placeholder="Ej: 5.5"
+                  className={`w-full h-11 px-3 rounded-lg bg-input-background border text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary ${
+                    errores.superficie_ha ? 'border-agro-red' : 'border-border'
+                  }`}
+                />
+                {errores.superficie_ha && (
+                  <p className="text-xs text-agro-red mt-1">{errores.superficie_ha}</p>
+                )}
+              </div>
+            </div>
+
+            {/* Botón guardar */}
+            <div className="p-4 border-t border-border flex-shrink-0">
+              <button
+                onClick={handleGuardar}
+                disabled={guardando}
+                className="w-full h-14 bg-primary text-white rounded-3xl flex items-center justify-center gap-2 disabled:opacity-50 hover:bg-agro-blue transition-colors"
+                style={{ fontWeight: 600 }}
+              >
+                {guardando && <Loader2 className="w-4 h-4 animate-spin" />}
+                {ranchoEditando ? 'Guardar cambios' : 'Crear rancho'}
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  )
+}

@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { LogOut, Pencil, Check, X } from 'lucide-react'
+import { LogOut, Pencil, Check, X, ChevronRight, Building2 } from 'lucide-react'
+import { useNavigate } from 'react-router'
 import { toast } from 'sonner'
 import { useAuthContext } from '@/context/AuthContext'
 import { actualizarNombreCompleto } from '@/lib/queries'
@@ -21,6 +22,7 @@ function inicialesDe(nombre: string): string {
 }
 
 export function Perfil() {
+  const navigate = useNavigate()
   const { user, profile, signOut, refreshProfile } = useAuthContext()
 
   const [editando, setEditando] = useState(false)
@@ -113,6 +115,27 @@ export function Perfil() {
             </div>
           </div>
         </div>
+
+        {/* Mi organización — solo para admin_org */}
+        {profile?.rol === 'admin_org' && (
+          <button
+            onClick={() => navigate('/perfil/mi-organizacion')}
+            className="w-full bg-card border border-border rounded-xl p-4 flex items-center gap-3 text-left hover:bg-muted transition-colors"
+          >
+            <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+              <Building2 className="w-5 h-5 text-primary" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-foreground text-sm" style={{ fontWeight: 600 }}>
+                Mi organización
+              </p>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Gestionar ranchos y configuración
+              </p>
+            </div>
+            <ChevronRight className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+          </button>
+        )}
 
         {/* Info de la app */}
         <div className="bg-card border border-border rounded-xl p-4">

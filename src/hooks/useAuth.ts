@@ -51,8 +51,8 @@ async function cargarDatosPerfil(
       }
     }
 
-    if (profile.rol !== 'operario') {
-      console.log('[auth] rol no es operario:', profile.rol)
+    if (profile.rol !== 'operario' && profile.rol !== 'admin_org') {
+      console.log('[auth] rol sin productor asociado:', profile.rol)
       return { profile, productor: null, asesorProfile: null, responsableProfile: null, error: null }
     }
 

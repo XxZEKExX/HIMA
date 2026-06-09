@@ -9,13 +9,57 @@ import type {
   InventarioMovimiento,
   InventarioSaldoRancho,
   InventarioSaldoProductor,
+  Organizacion,
   Rancho,
+  RanchoInsert,
+  RanchoUpdate,
   TipoMovimiento,
 } from '@/types/database.types'
 
 export type MovimientoConRancho = InventarioMovimiento & { ranchos: { nombre: string } }
 
+// ── Organizaciones ───────────────────────────────────────────────────────────
+
+export async function getOrganizacion(orgId: string): Promise<Organizacion> {
+  const { data, error } = await supabase
+    .from('organizaciones')
+    .select('*')
+    .eq('id', orgId)
+    .single()
+  if (error) throw error
+  return data
+}
+
 // ── Ranchos ──────────────────────────────────────────────────────────────────
+
+export async function crearRancho(datos: RanchoInsert): Promise<Rancho> {
+  const { data, error } = await supabase
+    .from('ranchos')
+    .insert(datos)
+    .select()
+    .single()
+  if (error) throw error
+  return data
+}
+
+export async function actualizarRancho(id: string, datos: RanchoUpdate): Promise<Rancho> {
+  const { data, error } = await supabase
+    .from('ranchos')
+    .update({ ...datos, updated_at: new Date().toISOString() })
+    .eq('id', id)
+    .select()
+    .single()
+  if (error) throw error
+  return data
+}
+
+export async function desactivarRancho(id: string): Promise<void> {
+  const { error } = await supabase
+    .from('ranchos')
+    .update({ activo: false, updated_at: new Date().toISOString() })
+    .eq('id', id)
+  if (error) throw error
+}
 
 export async function getRanchos(productorId?: string): Promise<Rancho[]> {
   let query = supabase
