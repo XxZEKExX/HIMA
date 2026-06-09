@@ -1,0 +1,29 @@
+// PATRÓN INOCUIDAD — generador PDF M6
+// M7-M12 replican este archivo en src/lib/pdf/m<N>/generar<Modulo>PDF.tsx:
+//   pdf(<Componente {...props} />).toBlob() → createObjectURL → click → revokeObjectURL
+
+import { pdf } from '@react-pdf/renderer'
+import { BotiquinPDF, type BotiquinPDFProps } from './BotiquinPDF'
+
+export async function generarBotiquinPDF(
+  props: BotiquinPDFProps,
+  ranchoNombre: string,
+  fecha: string
+): Promise<void> {
+  const fechaSlug = fecha.replaceAll('-', '')
+  const ranchoSlug = ranchoNombre
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '')
+  const filename = `botiquin-${fechaSlug}-${ranchoSlug}.pdf`
+
+  const blob = await pdf(<BotiquinPDF {...props} />).toBlob()
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = filename
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  URL.revokeObjectURL(url)
+}

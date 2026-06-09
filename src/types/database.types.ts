@@ -421,10 +421,8 @@ export type Database = {
           id: string
           rancho_id: string
           fecha_verificacion: string
-          paracetamol: boolean
-          guantes_s: boolean
-          guantes_m: boolean
-          guantes_l: boolean
+          parches_curitas: boolean
+          guantes_curacion: boolean
           vendas_tijeras: boolean
           gasas_cinta: boolean
           desinfectante: boolean
@@ -438,10 +436,8 @@ export type Database = {
           id?: string
           rancho_id: string
           fecha_verificacion: string
-          paracetamol?: boolean
-          guantes_s?: boolean
-          guantes_m?: boolean
-          guantes_l?: boolean
+          parches_curitas?: boolean
+          guantes_curacion?: boolean
           vendas_tijeras?: boolean
           gasas_cinta?: boolean
           desinfectante?: boolean
@@ -455,10 +451,8 @@ export type Database = {
           id?: string
           rancho_id?: string
           fecha_verificacion?: string
-          paracetamol?: boolean
-          guantes_s?: boolean
-          guantes_m?: boolean
-          guantes_l?: boolean
+          parches_curitas?: boolean
+          guantes_curacion?: boolean
           vendas_tijeras?: boolean
           gasas_cinta?: boolean
           desinfectante?: boolean
@@ -883,6 +877,10 @@ export type InventarioMovimientoUpdate = Database['public']['Tables']['inventari
 
 export type InventarioSaldoRancho = Database['public']['Views']['v_inventario_saldo_rancho']['Row']
 export type InventarioSaldoProductor = Database['public']['Views']['v_inventario_saldo_productor']['Row']
+
+export type M6Botiquin = Database['public']['Tables']['m6_botiquin']['Row']
+export type M6BotiquinInsert = Database['public']['Tables']['m6_botiquin']['Insert']
+export type M6BotiquinUpdate = Database['public']['Tables']['m6_botiquin']['Update']
 
 // Tipo compuesto: aplicación con productos (para vistas de detalle)
 export type AplicacionConProductos = Aplicacion & {
