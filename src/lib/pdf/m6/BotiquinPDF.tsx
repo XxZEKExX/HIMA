@@ -146,11 +146,11 @@ const s = StyleSheet.create({
     borderBottomStyle: 'solid',
   },
   artCellEstado: {
-    fontSize: 9,
+    fontSize: 10,
     paddingTop: 6,
     paddingBottom: 6,
-    paddingLeft: 8,
-    paddingRight: 8,
+    paddingLeft: 4,
+    paddingRight: 4,
     textAlign: 'center',
     borderRightWidth: 1,
     borderRightColor: BORDER,
@@ -160,8 +160,10 @@ const s = StyleSheet.create({
     borderBottomStyle: 'solid',
     fontFamily: 'Helvetica-Bold',
   },
+  // Tiene = artículo presente (azul)
   estadoSi: { color: '#0D5A8F', backgroundColor: '#E3F2FD' },
-  estadoNo: { color: '#993C1D', backgroundColor: '#FAECE7' },
+  // Llenar = artículo ausente, hay que reponerlo (ámbar)
+  estadoLlenar: { color: '#854F0B', backgroundColor: '#FAEEDA' },
 
   // ── Firmas ─────────────────────────────────────────────────────────────
   firmasSection: { marginTop: 36 },
@@ -299,15 +301,21 @@ export function BotiquinPDF({
         <View style={s.artTable}>
           <View style={s.artHeaderRow}>
             <Text style={[s.artHeaderCell, { flex: 4 }]}>Artículo</Text>
-            <Text style={[s.artHeaderCell, { flex: 1, textAlign: 'center' }]}>Estado</Text>
+            <Text style={[s.artHeaderCell, { flex: 1, textAlign: 'center' }]}>Tiene</Text>
+            <Text style={[s.artHeaderCell, { flex: 1, textAlign: 'center' }]}>Llenar</Text>
           </View>
           {ARTICULOS.map((art, i) => {
             const tiene = valores[art.key]
             return (
               <View key={art.key} style={i % 2 === 0 ? s.artRow : s.artRowAlt}>
                 <Text style={[s.artCell, { flex: 4 }]}>{art.label}</Text>
-                <Text style={[s.artCellEstado, { flex: 1 }, tiene ? s.estadoSi : s.estadoNo]}>
-                  {tiene ? 'Sí' : 'No'}
+                {/* Tiene: marca si está disponible */}
+                <Text style={[s.artCellEstado, { flex: 1 }, tiene ? s.estadoSi : {}]}>
+                  {tiene ? '✓' : ''}
+                </Text>
+                {/* Llenar: marca si hay que reponerlo */}
+                <Text style={[s.artCellEstado, { flex: 1 }, !tiene ? s.estadoLlenar : {}]}>
+                  {!tiene ? '✓' : ''}
                 </Text>
               </View>
             )
