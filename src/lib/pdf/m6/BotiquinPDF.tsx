@@ -309,13 +309,13 @@ export function BotiquinPDF({
             return (
               <View key={art.key} style={i % 2 === 0 ? s.artRow : s.artRowAlt}>
                 <Text style={[s.artCell, { flex: 4 }]}>{art.label}</Text>
-                {/* Tiene: marca si está disponible */}
+                {/* Tiene: marca si está disponible. Helvetica no soporta ✓, se usa 'Si' */}
                 <Text style={[s.artCellEstado, { flex: 1 }, tiene ? s.estadoSi : {}]}>
-                  {tiene ? '✓' : ''}
+                  {tiene ? 'Si' : ''}
                 </Text>
                 {/* Llenar: marca si hay que reponerlo */}
                 <Text style={[s.artCellEstado, { flex: 1 }, !tiene ? s.estadoLlenar : {}]}>
-                  {!tiene ? '✓' : ''}
+                  {!tiene ? 'Si' : ''}
                 </Text>
               </View>
             )
