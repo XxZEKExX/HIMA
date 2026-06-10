@@ -8,8 +8,8 @@
 // ║  4. org_id y IDs sensibles SIEMPRE del contexto de auth             ║
 // ╚══════════════════════════════════════════════════════════════════════╝
 
-import { useState } from 'react'
-import { ChevronLeft, Plus, FileDown, X, Loader2, Shield, Files } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { ChevronLeft, Plus, FileDown, X, Loader2, Shield, Files, AlertTriangle } from 'lucide-react'
 import { useNavigate } from 'react-router'
 import { toast } from 'sonner'
 import { useAuthContext } from '@/context/AuthContext'
@@ -78,6 +78,16 @@ function formatFecha(iso: string): string {
   }
 }
 
+// Extrae la fecha del mensaje del trigger BOTIQUIN_LIMITE_SEMANAL y arma texto amigable.
+// El trigger incluye dos fechas DD/MM/YYYY: la del último registro y la del próximo permitido.
+function parsearErrorLimite(mensaje: string): string {
+  const fechas = mensaje.match(/\d{2}\/\d{2}\/\d{4}/g)
+  const proxima = fechas ? fechas[fechas.length - 1] : null
+  return proxima
+    ? `Ya registraste el botiquín de este rancho esta semana. Podrás registrar el siguiente a partir del ${proxima}.`
+    : 'Solo se permite un registro de botiquín por semana por rancho.'
+}
+
 // ── Sub-componentes ───────────────────────────────────────────────────────────
 
 function ArticuloToggle({
@@ -123,6 +133,42 @@ export function BotiquinPrimerosAuxilios() {
   const [guardando, setGuardando] = useState(false)
   const [errRancho, setErrRancho] = useState(false)
   const [generandoPDF, setGenerandoPDF] = useState<string | null>(null)
+  const [limiteInfo, setLimiteInfo] = useState<{ proxima: string } | null>(null)
+
+  // Verifica si el rancho ya tiene un registro en los 7 días anteriores a la fecha elegida.
+  useEffect(() => {
+    if (!sheetAbierto || !form.rancho_id || !form.fecha_verificacion || !profile?.org_id) {
+      setLimiteInfo(null)
+      return
+    }
+    let cancelado = false
+    const fechaDate = new Date(form.fecha_verificacion + 'T12:00:00')
+    const inicio = new Date(fechaDate)
+    inicio.setDate(inicio.getDate() - 6)
+    const inicioStr = inicio.toISOString().split('T')[0]
+
+    supabase
+      .from('m6_botiquin')
+      .select('fecha_verificacion')
+      .eq('org_id', profile.org_id)
+      .eq('rancho_id', form.rancho_id)
+      .gte('fecha_verificacion', inicioStr)
+      .lte('fecha_verificacion', form.fecha_verificacion)
+      .order('fecha_verificacion', { ascending: false })
+      .limit(1)
+      .then(({ data }) => {
+        if (cancelado) return
+        if (data && data.length > 0) {
+          const ultimoDate = new Date(data[0].fecha_verificacion + 'T12:00:00')
+          const proximaDate = new Date(ultimoDate)
+          proximaDate.setDate(proximaDate.getDate() + 7)
+          setLimiteInfo({ proxima: formatFecha(proximaDate.toISOString().split('T')[0]) })
+        } else {
+          setLimiteInfo(null)
+        }
+      })
+    return () => { cancelado = true }
+  }, [sheetAbierto, form.rancho_id, form.fecha_verificacion, profile?.org_id])
 
   // Consolidado
   const [sheetConsolidadoAbierto, setSheetConsolidadoAbierto] = useState(false)
@@ -138,6 +184,7 @@ export function BotiquinPrimerosAuxilios() {
   function abrirSheet() {
     setForm({ ...FORM_INICIAL, fecha_verificacion: hoy() })
     setErrRancho(false)
+    setLimiteInfo(null)
     setSheetAbierto(true)
   }
 
@@ -196,7 +243,12 @@ export function BotiquinPrimerosAuxilios() {
         }
       }
     } catch (err: unknown) {
-      toast.error(err instanceof Error ? err.message : 'No se pudo guardar el registro')
+      const mensaje = (err instanceof Error ? err.message : (err as any)?.message) ?? ''
+      if (mensaje.includes('BOTIQUIN_LIMITE_SEMANAL')) {
+        toast.warning(parsearErrorLimite(mensaje), { duration: 7000 })
+      } else {
+        toast.error(mensaje || 'No se pudo guardar el registro')
+      }
     } finally {
       setGuardando(false)
     }
@@ -598,6 +650,18 @@ export function BotiquinPrimerosAuxilios() {
                 />
               </div>
 
+              {/* Aviso límite semanal */}
+              {limiteInfo && (
+                <div className="flex items-start gap-2 rounded-xl p-3" style={{ backgroundColor: 'var(--agro-warning-fill)', border: '1px solid #F5A623' }}>
+                  <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: 'var(--agro-warning-text)' }} />
+                  <p className="text-xs" style={{ color: 'var(--agro-warning-text)' }}>
+                    Ya existe un registro para este rancho en los últimos 7 días.{' '}
+                    Próximo registro disponible:{' '}
+                    <span style={{ fontWeight: 600 }}>{limiteInfo.proxima}</span>
+                  </p>
+                </div>
+              )}
+
               {/* Artículos */}
               <div>
                 <label
@@ -642,7 +706,7 @@ export function BotiquinPrimerosAuxilios() {
             <div className="p-4 border-t border-border flex-shrink-0">
               <button
                 onClick={handleGuardar}
-                disabled={guardando}
+                disabled={guardando || !!limiteInfo}
                 className="w-full h-14 bg-primary text-white rounded-3xl flex items-center justify-center gap-2 disabled:opacity-50 hover:bg-agro-blue transition-colors"
                 style={{ fontWeight: 600 }}
               >
