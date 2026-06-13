@@ -1,68 +1,202 @@
-# CLAUDE.md
+# CLAUDE.md — AgroCampo
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
----
-
-# AgroCampo / Proyecto Hima
-
-Este archivo provee contexto completo a Claude Code sobre el proyecto, el cliente, el stack técnico, los acuerdos comerciales y las decisiones de diseño tomadas. Léelo completo antes de tocar cualquier archivo.
+Contexto completo para Claude Code. Léelo antes de tocar cualquier archivo.
 
 ---
 
-## 0. Estado actual del código y arquitectura
+## 0. Modelo de negocio
 
-### Comandos de desarrollo
+**AgroCampo es un SaaS multi-tenant** de trazabilidad agrícola e inocuidad alimentaria para el sector berry (GlobalGAP, USDA, SENASICA). El modelo anterior (app para un cliente único) cambió.
 
-```bash
-# Siempre usar pnpm — nunca npm ni yarn
-pnpm install
-pnpm run dev      # Dev server en localhost:5173
-pnpm run build    # Build de producción (dist/)
+**Tenants ("organizaciones"):** Pueden ser empresas (tipo ANEBERRIES o similar) o asesores de inocuidad individuales. Cada tenant tiene aislamiento total de datos — un tenant nunca ve los datos de otro.
+
+**Hima Inocuidad Alimentaria** ya NO es el cliente. Es socio/distribuidor/inversor. Tiene un convenio de asociación en participación con DuoMind Solutions (Arts. 252–259 del Código de Comercio MX). Fase 1: 60% Hima / 40% DuoMind. Post-recuperación de inversión: 50/50.
+
+**Catálogo de productos (ANEBERRIES):** Global y compartido entre todos los tenants. 723 productos, 936 autorizaciones, 4 cultivos (Zarzamora, Frambuesa, Fresa, Mora azul). No lleva `org_id`.
+
+**Planes (ya en el esquema, sin implementar cobro):** `free | basico | pro | enterprise`.
+
+**Desarrolladores:**
+- Luviano Sánchez Saúl — DuoMind Solutions
+- Medina Moreno Moisés — DuoMind Solutions
+
+---
+
+## 1. Stack técnico
+
+```
+Frontend:       React 18.3.1 + TypeScript + Vite 6.3.5
+Estilos:        Tailwind CSS v4 (@tailwindcss/vite 4.1.12) + shadcn/ui (40+ componentes)
+Routing:        React Router 7.13.0 (importar de 'react-router', NO de 'react-router-dom')
+Base de datos:  Supabase (PostgreSQL + Auth + RLS) — proyecto: glrjesvtsspilkacooln
+PDF:            @react-pdf/renderer 4.5.1 (client-side, descarga directa)
+Excel:          exceljs 4.4.0 (client-side, con polyfill buffer)
+UI extra:       lucide-react 0.487.0, sonner 2.0.3, cmdk 1.1.1, motion 12.23.24
+Gestor paquetes: pnpm EXCLUSIVAMENTE (nunca npm ni yarn)
 ```
 
-No hay tests configurados aún. No hay tsconfig.json explícito — Vite usa TypeScript via configuración implícita.
+**Variables de entorno:**
+```
+VITE_SUPABASE_URL=https://glrjesvtsspilkacooln.supabase.co
+VITE_SUPABASE_ANON_KEY=<anon key>
+SUPABASE_SERVICE_ROLE_KEY=<service role key>   ← solo para seeds locales, NUNCA al frontend ni a git
+```
 
-### Estructura del código
+**Comandos:**
+```bash
+pnpm install
+pnpm run dev         # localhost:5173
+pnpm run build       # dist/
+pnpm run seed:aneberries          # seed zarzamora
+pnpm run seed:aneberries:todos    # seed todos los cultivos
+```
+
+**Proyecto Supabase activo:** `glrjesvtsspilkacooln` (el anterior `yntpbchpjjydswooyast` está pausado/obsoleto).
+
+---
+
+## 2. Diseño y design system
+
+**Mobile-first** (390×844px base), minimalista, sin sombras ni gradientes. Navegación: barra inferior 5 tabs.
+
+### Tokens CSS — única fuente de verdad (src/styles/theme.css, bloque `@theme inline`)
+
+```css
+--primary:              #2B7AB5   /* Azul — botones, toggles activos, FAB */
+--agro-blue:            #1E88C7   /* Azul secundario (hover) */
+--agro-red:             #C02A2A   /* Destructivo / alertas críticas */
+--agro-amber:           #F5A623   /* Advertencias */
+--background:           #F8F9FA
+--card:                 #FFFFFF
+--muted:                #ececf0   /* Fondos de sección header */
+--muted-foreground:     #717182   /* Texto secundario / disabled */
+--input-background:     #f3f3f5
+--switch-background:    #cbced4   /* Toggle inactivo */
+--border:               rgba(0,0,0,0.1)
+--radius:               0.625rem
+
+/* Semánticos */
+--agro-success-fill:    #E3F2FD   /* Fondo success/info */
+--agro-success-text:    #0D5A8F
+--agro-warning-fill:    #FAEEDA
+--agro-warning-text:    #854F0B
+--agro-danger-fill:     #FAECE7
+--agro-danger-text:     #993C1D
+```
+
+**Reglas:** Inter / Nunito Sans, weight 400/600. NO verde como primario. NO hardcodear hex — usar siempre las variables CSS. FAB: 56px círculo, `bg-primary`, ícono blanco "+". Bottom sheet: 85% altura, handle bar, border-radius top 0.625rem.
+
+---
+
+## 3. Arquitectura multi-tenant
+
+### Tabla organizaciones
+```
+id, nombre, tipo ('empresa'|'individuo'), plan ('free'|'basico'|'pro'|'enterprise'),
+estado ('activa'|'suspendida'|'cancelada'), created_at
+```
+
+### org_id en tablas
+- **Llevan `org_id NOT NULL`:** profiles (nullable), productores, ranchos, aplicaciones, aplicacion_productos, inventario_movimientos, m6_botiquin, m7_vidrio_plastico, m8_fertilizacion, m9_perimetral_*, m10_cosecha_liberacion, m11_preoperacional_registros, m12_limpieza_banos.
+- **NO llevan `org_id` (globales):** catalogo_productos, producto_autorizaciones, organizaciones.
+
+### Roles
+```
+super_admin     → DuoMind Solutions (acceso total, cross-tenant)
+admin_org       → Admin de su organización (antes llamado admin_hima)
+asesor_tecnico  → Supervisión, recomendaciones
+operario        → Productor de campo (solo ve sus propios registros)
+```
+
+### Flujo de registro
+1. Usuario se registra con email/password → Supabase crea `auth.user`
+2. El trigger `on_auth_user_created` crea un `profile` con `org_id = null`
+3. App detecta `profile.org_id IS NULL` → `RequireOrg` redirige a `/completar-organizacion`
+4. RPC `completar_registro_organizacion(p_nombre_org)` crea la organización, asigna el perfil como `admin_org` y crea el registro en `productores` — todo atómico
+5. App navega a `/`
+
+### RLS
+- Función `get_my_org_id()` devuelve el `org_id` del usuario autenticado
+- Políticas RLS aíslan por organización en todas las tablas con `org_id`
+- `super_admin` tiene acceso cross-tenant
+
+### REGLA CRÍTICA — org_id
+**El `org_id` NUNCA se pide al usuario ni viene del frontend.** Siempre del contexto de auth:
+```typescript
+const { profile } = useAuthContext()
+// profile.org_id  ← usar esto siempre
+```
+
+---
+
+## 4. Estructura del código
 
 ```
 src/
-├── main.tsx                          # Entry point — monta React en #root
+├── main.tsx
 ├── app/
-│   ├── App.tsx                       # Wraps RouterProvider
-│   ├── routes.tsx                    # createBrowserRouter con 13 rutas
-│   ├── components/
-│   │   ├── Layout.tsx                # Bottom nav (5 tabs), max-width 390px
-│   │   ├── FormField.tsx             # Wrapper reutilizable para campos
-│   │   ├── FormSelect.tsx            # Wrapper reutilizable para selects
-│   │   ├── nueva-aplicacion/         # 4 componentes de pasos (Step1–Step4)
-│   │   └── ui/                       # Componentes shadcn/ui (40+)
-│   └── screens/                      # 13 pantallas page-level
-│       ├── Home.tsx                  # Dashboard principal
-│       ├── NuevaAplicacion.tsx       # Formulario M1 (4 pasos)
-│       ├── Historial.tsx / DetalleAplicacion.tsx
-│       ├── Inventario.tsx
-│       ├── Perfil.tsx
-│       └── inocuidad/                # M6–M12 (BotiquinPrimerosAuxilios,
-│                                     #  InspeccionPerimetral, RegistroFertilizacion,
-│                                     #  RegistroCosechaLiberacion, etc.)
-└── styles/
-    ├── theme.css                     # Tokens CSS (única fuente de verdad de colores)
-    ├── fonts.css                     # Inter 400/600 desde Google Fonts
-    ├── tailwind.css                  # Directivas Tailwind
-    └── index.css                     # Importa los tres anteriores
+│   ├── App.tsx                       # RouterProvider
+│   ├── routes.tsx                    # createBrowserRouter — 14 rutas
+│   ├── screens/                      # 18 pantallas page-level
+│   │   ├── Home.tsx                  # Dashboard (datos mock — pendiente)
+│   │   ├── Login.tsx / Registro.tsx / CompletarOrganizacion.tsx
+│   │   ├── NuevaAplicacion.tsx       # M1 ✅ COMPLETO
+│   │   ├── Inventario.tsx            # M2 ✅ COMPLETO
+│   │   ├── Historial.tsx / DetalleAplicacion.tsx   # M3 ✅
+│   │   ├── Perfil.tsx / MiOrganizacion.tsx         # M5
+│   │   ├── BotiquinPrimerosAuxilios.tsx            # M6 ✅ COMPLETO
+│   │   ├── InspeccionVidrioPlastico.tsx            # M7 ✅ COMPLETO
+│   │   ├── RegistroFertilizacion.tsx               # M8 ⏳ mock
+│   │   ├── InspeccionPerimetral.tsx                # M9 ⏳ mock
+│   │   ├── RegistroCosechaLiberacion.tsx           # M10 ⏳ mock
+│   │   ├── InspeccionPreoperacionalCosecha.tsx     # M11 ⏳ mock
+│   │   └── RegistroLimpiezaBanos.tsx               # M12 ⏳ mock
+│   └── components/
+│       ├── Layout.tsx                # Bottom nav 5 tabs, max-width 390px
+│       ├── RequireAuth.tsx / RequireOrg.tsx
+│       ├── FormField.tsx / FormSelect.tsx
+│       ├── nueva-aplicacion/         # Step1–Step4 + ProductoCombobox
+│       └── ui/                       # shadcn/ui (40+ componentes)
+├── context/
+│   └── AuthContext.tsx               # Provider con signIn, signOut, signUp
+├── hooks/
+│   ├── useAuth.ts                    # Estado auth + carga de perfil/productor
+│   ├── useRanchos.ts                 # Ranchos del productor activo
+│   ├── useCatalogoProductos.ts       # Catálogo global activo
+│   ├── useInventario.ts              # Saldos por rancho y productor
+│   ├── useBotiquin.ts                # M6 — registros de botiquín con join a ranchos
+│   └── useVidrioPlastico.ts          # M7 — filas agrupadas en inspecciones
+├── lib/
+│   ├── supabase.ts                   # createClient con storageKey 'agrocampo-auth'
+│   ├── queries.ts                    # 20+ funciones CRUD (ranchos, aplicaciones, inventario)
+│   ├── fenologia.ts                  # Labels de etapas fenológicas
+│   ├── pdf/
+│   │   ├── AplicacionPDF.tsx         # M1 — componente PDF A4 landscape
+│   │   ├── generarPDF.tsx            # Genera blob y descarga M1
+│   │   ├── m6/                       # BotiquinPDF + generadores individual/consolidado
+│   │   └── m7/                       # VidrioPlasticoPDF + generadores individual/consolidado
+│   └── excel/
+│       └── generarExcelHistorial.ts  # M1 Excel — 2 hojas: Historial + Formato oficial
+├── types/
+│   └── database.types.ts             # Tipos TypeScript completos (906 líneas) — fuente de verdad
+├── data/
+│   └── mock.ts                       # Datos mock para Home y pantallas no integradas
+└── scripts/
+    ├── seed-aneberries-zarzamora.ts
+    └── seed-aneberries-todos.ts
 ```
 
-### Rutas definidas
+### Rutas
 
 | Ruta | Pantalla |
 |------|----------|
-| `/` | Home (dashboard) |
-| `/nueva-aplicacion` | Formulario 4 pasos M1 |
+| `/` | Home |
+| `/nueva-aplicacion` | M1 — Formulario 4 pasos |
 | `/inventario` | M2 |
 | `/historial` | M3 listado |
 | `/historial/:id` | DetalleAplicacion |
 | `/perfil` | M5 |
+| `/perfil/mi-organizacion` | MiOrganizacion |
 | `/inocuidad/botiquin` | M6 |
 | `/inocuidad/vidrio-plastico` | M7 |
 | `/inocuidad/fertilizacion` | M8 |
@@ -71,348 +205,220 @@ src/
 | `/inocuidad/preoperacional` | M11 |
 | `/inocuidad/limpieza-banos` | M12 |
 
-### Notas técnicas clave
+---
 
-- **Tailwind v4** con `@tailwindcss/vite` — no hay `tailwind.config.ts`. Los tokens del design system se definen en `src/styles/theme.css` con directiva `@theme`.
-- **Path alias:** `@` apunta a `./src` (configurado en `vite.config.ts`).
-- **React Router v7** (`react-router`, no `react-router-dom`).
-- **Supabase no está integrado aún en el frontend** — toda la lógica de BD está pendiente (Sprint 0/1).
-- El proyecto fue generado desde Figma Make; las pantallas ya están implementadas como UI estática con datos mock.
+## 5. Estado de módulos
+
+### ✅ M1 — Registro de Aplicaciones Foliares/Drench (COMPLETO)
+- Formulario 4 pasos: Parcela/cultivo → Productos → Aplicación/agua → Cierre
+- `ProductoCombobox`: búsqueda con cmdk, resultados agrupados por categoría (7 categorías)
+- Guarda en `aplicaciones` + `aplicacion_productos`
+- Descuenta inventario automáticamente al guardar → inserta en `inventario_movimientos` (tipo `salida`)
+- Genera PDF automáticamente (A4 landscape, 7 secciones)
+- Exportación Excel desde DetalleAplicacion (2 hojas: Historial + Formato oficial SAIA/BPA)
+
+### ✅ M2 — Inventario (COMPLETO)
+- Saldos calculados por vistas SQL `v_inventario_saldo_rancho` y `v_inventario_saldo_productor`
+- Dos vistas en la pantalla: por rancho / por productor
+- Movimientos manuales: entrada, salida, ajuste (con validación de stock)
+- Salida automática desde M1 no bloquea (permite saldo negativo)
+- Saldo negativo se muestra en rojo en la UI
+- Historial inline de movimientos por producto
+
+### ✅ M3 — Historial (COMPLETO)
+- Lista de aplicaciones con filtros
+- DetalleAplicacion: vista completa con PDF y Excel
+
+### ✅ M6 — Botiquín de Primeros Auxilios (COMPLETO)
+- Clave: MXA-F-SC-SIG · Frecuencia: Semanal
+- 5 artículos con toggle Sí/No (default: todos Sí): Parches/Curitas, Guantes de curación, Vendas y tijeras, Gasas/Cintas, Desinfectante
+- PDF individual + consolidado por rango de fechas (una página por registro)
+- **Trigger BD:** `BOTIQUIN_LIMITE_SEMANAL` — bloquea un segundo registro en los 7 días siguientes para el mismo rancho
+- Prevención proactiva en UI (banner ámbar + deshabilita guardar) + captura del error del trigger con toast
+
+### ✅ M7 — Inspección de Vidrio y Plástico Duro (COMPLETO)
+- Clave: MXA-F-SC-SIG-029.14 · Frecuencia: Quincenal (14 días)
+- **Diferencia clave vs M6:** una inspección = VARIAS filas en `m7_vidrio_plastico` (una por material)
+  - Hook `useVidrioPlastico` agrupa filas por `rancho_id + fecha` → devuelve `M7Inspeccion[]`
+  - Formulario dinámico: add/remove filas de materiales
+- Campos por fila: Área (text + sugerencias), Material/Equipo (text + sugerencias), Protegido (toggle, default Sí), Estado (Bueno/Deteriorado/Reemplazo, default Bueno), Observaciones
+- PDF individual + consolidado por rango de fechas
+- **Trigger BD:** `M7_LIMITE_QUINCENAL` — bloquea nueva inspección si ya hubo una en los 14 días previos (permite múltiples filas con la misma fecha = misma inspección)
+- Prevención proactiva + captura de error del trigger
+
+### ⏳ M8-M12 — Módulos SAIA/BPA restantes (UI estática con mock data)
+Las tablas están definidas en Supabase y en `database.types.ts`. Las pantallas existen pero usan `useState(mockEntries)` sin conexión a BD. Ninguno tiene hook, generador PDF, ni funciones en `queries.ts`.
+
+| Módulo | Tabla BD | Frecuencia |
+|--------|----------|------------|
+| M8 Fertilización (`/inocuidad/fertilizacion`) | `m8_fertilizacion` | Por evento |
+| M9 Inspección Perimetral (`/inocuidad/perimetral`) | `m9_perimetral_config` + `m9_perimetral_registros` | Semanal |
+| M10 Cosecha y Liberación (`/inocuidad/cosecha`) | `m10_cosecha_liberacion` | Por evento |
+| M11 Pre-operacional Cosecha (`/inocuidad/preoperacional`) | `m11_preoperacional_registros` | Diaria |
+| M12 Limpieza de Baños (`/inocuidad/limpieza-banos`) | `m12_limpieza_banos` | Diaria |
 
 ---
 
----
+## 6. Patrón de módulos de inocuidad (M6 → replicar en M8-M12)
 
-## 1. Contexto del negocio
+M6 y M7 establecen el patrón. Para implementar M8-M12:
 
-**Cliente:** Hima Inocuidad Alimentaria — empresa de consultoría y certificación en inocuidad alimentaria que gestiona el cumplimiento regulatorio de más de 200 productores agrícolas del sector berry en México. Su cliente principal es **Hortifrut**, empresa exportadora de berries (zarzamora, fresa, arándano, frambuesa) que exporta a EUA, Europa y Asia.
-
-**Problema que resuelve AgroCampo:** Hima gestiona actualmente los registros de aplicaciones de agroquímicos de 200+ productores en formatos físicos en papel o Excel que se envían por WhatsApp/correo. No existe centralización, trazabilidad en tiempo real ni capacidad de búsqueda rápida ante auditorías de GlobalGAP, USDA o SENASICA.
-
-**Relación comercial:** DuoMind Solutions y Hima Inocuidad Alimentaria tienen firmado un **Convenio de Asociación en Participación** (conforme a los Arts. 252-259 del Código de Comercio mexicano). El desarrollo de AgroCampo es un proyecto conjunto:
-- Hima cubre los gastos variables de desarrollo (licencias, infraestructura, herramientas)
-- DuoMind aporta el capital intelectual y el desarrollo
-- Distribución de beneficios Fase 1: 60% Hima / 40% DuoMind
-- Distribución de beneficios Fase 2 (post-recuperación de inversión): 50% / 50%
-
-**Desarrolladores:**
-- Luviano Sánchez Saúl
-- Medina Moreno Moisés
-- Empresa: DuoMind Solutions
-- Régimen fiscal: RESICO
-
----
-
-## 2. Stack técnico
-
+### Estructura de carpetas
 ```
-Frontend:    React + TypeScript + Vite
-Estilos:     Tailwind CSS + shadcn/ui
-Base datos:  Supabase (PostgreSQL + Auth + Storage + RLS)
-Hosting:     DigitalOcean (App Platform o Droplet con Docker)
-Generación PDF: puppeteer o pdf-lib (server-side)
-Gestor paquetes: pnpm (pnpm-workspace.yaml presente)
-```
-
-**Variables de entorno necesarias:**
-```
-VITE_SUPABASE_URL=
-VITE_SUPABASE_ANON_KEY=
-```
-
-**Comandos:**
-```bash
-cd "AgroCampo pesticide management app"
-pnpm install        # NO usar npm, el proyecto usa pnpm
-pnpm run dev        # Corre en localhost:5173
-pnpm run build      # Build de producción
-```
-
----
-
-## 3. Diseño y paleta de colores
-
-El diseño es **mobile-first** (390×844px base), minimalista, sin sombras ni gradientes. La navegación usa una **barra inferior** con 5 tabs.
-
-### Tokens CSS (usar siempre estas variables, nunca hardcodear hex):
-
-```css
---primary:              #2B7AB5   /* Azul principal — botones, toggles activos, FAB */
---agro-blue:            #1E88C7   /* Azul secundario */
---agro-red:             #C02A2A   /* Destructivo / alertas críticas */
---agro-amber:           #F5A623   /* Advertencias */
---background:           #F8F9FA   /* Fondo de la app */
---card:                 #FFFFFF   /* Superficies / cards */
---muted:                #ececf0   /* Fondos de sección header, banners informativos */
---muted-foreground:     #717182   /* Texto secundario / auto-filled / deshabilitado */
---input-background:     #f3f3f5   /* Fondo de inputs */
---switch-background:    #cbced4   /* Toggle inactivo */
---border:               rgba(0,0,0,0.1)  /* Bordes */
---radius:               0.625rem  /* Border radius base */
-
-/* Semánticos */
---agro-success-fill:    #E3F2FD   /* Fondo success/info */
---agro-success-text:    #0D5A8F   /* Texto sobre success fill */
---agro-warning-fill:    #FAEEDA   /* Fondo advertencia */
---agro-warning-text:    #854F0B   /* Texto sobre warning fill */
---agro-danger-fill:     #FAECE7   /* Fondo peligro */
---agro-danger-text:     #993C1D   /* Texto sobre danger fill */
+src/hooks/use<Modulo>.ts              ← hook de datos
+src/lib/pdf/m<N>/
+  ├── <Modulo>PDF.tsx                 ← componentes: <Modulo>Pagina + <Modulo>PDF + <Modulo>ConsolidadoPDF
+  ├── generar<Modulo>PDF.tsx          ← descarga individual
+  └── generar<Modulo>ConsolidadoPDF.tsx ← descarga consolidada por rango de fechas
+src/app/screens/<Modulo>.tsx          ← pantalla (reemplaza el mock actual)
 ```
 
-### Reglas de diseño:
-- Fuente: Inter o Nunito Sans — weight 400 (normal) y 600 (medium)
-- NO usar verde como primario — el primario es azul #2B7AB5
-- Toggles activos: --primary (#2B7AB5) / Inactivos: --switch-background (#cbced4)
-- Status chips: Al día (#E3F2FD / #0D5A8F) · Pendiente (#FAEEDA / #854F0B) · Vencido (#FAECE7 / #993C1D)
-- FAB: 56px círculo, background #2B7AB5, ícono blanco "+"
-- Bottom sheet: 85% altura, handle bar arriba, border-radius top 0.625rem
-
----
-
-## 4. Arquitectura de roles y usuarios
-
-```
-super_admin     → DuoMind Solutions (acceso total)
-admin_hima      → Equipo Hima Inocuidad Alimentaria (panel de todos los productores)
-asesor_tecnico  → Luis Ignacio Rosales Guerrero y otros asesores (recomendaciones, supervisión)
-operario        → Productor de campo (Carlos Alvarez N., Alejandro Lucatero S. y 200+ más)
+### Hook de datos (copiar de useBotiquin.ts)
+```typescript
+// Filtra por profile.org_id (nunca del usuario)
+// select('*, ranchos(nombre, codigo)').eq('org_id', profile.org_id)
+// Devuelve { registros/inspecciones, loading, error, refetch }
 ```
 
-**Seguridad:** Row Level Security (RLS) en Supabase. Cada operario solo ve sus propios registros. admin_hima ve todos. Las políticas RLS deben implementarse a nivel de base de datos, no solo en el frontend.
+**M7 tiene grouping adicional:** las filas se agrupan por `rancho_id + fecha` para formar inspecciones. M8 (por evento, 1 fila = 1 registro) NO necesita grouping.
+
+### Componente PDF (copiar de BotiquinPDF.tsx)
+```typescript
+// <Modulo>Pagina → 1 página A4 con formato oficial
+// <Modulo>PDF → Document con 1 página (individual)
+// <Modulo>ConsolidadoPDF → Document con N páginas (una por registro)
+// Footer fijo en cada página: "AgroCampo — DuoMind Solutions & Hima"
+// Fuente: Helvetica (sin Unicode — usar 'Si'/'No', no ✓/✗)
+```
+
+### Pantalla (copiar de BotiquinPrimerosAuxilios.tsx)
+- Header con ChevronLeft + título + ícono
+- Botón "Exportar consolidado" (abre bottom sheet)
+- Lista de registros como cards con chip de estado + botón PDF
+- FAB (+) abre bottom sheet formulario (85% altura)
+- Validación de rancho requerido + prevención proactiva del límite de frecuencia
+- Guardar → INSERT → refetch → generar PDF → try/catch con toast
+
+### Restricciones de frecuencia (triggers en Postgres)
+Las restricciones viven en BD, no solo en el frontend:
+- **M6:** `BOTIQUIN_LIMITE_SEMANAL` — 1 registro por rancho cada 7 días
+- **M7:** `M7_LIMITE_QUINCENAL` — 1 inspección por rancho cada 14 días (permite varias filas misma fecha)
+- M8-M12: triggers similares a crear en la BD
+
+**Manejo en frontend:**
+1. Prevención proactiva: query en el `useEffect` del formulario, mostrando banner `--agro-warning-fill` y deshabilitando el botón guardar
+2. Captura del error: `mensaje.includes('<NOMBRE_TRIGGER>')` → `toast.warning(parsearErrorLimite(mensaje), { duration: 7000 })`
+3. La función `parsearErrorLimite` extrae fechas del mensaje con regex `/\d{2}\/\d{2}\/\d{4}/g`
 
 ---
 
-## 5. Módulos de la aplicación
+## 7. Generación de PDF y Excel
 
-### Módulos existentes (ya diseñados en Figma Make):
+### PDF (client-side, @react-pdf/renderer)
+- Componente de página reutilizable (individual + consolidado)
+- Generador: `pdf(<Componente />).toBlob()` → `URL.createObjectURL()` → `<a>.click()` → `URL.revokeObjectURL()`
+- Fuente: Helvetica. **No usar caracteres Unicode** (✓, ✗, →) — Helvetica no los soporta. Usar 'Si', 'No', etc.
+- Nombre de archivo: `<modulo>-<fechaSlug>-<ranchoSlug>.pdf`
 
-#### M1 — Registro de Aplicaciones Foliares/Drench (formato SAIA/BPA principal)
-El módulo más crítico. Digitaliza el Registro de Aplicaciones Foliares de Agroquímicos de Hortifrut. Existen DOS variantes del formato físico que deben unificarse:
-
-**Variante A — Formato consolidado (Rancho El Solar, Carlos Alvarez N.):**
-- Muchas filas por hoja, una aplicación por fila
-- Sin campo de fecha de recomendación
-- Sin fenología ni variedad
-
-**Variante B — Formato por evento (Rancho Aranon, Alejandro Lucatero S.):**
-- Una aplicación por página
-- Incluye: fecha de recomendación vs fecha real, fenología, variedad, dosis/200L, cloración, condición meteorológica como checkboxes
-
-**Campos del formulario unificado (4 pasos):**
-
-Paso 1 — Parcela y cultivo:
-- Productor (pre-filled, locked)
-- Huerto / Rancho (dropdown)
-- Código de huerto (auto-fill)
-- Cultivo, Variedad, Sector, Superficie (has)
-- Fenología (dropdown: Establecimiento / Floración / Cuajado de fruto / Engorde / Producción / Cosecha)
-- Fecha de recomendación del asesor (date picker)
-- Fecha real de aplicación (date picker) ← ALERTA si >7 días desde recomendación
-- Hora inicio + Hora fin
-
-Paso 2 — Producto(s):
-- Nombre Comercial (searchable dropdown)
-- Ingrediente Activo (auto-fill desde selección)
-- RSCO/COFEPRIS (auto-fill)
-- Justificación / Plaga objetivo (dropdown)
-- Nivel de infestación (Bajo / Medio / Alto)
-- Dosis por ha, Dosis por 200L agua, Total producto
-- Días a cosecha (plazo), Re-entrada (hrs)
-- Permite múltiples productos por aplicación
-
-Paso 3 — Aplicación y agua:
-- Tipo: Foliar / Drench (toggle grande)
-- Equipo (dropdown: Bomba de motor / Bomba manual / Aspersora de mochila)
-- Total agua usada (L)
-- Cloración: Sí/No → si Sí: cantidad (L) + pH
-- Condición meteorológica (chips selector único): Nublado / Muy soleado / Parcialmente soleado / Lluvioso / Lluvioso y nublado / Viento / Humedad
-- EPP checklist (toggles): Traje protector / Guantes / Googles / Botas / Mascarillas
-
-Paso 4 — Cierre:
-- Caldos sobrantes: Sí/No → cantidad (L) + agua de lavado (L) + eliminado en área designada
-- Nombre(s) del aplicador
-- Asesor técnico (pre-filled)
-- Responsable de inocuidad (pre-filled)
-- Observaciones (textarea)
-- CTA: "Guardar y generar PDF"
-
-#### M2 — Inventario de Plaguicidas
-- Entradas manuales al comprar
-- Salidas automáticas al registrar aplicación
-- Saldo en tiempo real por producto y rancho
-- Historial de movimientos auditable
-
-#### M3 — Historial y Reportes
-- Filtros: productor, rancho, fecha, producto, tipo
-- Timeline agrupado por fecha
-- Exportación PDF/Excel
-
-#### M4 — Panel Admin Hima
-- Visibilidad de todos los productores en tiempo real
-- Alertas: EPP incompleto, intervalo de seguridad vencido, aplicación sin recomendación
-- Métricas de cumplimiento
-
-#### M5 — Perfil y configuración
-- Mis ranchos / cultivos
-- Gestión de productos (catálogo)
-- Asesores
-- Notificaciones
+### Excel (client-side, exceljs)
+- Requiere polyfill `buffer` en el browser: `if (!globalThis.Buffer) { const { Buffer } = await import('buffer'); globalThis.Buffer = Buffer }`
+- `generarExcelHistorial(apps, nombreArchivo)`: 2 hojas — "Historial" (tabla con filtros automáticos) y "Formato oficial" (replica el formato BPA con bloques por aplicación)
+- Exportación disponible desde DetalleAplicacion y Historial (para múltiples aplicaciones)
 
 ---
 
-### Módulos nuevos (pendientes de desarrollar) — Formularios SAIA/BPA adicionales:
+## 8. Esquema de BD — tablas principales
 
-Todos deben generar PDF replicando el formato oficial Hortifrut al guardar.
+Ver `src/types/database.types.ts` para la definición completa. Resumen:
 
-#### M6 — Botiquín de Primeros Auxilios (Pág. 101)
-Clave: MXA-F-SC-SIG · Frecuencia: Semanal
-Tabla con columna de fecha + materiales (Tiene/Llenar toggle por material):
-materiales: Parachofc Writer, Guantes (talla S/M/L), Vendas y Tijeras, Gasas/Cinta, Desinfectante
-+ Responsable + Firma verificación semanal
-UI: tabla scrollable horizontal, columna Fecha congelada
+| Tabla | Descripción |
+|-------|-------------|
+| `organizaciones` | Tenants del SaaS |
+| `profiles` | Usuarios (uno por auth.user), `org_id` nullable |
+| `productores` | Perfil de productor, join con profiles |
+| `ranchos` | Fincas por productor. `codigo` único |
+| `catalogo_productos` | Global. 7 categorías, campos RSCO, días cosecha, dosis |
+| `aplicaciones` | M1 — 24 columnas (fenología, EPP x5, caldos, etc.) |
+| `aplicacion_productos` | Detalle de productos por aplicación M1 |
+| `inventario_movimientos` | Auditoría de stock: entrada/salida/ajuste |
+| `m6_botiquin` | 5 campos boolean + metadata |
+| `m7_vidrio_plastico` | Una fila por material. area, material_equipo, protegido, estado, observaciones |
+| `m8_fertilizacion` | Por evento. sector, método, superficie, dosis |
+| `m9_perimetral_*` | Dos tablas: config de ítems + registros por día |
+| `m10_cosecha_liberacion` | Trazabilidad: bandeja, lote, comprobante, destino |
+| `m11_preoperacional_registros` | Por día: SI/NO/NA + código correctivo |
+| `m12_limpieza_banos` | Por evento: limpieza, desinfección, concentración, sustancias[] |
 
-#### M7 — Inspección de Vidrio y Plástico Duro (Pág. 118)
-Clave: MXA-F-SC-SIG-029.14 · Frecuencia: Quincenal
-Por evento: Fecha, Área, Material/Equipo, Rotegido (SI/NO), Estado (Bueno/Deteriorado/Reemplazo), Observaciones
+**Vistas SQL:**
+- `v_inventario_saldo_rancho` — saldo por rancho + producto
+- `v_inventario_saldo_productor` — saldo por productor + producto
 
-#### M8 — Registro de Fertilización / Enmiendas al Suelo (Pág. 124)
-Clave: MXA-F-SC-SIG-030.14
-Por evento: Fecha, Sector, Nombre Comercial, Ingrediente Activo, Concentración, Método (Fertirriego/Drench/Band), Superficie ⚠️ (campo crítico — fondo #FAEEDA), Dosis Kg-L/Ha, Cantidad Total (auto-calculada), Operario, Verificación semanal
-
-#### M9 — Inspección Perimetral de la Unidad de Producción (Pág. 133)
-Frecuencia: Semanal
-UI: checklist con columna izquierda sticky (labels) + columnas días 1-31 scrollables horizontalmente
-Celda: tap cicla → S (#2B7AB5) → X (#C02A2A) → vacío
-Día actual: fondo #E3F2FD
-Secciones: Periferia del Huerto / Fuentes y Depósitos de Agua (Canal, Reservorio, Pozo) / Instalaciones y Almacenes (condicional si tiene almacén) / Intrusión Animal
-
-#### M10 — Registro de Cosecha y Liberación (Pág. 170)
-Clave: MXA-F-SC-SIG-038.14
-Por evento: Fecha, Sector, Cantidad Bandejas, Lote Liberado (toggle), No. Comprobante, Código Trazabilidad (con scan), Marca/Embalaje, Destino Final, Fruta Proceso (Kg), Encargado Liberación, Verificación Semanal, Observaciones con hora inicio/fin cosecha ⚠️ (campo crítico)
-Banner informativo al pie con referencia al Procedimiento MXA-P-SC-SIG-33-12
-
-#### M11 — Inspección Pre-operacional de Cosecha y BPAs (Pág. 171)
-Clave: MXA-F-SC-SIG-039.14 · Frecuencia: Diaria
-UI: mismo patrón scrollable que M9 con columnas días 1-31
-Respuesta: SI (√) / NO (X) / N/A
-Columna extra: código de acción correctiva (input de texto por fila, se abre al tap)
-Secciones: Área de Cosecha / Baños / Estación de Lavamanos / Higiene Personal / Material de Empaque / Área de Consumo de Alimentos / Salud del Trabajador / Área de Empaque y Carga / Contenedores Re-usables
-
-#### M12 — Registro de Limpieza y Desinfección de Baños (Pág. 178)
-Clave: MXA-F-SC-SIG-041.14 · Frecuencia: Diaria
-Banner read-only (fondo --muted): Desinfectante: Hipoclorito de Sodio 5% 100-200ppm / Detergente: 4gr/L
-Por evento: Fecha, Baño N°, Limpieza (toggle), Desinfección (toggle), Concentración (default 200), Sustancias (chips multi-select), Abasto Papel (toggle), Succión (toggle), Realizó (pre-filled), Firma semanal
+**Funciones SQL:**
+- `saldo_inventario(rancho_id, producto_id)` → saldo actual
+- `completar_registro_organizacion(p_nombre_org)` → crea org + perfil admin_org + productor (atómico)
 
 ---
 
-## 6. Patrones de UI reutilizables
+## 9. Convenciones de código
 
-### Patrón A — Formulario por evento (M6, M7, M8, M10, M12)
-- Nueva entrada via FAB (56px, #2B7AB5, bottom-right, 88px sobre bottom nav)
-- Bottom sheet al 85% altura con campos del registro
-- Entradas guardadas como cards en timeline agrupado por fecha
-- Swipe izquierda en card: Editar (azul) / Eliminar (rojo)
-
-### Patrón B — Checklist calendario scrollable (M9, M11)
-- Columna izquierda sticky: fondo blanco, border-right rgba(0,0,0,0.1), min-width 180px
-- Columnas días 1-31: 40px ancho c/u, scroll horizontal
-- Celda: 40×40px tap target
-- Día actual: fondo #E3F2FD
-- SI: fondo #2B7AB5, ícono checkmark blanco
-- NO: fondo #C02A2A, ícono X blanco
-- N/A: fondo #ececf0, dash #717182
-- Headers de sección: full-width, fondo #ececf0, texto bold, no scrollable
-
-### Campos condicionales
-- M9 secciones de almacén: toggle "¿Tiene almacén?" en header de sección
-- Si OFF: filas con fondo --muted, texto --muted-foreground, no requeridas
-
-### Campos críticos ⚠️
-- Fondo: #FAEEDA, borde: #F5A623
-- Usados en: Superficie (M8), Hora inicio/fin cosecha (M10)
-
----
-
-## 7. Generación de PDF
-
-Cada módulo debe generar un PDF que replique **exactamente** el formato físico original de Hortifrut:
-- Encabezado Hortifrut con logo, título "FORMATOS MANUAL DEL SAIA Y BPA's", Fecha versión y número de versión
-- Bloque productor: Productor, Cultivo, Código, Huerto, Variedad
-- Clave del formato (ej: MXA-F-SC-SIG-030.14)
-- Número de página original
-- Estructura de tabla idéntica al formato físico
-- Footer: firmas requeridas
-
----
-
-## 8. Alertas automáticas del sistema
-
-- **Recomendación vencida:** Si fecha de aplicación > 7 días desde fecha de recomendación → banner ámbar en formulario
-- **EPP incompleto:** Si algún ítem de EPP está en OFF al llegar al Paso 4 → chip rojo en resumen
-- **Intervalo de seguridad:** Si el producto tiene días a cosecha y la cosecha programada cae dentro del intervalo → alerta
-- **Stock bajo:** En inventario, si saldo de un producto es bajo → chip ámbar en card
-
----
-
-## 9. Soporte offline
-
-- Guardar registros localmente cuando no hay conexión (IndexedDB o localStorage)
-- Banner: fondo #FAEEDA, texto #854F0B: "Sin conexión — guardando localmente" con ícono sync
-- Al recuperar conexión: sincronizar automáticamente con Supabase
-- Indicador de sync en progreso
-
----
-
-## 10. Plan de desarrollo — Sprints
-
-| Sprint | Período | Entregables |
-|--------|---------|-------------|
-| Sprint 0 | Abril 2026 | Setup Supabase, auth, roles RLS, estructura base, diseño Figma aprobado |
-| Sprint 1 | Mayo 2026 | Formulario 4 pasos (M1) funcional, validaciones, guardado en Supabase |
-| Sprint 2 | Junio 2026 | Generación PDF SAIA/BPA, alerta recomendación vs aplicación, búsqueda de productos |
-| Sprint 3 | Julio 2026 | Módulo inventario completo (M2), entradas/salidas automáticas |
-| Sprint 4 | Ago-Sep 2026 | Panel admin Hima (M4), filtros, exportación Excel, notificaciones |
-| Sprint 5 | Octubre 2026 | Módulos adicionales SAIA/BPA (M6-M12), pruebas con productores reales |
-| Sprint 6 | Nov-Ene 2027 | Deploy producción DigitalOcean, capacitación, go-live |
-
----
-
-## 11. Convenciones de código
-
+- **pnpm exclusivamente** — nunca `npm` ni `yarn`
+- Path alias `@` → `./src` (configurado en vite.config.ts)
 - Componentes en PascalCase: `RegistroAplicacion.tsx`
-- Hooks en camelCase con prefijo use: `useRegistro.ts`
-- Tipos en PascalCase con sufijo Type o Interface: `RegistroType`
+- Hooks en camelCase con prefijo `use`: `useRegistro.ts`
+- Tipos en PascalCase con sufijo Type/Interface: `RegistroType`
 - Carpetas en kebab-case: `registro-aplicacion/`
-- NO hardcodear colores — usar siempre las variables CSS del design system
-- NO usar `npm` — este proyecto usa `pnpm`
-- Comentarios en español (el equipo es hispanohablante)
-- Siempre implementar RLS en Supabase para cualquier tabla nueva
+- **NO hardcodear colores** — usar variables CSS del design system
+- Comentarios en español
+- **Commits sin co-autoría de IA en el mensaje** (sin líneas `Co-Authored-By`)
+- RLS obligatorio en cualquier tabla nueva
+- Inserts siempre propagan `org_id` desde el contexto de auth
 
 ---
 
-## 12. Contactos y contexto humano
+## 10. Pendientes conocidos
 
-| Persona | Rol |
-|---------|-----|
-| Luviano Sánchez Saúl | Desarrollador — DuoMind Solutions |
-| Medina Moreno Moisés | Desarrollador — DuoMind Solutions |
-| Director Hima | Cliente / Product Owner |
-| Luis Ignacio Rosales Guerrero | Asesor técnico agrícola — usuario clave |
-| Carlos Alvarez Naranjo | Productor operario — Rancho El Solar |
-| Alejandro Lucatero Sánchez | Productor operario — Rancho Aranon |
+1. **Home.tsx** — muestra datos mock hardcodeados (Carlos Alvarez Naranjo, Rancho El Solar, métricas ficticias). Falta cablearlo a datos reales de la organización del usuario autenticado.
+
+2. **M8-M12** — pantallas con UI estática. Cada una necesita: hook, funciones en `queries.ts`, guardar en BD, generadores PDF, y trigger de restricción de frecuencia.
+
+3. **Validación del catálogo ANEBERRIES con Hima** — hay puntos pendientes: dosis marcadas como "No especificada en lista", categorización de algunos productos.
+
+4. **Sistema de invitación de usuarios** — para agregar miembros a una organización existente (equipos multi-usuario). No implementado.
+
+5. **Suscripciones y pagos (Stripe)** — plans existen en el esquema pero sin implementar cobro.
+
+6. **Deploy a Vercel** — pendiente. Requiere configurar:
+   - `VITE_SUPABASE_URL`
+   - `VITE_SUPABASE_ANON_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY` solo para Edge Functions o seeds — **nunca en variables frontend de Vercel ni en git**
+   - `.env` ya está en `.gitignore`
+
+7. **Soporte offline** — no implementado (IndexedDB + banner + sync).
+
+8. **Tests** — no configurados.
 
 ---
 
-## 13. Bugs resueltos
+## 11. Skills de diseño instaladas
 
-### Bug — Recarga de página colgaba infinitamente (Mayo 2026)
-**Síntoma:** Login funcionaba correctamente pero recargar la página dejaba la app cargando indefinidamente.
-**Causa:** `onAuthStateChange` disparaba `SIGNED_IN` al recuperar la sesión del localStorage, generando múltiples instancias de `GoTrueClient` que se bloqueaban entre sí.
+En `.claude/skills/` y `.agents/skills/`:
+- `emil-design-eng` — filosofía de polish UI y detalles invisibles
+- `impeccable` — auditoría y mejora de interfaces
+- `design-taste-frontend` — landing pages, rediseños, anti-slop
+
+Usarlas con `/skill-name` cuando se requiera trabajo de diseño. Respetar el design system existente (tokens CSS, mobile-first, minimalismo sin sombras).
+
+---
+
+## 12. Bugs resueltos
+
+### Recarga de página colgaba infinitamente (Mayo 2026)
+**Causa:** `onAuthStateChange` disparaba `SIGNED_IN` al recuperar sesión del localStorage, generando múltiples instancias de `GoTrueClient`.
 **Solución:**
-- `storageKey` único en `supabase.ts` (`'agrocampo-auth'`)
+- `storageKey: 'agrocampo-auth'` único en `supabase.ts`
 - Estrategia mixta: `getSession()` al montar + `onAuthStateChange` solo para eventos nuevos
 - Eliminar todas las instancias extra de `createClient` fuera de `supabase.ts`
 
 ---
 
-*Última actualización: Mayo 2026 — DuoMind Solutions*
+*Última actualización: 13 junio 2026 — DuoMind Solutions*
