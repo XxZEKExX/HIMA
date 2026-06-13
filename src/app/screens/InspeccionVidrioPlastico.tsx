@@ -1,12 +1,12 @@
-// ╔══════════════════════════════════════════════════════════════════════╗
-// ║  PATRÓN INOCUIDAD M7 — copia la estructura de M6 (BotiquinPrimerosAuxilios)  ║
-// ║                                                                              ║
-// ║  Diferencia clave vs M6: una inspección M7 = VARIAS filas (materiales)      ║
-// ║  con el mismo rancho_id + fecha. El formulario agrega filas dinámicamente.  ║
-// ╚══════════════════════════════════════════════════════════════════════╝
+// PATRÓN INOCUIDAD M7 — catálogo-primero (v2)
+// Flujo: configurar catálogo de materiales por rancho una vez → al inspeccionar,
+// todos los materiales se cargan automáticamente. El usuario solo ajusta estado.
 
 import { useState, useEffect } from 'react'
-import { ChevronLeft, Plus, FileDown, X, Loader2, Eye, Files, AlertTriangle, Trash2 } from 'lucide-react'
+import {
+  ChevronLeft, Plus, FileDown, X, Loader2, Eye, Files,
+  AlertTriangle, Trash2, Settings,
+} from 'lucide-react'
 import { useNavigate } from 'react-router'
 import { toast } from 'sonner'
 import { useAuthContext } from '@/context/AuthContext'
@@ -31,28 +31,33 @@ const ESTADO_CHIP: Record<Estado, { bg: string; text: string }> = {
   'Reemplazo':   { bg: 'var(--agro-danger-fill)',  text: 'var(--agro-danger-text)'  },
 }
 
-const SUGERENCIAS_AREA = ['Camionetas', 'Empaque', 'Almacén', 'Baños', 'Comedor', 'Oficinas', 'Bodega', 'Área de cosecha']
-const SUGERENCIAS_MATERIAL = ['Faros', 'Parabrisas', 'Ventanas', 'Lámparas', 'Termómetros', 'Pantallas', 'Espejos', 'Cristalería']
+const AREAS_ESTANDAR = [
+  'Camionetas', 'Empaque', 'Almacén', 'Baños', 'Comedor',
+  'Oficinas', 'Bodega', 'Área de cosecha', 'Cuarto frío',
+]
+
+const MATERIALES_ESTANDAR = [
+  'Faros', 'Parabrisas', 'Ventanas', 'Lámparas', 'Termómetros',
+  'Pantallas', 'Espejos', 'Cristalería', 'Flotadores',
+  'Recipientes plásticos', 'Cajas de plástico', 'Tubos plásticos',
+]
 
 // ── Tipos ────────────────────────────────────────────────────────────────────
 
-type MaterialFila = {
+type FilaInspeccion = {
+  catalogoId: string
   area: string
-  material_equipo: string
+  material: string
   protegido: boolean
   estado: Estado
   observaciones: string
 }
 
-type ErrFila = { area: boolean; material: boolean }
-
-const filaVacia = (): MaterialFila => ({
-  area: '',
-  material_equipo: '',
-  protegido: true,
-  estado: 'Bueno',
-  observaciones: '',
-})
+interface MaterialCatalogo {
+  id: string
+  area: string
+  material: string
+}
 
 const hoy = () => new Date().toISOString().split('T')[0]
 
@@ -61,9 +66,7 @@ const hoy = () => new Date().toISOString().split('T')[0]
 function formatFecha(iso: string): string {
   try {
     return new Date(iso + 'T12:00:00').toLocaleDateString('es-MX', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
+      day: 'numeric', month: 'short', year: 'numeric',
     })
   } catch {
     return iso
@@ -78,155 +81,153 @@ function resumirEstados(materiales: M7Inspeccion['materiales']): Partial<Record<
   return counts
 }
 
-// Extrae la fecha del mensaje del trigger M7_LIMITE_QUINCENAL y arma texto amigable.
 function parsearErrorLimite(mensaje: string): string {
   const fechas = mensaje.match(/\d{2}\/\d{2}\/\d{4}/g)
   const proxima = fechas ? fechas[fechas.length - 1] : null
   return proxima
-    ? `Ya se registró una inspección de vidrio y plástico esta quincena. La siguiente se permite a partir del ${proxima}.`
+    ? `Ya se registró una inspección esta quincena. Próxima disponible: ${proxima}.`
     : 'Solo se permite una inspección de vidrio y plástico cada 14 días por rancho.'
 }
 
-// ── Sub-componentes ───────────────────────────────────────────────────────────
+// ── SuggestionInput ───────────────────────────────────────────────────────────
+// Input con dropdown custom — no usa <datalist> nativo (desborda en 390px).
 
-function MaterialFilaForm({
-  fila,
-  index,
-  errFila,
+function SuggestionInput({
+  value,
   onChange,
-  onRemove,
-  puedeEliminar,
+  suggestions,
+  placeholder,
+  error,
 }: {
-  fila: MaterialFila
-  index: number
-  errFila: ErrFila
-  onChange: (f: MaterialFila) => void
-  onRemove: () => void
-  puedeEliminar: boolean
+  value: string
+  onChange: (v: string) => void
+  suggestions: string[]
+  placeholder?: string
+  error?: boolean
+}) {
+  const [open, setOpen] = useState(false)
+  const filtered = suggestions.filter(
+    (s) =>
+      s.toLowerCase().includes(value.toLowerCase()) &&
+      s.toLowerCase() !== value.toLowerCase()
+  )
+
+  return (
+    <div className="relative">
+      <input
+        type="text"
+        value={value}
+        onChange={(e) => { onChange(e.target.value); setOpen(true) }}
+        onFocus={() => setOpen(true)}
+        onBlur={() => setTimeout(() => setOpen(false), 150)}
+        placeholder={placeholder}
+        className={`w-full h-10 px-3 rounded-lg bg-card border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary ${
+          error ? 'border-agro-red' : 'border-border'
+        }`}
+      />
+      {open && filtered.length > 0 && (
+        <div className="absolute z-50 left-0 right-0 top-full mt-1 bg-card border border-border rounded-xl overflow-hidden shadow-lg max-h-36 overflow-y-auto">
+          {filtered.slice(0, 8).map((s) => (
+            <button
+              key={s}
+              type="button"
+              onMouseDown={() => { onChange(s); setOpen(false) }}
+              className="w-full text-left px-3 py-2 text-sm text-foreground hover:bg-muted transition-colors"
+            >
+              {s}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ── MaterialRowInspeccion ─────────────────────────────────────────────────────
+// Fila compacta: nombre del material + protegido toggle + chips de estado + obs.
+
+function MaterialRowInspeccion({
+  fila,
+  onChange,
+}: {
+  fila: FilaInspeccion
+  onChange: (f: FilaInspeccion) => void
 }) {
   return (
-    <div className="bg-muted rounded-xl p-3 space-y-3">
-      {/* Encabezado de fila */}
-      <div className="flex items-center justify-between">
-        <span className="text-xs text-muted-foreground" style={{ fontWeight: 600 }}>
-          Material {index + 1}
+    <div className="border border-border rounded-xl p-3 space-y-2 bg-card">
+      <p className="text-sm text-foreground" style={{ fontWeight: 600 }}>
+        {fila.material}
+      </p>
+
+      <div className="flex items-center gap-3">
+        <span className="text-xs text-muted-foreground flex-shrink-0" style={{ minWidth: 72 }}>
+          Protegido
         </span>
-        {puedeEliminar && (
-          <button
-            type="button"
-            onClick={onRemove}
-            className="p-1 text-muted-foreground hover:text-agro-red transition-colors"
-            aria-label="Quitar material"
-          >
-            <Trash2 className="w-3.5 h-3.5" />
-          </button>
-        )}
-      </div>
-
-      {/* Área */}
-      <div>
-        <label className="block text-xs text-muted-foreground mb-1" style={{ fontWeight: 600 }}>
-          ÁREA *
-        </label>
-        <input
-          type="text"
-          list={`areas-${index}`}
-          value={fila.area}
-          onChange={(e) => onChange({ ...fila, area: e.target.value })}
-          placeholder="Ej: Camionetas"
-          className={`w-full h-10 px-3 rounded-lg bg-card border text-sm text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary ${
-            errFila.area ? 'border-agro-red' : 'border-border'
-          }`}
-        />
-        <datalist id={`areas-${index}`}>
-          {SUGERENCIAS_AREA.map((a) => <option key={a} value={a} />)}
-        </datalist>
-        {errFila.area && <p className="text-xs text-agro-red mt-1">Indica el área</p>}
-      </div>
-
-      {/* Material / Equipo */}
-      <div>
-        <label className="block text-xs text-muted-foreground mb-1" style={{ fontWeight: 600 }}>
-          MATERIAL / EQUIPO *
-        </label>
-        <input
-          type="text"
-          list={`materiales-${index}`}
-          value={fila.material_equipo}
-          onChange={(e) => onChange({ ...fila, material_equipo: e.target.value })}
-          placeholder="Ej: Faros"
-          className={`w-full h-10 px-3 rounded-lg bg-card border text-sm text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary ${
-            errFila.material ? 'border-agro-red' : 'border-border'
-          }`}
-        />
-        <datalist id={`materiales-${index}`}>
-          {SUGERENCIAS_MATERIAL.map((m) => <option key={m} value={m} />)}
-        </datalist>
-        {errFila.material && <p className="text-xs text-agro-red mt-1">Indica el material o equipo</p>}
-      </div>
-
-      {/* Protegido */}
-      <div>
-        <label className="block text-xs text-muted-foreground mb-1.5" style={{ fontWeight: 600 }}>
-          ¿PROTEGIDO?
-        </label>
-        <div className="flex gap-2">
+        <div className="flex gap-1.5">
           <button
             type="button"
             onClick={() => onChange({ ...fila, protegido: true })}
-            className={`flex-1 h-10 rounded-lg text-sm transition-colors ${
+            className={`h-7 px-3 rounded-lg text-xs transition-colors ${
               fila.protegido
                 ? 'bg-primary text-white'
                 : 'bg-input-background text-muted-foreground border border-border'
             }`}
-            style={{ fontWeight: 600 }}
+            style={{ fontWeight: fila.protegido ? 600 : 400 }}
           >
             Sí
           </button>
           <button
             type="button"
             onClick={() => onChange({ ...fila, protegido: false })}
-            className={`flex-1 h-10 rounded-lg text-sm transition-colors ${
-              !fila.protegido
-                ? 'bg-agro-red text-white'
-                : 'bg-input-background text-muted-foreground border border-border'
+            className={`h-7 px-3 rounded-lg text-xs transition-colors ${
+              !fila.protegido ? 'text-white' : 'bg-input-background text-muted-foreground border border-border'
             }`}
-            style={{ fontWeight: 600 }}
+            style={
+              !fila.protegido
+                ? { backgroundColor: 'var(--agro-red)', fontWeight: 600 }
+                : { fontWeight: 400 }
+            }
           >
             No
           </button>
         </div>
       </div>
 
-      {/* Estado */}
-      <div>
-        <label className="block text-xs text-muted-foreground mb-1.5" style={{ fontWeight: 600 }}>
-          ESTADO
-        </label>
-        <select
-          value={fila.estado}
-          onChange={(e) => onChange({ ...fila, estado: e.target.value as Estado })}
-          className="w-full h-10 px-3 rounded-lg bg-input-background border border-border text-sm text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
-        >
+      <div className="flex items-center gap-3">
+        <span className="text-xs text-muted-foreground flex-shrink-0" style={{ minWidth: 72 }}>
+          Estado
+        </span>
+        <div className="flex gap-1.5 flex-wrap">
           {ESTADO_OPTIONS.map((e) => (
-            <option key={e} value={e}>{e}</option>
+            <button
+              key={e}
+              type="button"
+              onClick={() => onChange({ ...fila, estado: e })}
+              className="h-7 px-2.5 rounded-lg text-xs transition-colors"
+              style={
+                fila.estado === e
+                  ? { backgroundColor: ESTADO_CHIP[e].bg, color: ESTADO_CHIP[e].text, fontWeight: 600 }
+                  : {
+                      backgroundColor: 'var(--input-background)',
+                      color: 'var(--muted-foreground)',
+                      border: '1px solid var(--border)',
+                      fontWeight: 400,
+                    }
+              }
+            >
+              {e}
+            </button>
           ))}
-        </select>
+        </div>
       </div>
 
-      {/* Observaciones */}
-      <div>
-        <label className="block text-xs text-muted-foreground mb-1" style={{ fontWeight: 600 }}>
-          OBSERVACIONES
-        </label>
-        <input
-          type="text"
-          value={fila.observaciones}
-          onChange={(e) => onChange({ ...fila, observaciones: e.target.value })}
-          placeholder="Opcional"
-          className="w-full h-10 px-3 rounded-lg bg-card border border-border text-sm text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
-        />
-      </div>
+      <input
+        type="text"
+        value={fila.observaciones}
+        onChange={(e) => onChange({ ...fila, observaciones: e.target.value })}
+        placeholder="Observaciones (opcional)"
+        className="w-full h-8 px-3 rounded-lg bg-muted border border-border text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary"
+      />
     </div>
   )
 }
@@ -239,18 +240,31 @@ export function InspeccionVidrioPlastico() {
   const { ranchos } = useRanchos()
   const { inspecciones, loading, refetch } = useVidrioPlastico()
 
-  // ── Estado del formulario ───────────────────────────────────────────────
-  const [sheetAbierto, setSheetAbierto] = useState(false)
+  const ranchoOptions = ranchos.map((r) => ({ value: r.id, label: r.nombre }))
+
+  // ── Estado inspección ───────────────────────────────────────────────────
+  const [sheetInspeccionAbierto, setSheetInspeccionAbierto] = useState(false)
   const [ranchoId, setRanchoId] = useState('')
   const [fecha, setFecha] = useState(hoy())
-  const [materiales, setMateriales] = useState<MaterialFila[]>([filaVacia()])
+  const [filasInspeccion, setFilasInspeccion] = useState<FilaInspeccion[]>([])
+  const [cargandoMateriales, setCargandoMateriales] = useState(false)
   const [errRancho, setErrRancho] = useState(false)
-  const [errFilas, setErrFilas] = useState<ErrFila[]>([{ area: false, material: false }])
   const [guardando, setGuardando] = useState(false)
   const [limiteInfo, setLimiteInfo] = useState<{ proxima: string } | null>(null)
   const [generandoPDF, setGenerandoPDF] = useState<string | null>(null)
 
-  // ── Estado del consolidado ──────────────────────────────────────────────
+  // ── Estado configuración ────────────────────────────────────────────────
+  const [sheetConfigAbierto, setSheetConfigAbierto] = useState(false)
+  const [configRanchoId, setConfigRanchoId] = useState('')
+  const [configMateriales, setConfigMateriales] = useState<MaterialCatalogo[]>([])
+  const [cargandoConfig, setCargandoConfig] = useState(false)
+  const [nuevaArea, setNuevaArea] = useState('')
+  const [nuevaMaterial, setNuevaMaterial] = useState('')
+  const [errNuevaArea, setErrNuevaArea] = useState(false)
+  const [errNuevaMaterial, setErrNuevaMaterial] = useState(false)
+  const [guardandoNuevo, setGuardandoNuevo] = useState(false)
+
+  // ── Estado consolidado ──────────────────────────────────────────────────
   const [sheetConsolidadoAbierto, setSheetConsolidadoAbierto] = useState(false)
   const [consRanchoId, setConsRanchoId] = useState('')
   const [consDesde, setConsDesde] = useState('')
@@ -259,11 +273,78 @@ export function InspeccionVidrioPlastico() {
   const [errConsRancho, setErrConsRancho] = useState(false)
   const [errConsFechas, setErrConsFechas] = useState(false)
 
-  // ── Verificación proactiva del límite quincenal (14 días) ───────────────
-  // Busca inspecciones previas en los 13 días anteriores a la fecha seleccionada.
-  // El mismo día se permite (es la misma inspección con más materiales).
+  // ── Carga de materiales del catálogo al cambiar rancho en inspección ────
   useEffect(() => {
-    if (!sheetAbierto || !ranchoId || !fecha || !profile?.org_id) {
+    if (!sheetInspeccionAbierto || !ranchoId || !profile?.org_id) {
+      setFilasInspeccion([])
+      setCargandoMateriales(false)
+      return
+    }
+    let cancelado = false
+    setFilasInspeccion([])
+    setCargandoMateriales(true)
+
+    supabase
+      .from('m7_materiales_rancho')
+      .select('id, area, material')
+      .eq('org_id', profile.org_id)
+      .eq('rancho_id', ranchoId)
+      .eq('activo', true)
+      .order('area')
+      .order('material')
+      .then(({ data, error }) => {
+        if (cancelado) return
+        if (error) {
+          toast.error('Error al cargar materiales del catálogo')
+          setCargandoMateriales(false)
+          return
+        }
+        setFilasInspeccion(
+          (data ?? []).map((m) => ({
+            catalogoId: m.id,
+            area: m.area,
+            material: m.material,
+            protegido: true,
+            estado: 'Bueno' as Estado,
+            observaciones: '',
+          }))
+        )
+        setCargandoMateriales(false)
+      })
+
+    return () => { cancelado = true }
+  }, [sheetInspeccionAbierto, ranchoId, profile?.org_id])
+
+  // ── Carga de materiales al cambiar rancho en configuración ───────────────
+  useEffect(() => {
+    if (!sheetConfigAbierto || !configRanchoId || !profile?.org_id) {
+      setConfigMateriales([])
+      return
+    }
+    let cancelado = false
+    setCargandoConfig(true)
+
+    supabase
+      .from('m7_materiales_rancho')
+      .select('id, area, material')
+      .eq('org_id', profile.org_id)
+      .eq('rancho_id', configRanchoId)
+      .eq('activo', true)
+      .order('area')
+      .order('material')
+      .then(({ data }) => {
+        if (!cancelado) {
+          setConfigMateriales(data ?? [])
+          setCargandoConfig(false)
+        }
+      })
+
+    return () => { cancelado = true }
+  }, [sheetConfigAbierto, configRanchoId, profile?.org_id])
+
+  // ── Verificación proactiva del límite quincenal ──────────────────────────
+  useEffect(() => {
+    if (!sheetInspeccionAbierto || !ranchoId || !fecha || !profile?.org_id) {
       setLimiteInfo(null)
       return
     }
@@ -293,71 +374,61 @@ export function InspeccionVidrioPlastico() {
           setLimiteInfo(null)
         }
       })
+
     return () => { cancelado = true }
-  }, [sheetAbierto, ranchoId, fecha, profile?.org_id])
+  }, [sheetInspeccionAbierto, ranchoId, fecha, profile?.org_id])
 
-  // ── Opciones de rancho ──────────────────────────────────────────────────
-  const ranchoOptions = ranchos.map((r) => ({ value: r.id, label: r.nombre }))
+  // ── Sugerencias dinámicas para config ────────────────────────────────────
+  const areasExistentes = [...new Set(configMateriales.map((m) => m.area))]
+  const areasSugerencias = [...new Set([...areasExistentes, ...AREAS_ESTANDAR])]
+  const materialesExistentes = configMateriales.map((m) => m.material)
+  const materialesSugerencias = [...new Set([...materialesExistentes, ...MATERIALES_ESTANDAR])]
 
-  // ── Handlers del formulario ─────────────────────────────────────────────
+  // ── Materiales agrupados por área (para inspección) ──────────────────────
+  const materialesGrouped = filasInspeccion.reduce<Record<string, { fila: FilaInspeccion; idx: number }[]>>(
+    (acc, fila, idx) => {
+      if (!acc[fila.area]) acc[fila.area] = []
+      acc[fila.area].push({ fila, idx })
+      return acc
+    },
+    {}
+  )
 
-  function abrirSheet() {
+  // ── Handlers inspección ──────────────────────────────────────────────────
+
+  function abrirSheetInspeccion() {
     setRanchoId('')
     setFecha(hoy())
-    setMateriales([filaVacia()])
+    setFilasInspeccion([])
     setErrRancho(false)
-    setErrFilas([{ area: false, material: false }])
     setLimiteInfo(null)
-    setSheetAbierto(true)
+    setSheetInspeccionAbierto(true)
   }
 
-  function agregarFila() {
-    setMateriales((prev) => [...prev, filaVacia()])
-    setErrFilas((prev) => [...prev, { area: false, material: false }])
-  }
-
-  function quitarFila(i: number) {
-    setMateriales((prev) => prev.filter((_, j) => j !== i))
-    setErrFilas((prev) => prev.filter((_, j) => j !== i))
-  }
-
-  function updateFila(i: number, f: MaterialFila) {
-    setMateriales((prev) => prev.map((x, j) => (j === i ? f : x)))
-    setErrFilas((prev) =>
-      prev.map((e, j) =>
-        j === i
-          ? { area: f.area.trim() ? false : e.area, material: f.material_equipo.trim() ? false : e.material }
-          : e
-      )
-    )
+  function updateFilaInspeccion(idx: number, f: FilaInspeccion) {
+    setFilasInspeccion((prev) => prev.map((x, i) => (i === idx ? f : x)))
   }
 
   async function handleGuardar() {
-    let hayError = false
-    if (!ranchoId) { setErrRancho(true); hayError = true }
-
-    const nuevosErrFilas = materiales.map((m) => ({
-      area: !m.area.trim(),
-      material: !m.material_equipo.trim(),
-    }))
-    setErrFilas(nuevosErrFilas)
-    if (nuevosErrFilas.some((e) => e.area || e.material)) hayError = true
-
-    if (hayError) return
+    if (!ranchoId) { setErrRancho(true); return }
     if (!profile?.org_id) { toast.error('Sin organización activa'); return }
+    if (filasInspeccion.length === 0) {
+      toast.error('Configura al menos un material antes de inspeccionar')
+      return
+    }
 
     setGuardando(true)
     try {
-      const rows = materiales.map((m) => ({
+      const rows = filasInspeccion.map((f) => ({
         rancho_id: ranchoId,
         org_id: profile.org_id,
         fecha,
         registrado_por: profile.id,
-        area: m.area.trim(),
-        material_equipo: m.material_equipo.trim(),
-        protegido: m.protegido,
-        estado: m.estado,
-        observaciones: m.observaciones.trim() || null,
+        area: f.area,
+        material_equipo: f.material,
+        protegido: f.protegido,
+        estado: f.estado,
+        observaciones: f.observaciones.trim() || null,
       }))
 
       const { data, error } = await supabase
@@ -368,10 +439,9 @@ export function InspeccionVidrioPlastico() {
       if (error) throw error
 
       toast.success('Inspección guardada')
-      setSheetAbierto(false)
+      setSheetInspeccionAbierto(false)
       await refetch()
 
-      // Generar PDF automáticamente tras guardar
       const rancho = ranchos.find((r) => r.id === ranchoId)
       if (rancho) {
         const folio = (data?.[0]?.id as string)?.slice(0, 8).toUpperCase() ?? '—'
@@ -381,12 +451,12 @@ export function InspeccionVidrioPlastico() {
           ranchoCodigo: rancho.codigo,
           fecha,
           responsableNombre: profile.nombre_completo,
-          materiales: materiales.map((m) => ({
-            area: m.area.trim(),
-            material_equipo: m.material_equipo.trim(),
-            protegido: m.protegido,
-            estado: m.estado,
-            observaciones: m.observaciones.trim() || null,
+          materiales: filasInspeccion.map((f) => ({
+            area: f.area,
+            material_equipo: f.material,
+            protegido: f.protegido,
+            estado: f.estado,
+            observaciones: f.observaciones.trim() || null,
           })),
         }
         try {
@@ -434,6 +504,74 @@ export function InspeccionVidrioPlastico() {
     }
   }
 
+  // ── Handlers configuración ───────────────────────────────────────────────
+
+  function abrirSheetConfig(ranchoPreset?: string) {
+    setConfigRanchoId(ranchoPreset ?? '')
+    setConfigMateriales([])
+    setNuevaArea('')
+    setNuevaMaterial('')
+    setErrNuevaArea(false)
+    setErrNuevaMaterial(false)
+    setSheetConfigAbierto(true)
+  }
+
+  async function handleAgregarMaterial() {
+    let err = false
+    if (!nuevaArea.trim()) { setErrNuevaArea(true); err = true }
+    if (!nuevaMaterial.trim()) { setErrNuevaMaterial(true); err = true }
+    if (err || !profile?.org_id) return
+
+    setGuardandoNuevo(true)
+    try {
+      const { error } = await supabase
+        .from('m7_materiales_rancho')
+        .upsert(
+          {
+            rancho_id: configRanchoId,
+            org_id: profile.org_id,
+            area: nuevaArea.trim(),
+            material: nuevaMaterial.trim(),
+            activo: true,
+          },
+          { onConflict: 'rancho_id,area,material' }
+        )
+      if (error) throw error
+
+      setNuevaArea('')
+      setNuevaMaterial('')
+
+      const { data } = await supabase
+        .from('m7_materiales_rancho')
+        .select('id, area, material')
+        .eq('org_id', profile.org_id)
+        .eq('rancho_id', configRanchoId)
+        .eq('activo', true)
+        .order('area')
+        .order('material')
+      setConfigMateriales(data ?? [])
+    } catch (e: unknown) {
+      toast.error(e instanceof Error ? e.message : 'Error al agregar material')
+    } finally {
+      setGuardandoNuevo(false)
+    }
+  }
+
+  async function handleEliminarMaterial(id: string) {
+    try {
+      const { error } = await supabase
+        .from('m7_materiales_rancho')
+        .update({ activo: false })
+        .eq('id', id)
+      if (error) throw error
+      setConfigMateriales((prev) => prev.filter((m) => m.id !== id))
+    } catch (e: unknown) {
+      toast.error(e instanceof Error ? e.message : 'Error al eliminar material')
+    }
+  }
+
+  // ── Handlers consolidado ─────────────────────────────────────────────────
+
   async function handleGenerarConsolidado() {
     let valido = true
     if (!consRanchoId) { setErrConsRancho(true); valido = false }
@@ -455,14 +593,13 @@ export function InspeccionVidrioPlastico() {
 
       if (error) throw error
       if (!data || data.length === 0) {
-        toast.warning('No hay registros en ese rango de fechas para el rancho seleccionado')
+        toast.warning('No hay registros en ese rango para el rancho seleccionado')
         return
       }
 
       const rancho = ranchos.find((r) => r.id === consRanchoId)
       const ranchoNombre = rancho?.nombre ?? 'Rancho'
 
-      // Agrupar por fecha para armar una página por inspección
       const grouped = new Map<string, VidrioPlasticoPDFProps>()
       for (const row of data as any[]) {
         if (!grouped.has(row.fecha)) {
@@ -484,8 +621,9 @@ export function InspeccionVidrioPlastico() {
         })
       }
 
-      const inspeccionesList = Array.from(grouped.values())
-      await generarVidrioPlasticoConsolidadoPDF(inspeccionesList, ranchoNombre, consDesde, consHasta)
+      await generarVidrioPlasticoConsolidadoPDF(
+        Array.from(grouped.values()), ranchoNombre, consDesde, consHasta
+      )
       setSheetConsolidadoAbierto(false)
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : 'No se pudo generar el PDF consolidado')
@@ -494,7 +632,7 @@ export function InspeccionVidrioPlastico() {
     }
   }
 
-  // ── Render ──────────────────────────────────────────────────────────────────
+  // ── Render ───────────────────────────────────────────────────────────────────
 
   return (
     <div className="min-h-full pb-[calc(72px+34px)]">
@@ -502,16 +640,11 @@ export function InspeccionVidrioPlastico() {
       {/* Header */}
       <header className="bg-card border-b border-border px-4 py-4 sticky top-0 z-20">
         <div className="flex items-center gap-3">
-          <button
-            onClick={() => navigate('/')}
-            className="p-1 text-muted-foreground flex-shrink-0"
-          >
+          <button onClick={() => navigate('/')} className="p-1 text-muted-foreground flex-shrink-0">
             <ChevronLeft className="w-5 h-5" />
           </button>
           <div className="flex-1 min-w-0">
-            <h1 className="text-foreground truncate" style={{ fontWeight: 600 }}>
-              {TITULO_MODULO}
-            </h1>
+            <h1 className="text-foreground truncate" style={{ fontWeight: 600 }}>{TITULO_MODULO}</h1>
             <p className="text-xs text-muted-foreground">{CLAVE_MODULO}</p>
           </div>
           <div className="w-9 h-9 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -520,8 +653,16 @@ export function InspeccionVidrioPlastico() {
         </div>
       </header>
 
-      {/* Acción consolidado */}
-      <div className="px-4 pt-3">
+      {/* Botones de acción */}
+      <div className="px-4 pt-3 grid grid-cols-2 gap-2">
+        <button
+          onClick={() => abrirSheetConfig()}
+          className="h-10 flex items-center justify-center gap-1.5 rounded-xl border border-border text-foreground text-sm hover:bg-muted transition-colors"
+          style={{ fontWeight: 600 }}
+        >
+          <Settings className="w-4 h-4 text-muted-foreground" />
+          Configurar
+        </button>
         <button
           onClick={() => {
             setConsRanchoId('')
@@ -531,11 +672,11 @@ export function InspeccionVidrioPlastico() {
             setErrConsFechas(false)
             setSheetConsolidadoAbierto(true)
           }}
-          className="w-full h-10 flex items-center justify-center gap-2 rounded-xl border border-primary text-primary text-sm hover:bg-primary/5 transition-colors"
+          className="h-10 flex items-center justify-center gap-1.5 rounded-xl border border-primary text-primary text-sm hover:bg-primary/5 transition-colors"
           style={{ fontWeight: 600 }}
         >
           <Files className="w-4 h-4" />
-          Exportar consolidado
+          Consolidado
         </button>
       </div>
 
@@ -549,9 +690,7 @@ export function InspeccionVidrioPlastico() {
           <div className="bg-card border border-border rounded-xl p-6 text-center">
             <Eye className="w-10 h-10 text-muted-foreground mx-auto mb-2" />
             <p className="text-sm text-muted-foreground">Sin inspecciones aún</p>
-            <p className="text-xs text-muted-foreground mt-1">
-              Toca + para registrar la primera inspección
-            </p>
+            <p className="text-xs text-muted-foreground mt-1">Toca + para registrar la primera</p>
           </div>
         ) : (
           inspecciones.map((insp) => {
@@ -562,10 +701,7 @@ export function InspeccionVidrioPlastico() {
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1 flex-wrap">
-                      <span
-                        className="text-sm text-foreground truncate"
-                        style={{ fontWeight: 600 }}
-                      >
+                      <span className="text-sm text-foreground truncate" style={{ fontWeight: 600 }}>
                         {insp.rancho_nombre}
                       </span>
                       <span
@@ -575,9 +711,7 @@ export function InspeccionVidrioPlastico() {
                         {insp.materiales.length} materiales
                       </span>
                     </div>
-                    <p className="text-xs text-muted-foreground">
-                      {formatFecha(insp.fecha)}
-                    </p>
+                    <p className="text-xs text-muted-foreground">{formatFecha(insp.fecha)}</p>
                   </div>
                   <button
                     onClick={() => handleDescargarPDF(insp)}
@@ -592,8 +726,6 @@ export function InspeccionVidrioPlastico() {
                     )}
                   </button>
                 </div>
-
-                {/* Chips de estado */}
                 <div className="flex flex-wrap gap-1 mt-2">
                   {(Object.entries(estadoResumen) as [Estado, number][]).map(([estado, count]) => (
                     <span
@@ -618,7 +750,7 @@ export function InspeccionVidrioPlastico() {
       {/* FAB */}
       <div className="fixed bottom-[calc(72px+34px+16px)] left-1/2 -translate-x-1/2 w-full max-w-[390px] flex justify-end px-4 pointer-events-none z-10">
         <button
-          onClick={abrirSheet}
+          onClick={abrirSheetInspeccion}
           className="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center shadow-lg pointer-events-auto hover:bg-agro-blue transition-colors"
           aria-label="Nueva inspección"
         >
@@ -626,13 +758,155 @@ export function InspeccionVidrioPlastico() {
         </button>
       </div>
 
-      {/* ── Bottom Sheet — exportar consolidado ─────────────────────────────── */}
+      {/* ── Sheet: configurar materiales ───────────────────────────────────── */}
+      {sheetConfigAbierto && (
+        <>
+          <div className="fixed inset-0 bg-black/40 z-30" onClick={() => setSheetConfigAbierto(false)} />
+          <div
+            className="fixed bottom-0 left-0 right-0 z-40 bg-card flex flex-col"
+            style={{ height: '85%', borderRadius: '0.625rem 0.625rem 0 0', maxWidth: 390, margin: '0 auto' }}
+          >
+            <div className="flex justify-center pt-3 pb-1 flex-shrink-0">
+              <div className="w-10 h-1 rounded-full bg-border" />
+            </div>
+            <div className="flex items-center justify-between px-4 py-3 border-b border-border flex-shrink-0">
+              <h2 className="text-base text-foreground" style={{ fontWeight: 600 }}>Configurar materiales</h2>
+              <button onClick={() => setSheetConfigAbierto(false)} className="p-1">
+                <X className="w-5 h-5 text-muted-foreground" />
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              {/* Rancho */}
+              <div>
+                <label className="block text-xs text-muted-foreground mb-1.5" style={{ fontWeight: 600 }}>
+                  RANCHO
+                </label>
+                <select
+                  value={configRanchoId}
+                  onChange={(e) => setConfigRanchoId(e.target.value)}
+                  className={`w-full h-11 px-3 rounded-lg bg-input-background border border-border text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary ${
+                    !configRanchoId ? 'text-muted-foreground' : 'text-foreground'
+                  }`}
+                >
+                  <option value="" disabled>Seleccionar rancho</option>
+                  {ranchoOptions.map((o) => (
+                    <option key={o.value} value={o.value}>{o.label}</option>
+                  ))}
+                </select>
+              </div>
+
+              {configRanchoId && (
+                <>
+                  {/* Lista de materiales configurados */}
+                  {cargandoConfig ? (
+                    <div className="flex justify-center py-6">
+                      <Loader2 className="w-6 h-6 text-primary animate-spin" />
+                    </div>
+                  ) : configMateriales.length === 0 ? (
+                    <div className="bg-muted rounded-xl p-4 text-center">
+                      <p className="text-sm text-muted-foreground">Sin materiales configurados aún</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Agrega materiales con el formulario de abajo
+                      </p>
+                    </div>
+                  ) : (
+                    <div>
+                      <p className="text-xs text-muted-foreground mb-2" style={{ fontWeight: 600 }}>
+                        MATERIALES ({configMateriales.length})
+                      </p>
+                      {[...new Set(configMateriales.map((m) => m.area))].map((area) => (
+                        <div key={area} className="mb-3">
+                          <p
+                            className="text-muted-foreground px-1 pb-1"
+                            style={{ fontWeight: 600, fontSize: 10, textTransform: 'uppercase' }}
+                          >
+                            {area}
+                          </p>
+                          <div className="space-y-1">
+                            {configMateriales.filter((m) => m.area === area).map((m) => (
+                              <div
+                                key={m.id}
+                                className="flex items-center justify-between bg-muted rounded-lg px-3 py-2"
+                              >
+                                <span className="text-sm text-foreground">{m.material}</span>
+                                <button
+                                  type="button"
+                                  onClick={() => handleEliminarMaterial(m.id)}
+                                  className="p-1 text-muted-foreground hover:text-agro-red transition-colors"
+                                  aria-label="Eliminar"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Agregar nuevo material */}
+                  <div className="border-t border-border pt-4">
+                    <p className="text-xs text-muted-foreground mb-2" style={{ fontWeight: 600 }}>
+                      AGREGAR NUEVO MATERIAL
+                    </p>
+                    <div className="space-y-2">
+                      <div>
+                        <SuggestionInput
+                          value={nuevaArea}
+                          onChange={(v) => { setNuevaArea(v); setErrNuevaArea(false) }}
+                          suggestions={areasSugerencias}
+                          placeholder="Área (ej: Camionetas)"
+                          error={errNuevaArea}
+                        />
+                        {errNuevaArea && (
+                          <p className="text-xs mt-1" style={{ color: 'var(--agro-red)' }}>
+                            Indica el área
+                          </p>
+                        )}
+                      </div>
+                      <div>
+                        <SuggestionInput
+                          value={nuevaMaterial}
+                          onChange={(v) => { setNuevaMaterial(v); setErrNuevaMaterial(false) }}
+                          suggestions={materialesSugerencias}
+                          placeholder="Material / Equipo (ej: Faros)"
+                          error={errNuevaMaterial}
+                        />
+                        {errNuevaMaterial && (
+                          <p className="text-xs mt-1" style={{ color: 'var(--agro-red)' }}>
+                            Indica el material
+                          </p>
+                        )}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleAgregarMaterial}
+                        disabled={guardandoNuevo}
+                        className="w-full h-10 bg-primary text-white rounded-xl flex items-center justify-center gap-2 disabled:opacity-50 hover:bg-agro-blue transition-colors text-sm"
+                        style={{ fontWeight: 600 }}
+                      >
+                        {guardandoNuevo ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <Plus className="w-4 h-4" />
+                        )}
+                        Agregar
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* ── Sheet: exportar consolidado ────────────────────────────────────── */}
       {sheetConsolidadoAbierto && (
         <>
-          <div
-            className="fixed inset-0 bg-black/40 z-30"
-            onClick={() => setSheetConsolidadoAbierto(false)}
-          />
+          <div className="fixed inset-0 bg-black/40 z-30" onClick={() => setSheetConsolidadoAbierto(false)} />
           <div
             className="fixed bottom-0 left-0 right-0 z-40 bg-card flex flex-col"
             style={{ borderRadius: '0.625rem 0.625rem 0 0', maxWidth: 390, margin: '0 auto' }}
@@ -641,16 +915,13 @@ export function InspeccionVidrioPlastico() {
               <div className="w-10 h-1 rounded-full bg-border" />
             </div>
             <div className="flex items-center justify-between px-4 py-3 border-b border-border flex-shrink-0">
-              <h2 className="text-base text-foreground" style={{ fontWeight: 600 }}>
-                Exportar consolidado
-              </h2>
+              <h2 className="text-base text-foreground" style={{ fontWeight: 600 }}>Exportar consolidado</h2>
               <button onClick={() => setSheetConsolidadoAbierto(false)} className="p-1">
                 <X className="w-5 h-5 text-muted-foreground" />
               </button>
             </div>
 
             <div className="overflow-y-auto p-4 space-y-4">
-              {/* Rancho */}
               <div>
                 <label className="block text-xs text-muted-foreground mb-1.5" style={{ fontWeight: 600 }}>
                   RANCHO *
@@ -670,7 +941,6 @@ export function InspeccionVidrioPlastico() {
                 {errConsRancho && <p className="text-xs text-agro-red mt-1">Selecciona un rancho</p>}
               </div>
 
-              {/* Desde */}
               <div>
                 <label className="block text-xs text-muted-foreground mb-1.5" style={{ fontWeight: 600 }}>
                   DESDE *
@@ -685,7 +955,6 @@ export function InspeccionVidrioPlastico() {
                 />
               </div>
 
-              {/* Hasta */}
               <div>
                 <label className="block text-xs text-muted-foreground mb-1.5" style={{ fontWeight: 600 }}>
                   HASTA *
@@ -717,38 +986,24 @@ export function InspeccionVidrioPlastico() {
         </>
       )}
 
-      {/* ── Bottom Sheet — formulario nueva inspección ───────────────────────── */}
-      {sheetAbierto && (
+      {/* ── Sheet: nueva inspección ────────────────────────────────────────── */}
+      {sheetInspeccionAbierto && (
         <>
-          <div
-            className="fixed inset-0 bg-black/40 z-30"
-            onClick={() => setSheetAbierto(false)}
-          />
+          <div className="fixed inset-0 bg-black/40 z-30" onClick={() => setSheetInspeccionAbierto(false)} />
           <div
             className="fixed bottom-0 left-0 right-0 z-40 bg-card flex flex-col"
-            style={{
-              height: '85%',
-              borderRadius: '0.625rem 0.625rem 0 0',
-              maxWidth: 390,
-              margin: '0 auto',
-            }}
+            style={{ height: '85%', borderRadius: '0.625rem 0.625rem 0 0', maxWidth: 390, margin: '0 auto' }}
           >
-            {/* Handle */}
             <div className="flex justify-center pt-3 pb-1 flex-shrink-0">
               <div className="w-10 h-1 rounded-full bg-border" />
             </div>
-
-            {/* Header sheet */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-border flex-shrink-0">
-              <h2 className="text-base text-foreground" style={{ fontWeight: 600 }}>
-                Nueva inspección
-              </h2>
-              <button onClick={() => setSheetAbierto(false)} className="p-1">
+              <h2 className="text-base text-foreground" style={{ fontWeight: 600 }}>Nueva inspección</h2>
+              <button onClick={() => setSheetInspeccionAbierto(false)} className="p-1">
                 <X className="w-5 h-5 text-muted-foreground" />
               </button>
             </div>
 
-            {/* Campos */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
 
               {/* Rancho */}
@@ -793,52 +1048,79 @@ export function InspeccionVidrioPlastico() {
                   <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: 'var(--agro-warning-text)' }} />
                   <p className="text-xs" style={{ color: 'var(--agro-warning-text)' }}>
                     Ya existe una inspección para este rancho en los últimos 14 días.{' '}
-                    Próxima inspección disponible:{' '}
+                    Próxima disponible:{' '}
                     <span style={{ fontWeight: 600 }}>{limiteInfo.proxima}</span>
                   </p>
                 </div>
               )}
 
-              {/* Lista dinámica de materiales */}
-              <div>
-                <label className="block text-xs text-muted-foreground mb-2" style={{ fontWeight: 600 }}>
-                  MATERIALES A INSPECCIONAR
-                </label>
-                <div className="space-y-3">
-                  {materiales.map((fila, i) => (
-                    <MaterialFilaForm
-                      key={i}
-                      fila={fila}
-                      index={i}
-                      errFila={errFilas[i] ?? { area: false, material: false }}
-                      onChange={(f) => updateFila(i, f)}
-                      onRemove={() => quitarFila(i)}
-                      puedeEliminar={materiales.length > 1}
-                    />
-                  ))}
-                </div>
+              {/* Materiales del catálogo */}
+              {ranchoId && (
+                <>
+                  {cargandoMateriales ? (
+                    <div className="flex justify-center py-6">
+                      <Loader2 className="w-6 h-6 text-primary animate-spin" />
+                    </div>
+                  ) : filasInspeccion.length === 0 ? (
+                    <div
+                      className="rounded-xl p-4 text-center"
+                      style={{ backgroundColor: 'var(--agro-warning-fill)', border: '1px solid #F5A623' }}
+                    >
+                      <AlertTriangle className="w-8 h-8 mx-auto mb-2" style={{ color: 'var(--agro-warning-text)' }} />
+                      <p className="text-sm" style={{ color: 'var(--agro-warning-text)', fontWeight: 600 }}>
+                        Sin materiales configurados
+                      </p>
+                      <p className="text-xs mt-1" style={{ color: 'var(--agro-warning-text)' }}>
+                        Configura el catálogo de materiales de este rancho antes de inspeccionar.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSheetInspeccionAbierto(false)
+                          setTimeout(() => abrirSheetConfig(ranchoId), 200)
+                        }}
+                        className="mt-3 h-9 px-4 rounded-xl text-sm text-white hover:bg-agro-blue transition-colors"
+                        style={{ backgroundColor: 'var(--primary)', fontWeight: 600 }}
+                      >
+                        Configurar materiales
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      <p className="text-xs text-muted-foreground" style={{ fontWeight: 600 }}>
+                        MATERIALES A INSPECCIONAR ({filasInspeccion.length})
+                      </p>
+                      {Object.entries(materialesGrouped).map(([area, filas]) => (
+                        <div key={area}>
+                          <p
+                            className="text-muted-foreground mb-1.5 px-1"
+                            style={{ fontWeight: 600, fontSize: 10, textTransform: 'uppercase' }}
+                          >
+                            {area}
+                          </p>
+                          <div className="space-y-2">
+                            {filas.map(({ fila, idx }) => (
+                              <MaterialRowInspeccion
+                                key={fila.catalogoId}
+                                fila={fila}
+                                onChange={(f) => updateFilaInspeccion(idx, f)}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </>
+              )}
 
-                {/* Botón agregar material */}
-                <button
-                  type="button"
-                  onClick={agregarFila}
-                  className="w-full h-11 mt-3 flex items-center justify-center gap-2 rounded-xl border border-dashed border-primary text-primary text-sm hover:bg-primary/5 transition-colors"
-                  style={{ fontWeight: 600 }}
-                >
-                  <Plus className="w-4 h-4" />
-                  Agregar material
-                </button>
-              </div>
-
-              {/* Responsable (read-only) */}
+              {/* Registrado por */}
               <div>
                 <label className="block text-xs text-muted-foreground mb-1.5" style={{ fontWeight: 600 }}>
                   REGISTRADO POR
                 </label>
                 <div className="h-11 px-3 rounded-lg bg-muted border border-border flex items-center">
-                  <span className="text-sm text-muted-foreground">
-                    {profile?.nombre_completo ?? '—'}
-                  </span>
+                  <span className="text-sm text-muted-foreground">{profile?.nombre_completo ?? '—'}</span>
                 </div>
               </div>
 
@@ -848,7 +1130,7 @@ export function InspeccionVidrioPlastico() {
             <div className="p-4 border-t border-border flex-shrink-0">
               <button
                 onClick={handleGuardar}
-                disabled={guardando || !!limiteInfo}
+                disabled={guardando || !!limiteInfo || filasInspeccion.length === 0 || cargandoMateriales}
                 className="w-full h-14 bg-primary text-white rounded-3xl flex items-center justify-center gap-2 disabled:opacity-50 hover:bg-agro-blue transition-colors"
                 style={{ fontWeight: 600 }}
               >

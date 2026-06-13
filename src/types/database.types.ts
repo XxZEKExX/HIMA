@@ -464,6 +464,36 @@ export type Database = {
         }
       }
 
+      m7_materiales_rancho: {
+        Row: {
+          id: string
+          rancho_id: string
+          org_id: string
+          area: string
+          material: string
+          activo: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          rancho_id: string
+          org_id: string
+          area: string
+          material: string
+          activo?: boolean
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          rancho_id?: string
+          org_id?: string
+          area?: string
+          material?: string
+          activo?: boolean
+          created_at?: string
+        }
+      }
+
       m7_vidrio_plastico: {
         Row: {
           id: string
