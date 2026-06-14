@@ -596,6 +596,84 @@ export type Database = {
         }
       }
 
+      fertilizantes_org: {
+        Row: {
+          id: string
+          org_id: string
+          nombre_comercial: string
+          ingrediente_activo: string | null
+          concentracion: string | null
+          unidad: 'kg' | 'L' | null
+          activo: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          org_id: string
+          nombre_comercial: string
+          ingrediente_activo?: string | null
+          concentracion?: string | null
+          unidad?: 'kg' | 'L' | null
+          activo?: boolean
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          org_id?: string
+          nombre_comercial?: string
+          ingrediente_activo?: string | null
+          concentracion?: string | null
+          unidad?: 'kg' | 'L' | null
+          activo?: boolean
+          created_at?: string
+        }
+      }
+
+      inventario_fertilizantes: {
+        Row: {
+          id: string
+          rancho_id: string
+          fertilizante_id: string
+          org_id: string
+          tipo: 'entrada' | 'salida' | 'ajuste'
+          cantidad: number
+          m8_id: string | null
+          referencia: string | null
+          notas: string | null
+          fecha: string
+          registrado_por: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          rancho_id: string
+          fertilizante_id: string
+          org_id: string
+          tipo: 'entrada' | 'salida' | 'ajuste'
+          cantidad: number
+          m8_id?: string | null
+          referencia?: string | null
+          notas?: string | null
+          fecha: string
+          registrado_por: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          rancho_id?: string
+          fertilizante_id?: string
+          org_id?: string
+          tipo?: 'entrada' | 'salida' | 'ajuste'
+          cantidad?: number
+          m8_id?: string | null
+          referencia?: string | null
+          notas?: string | null
+          fecha?: string
+          registrado_por?: string
+          created_at?: string
+        }
+      }
+
       m9_perimetral_config: {
         Row: {
           id: string
@@ -858,6 +936,21 @@ export type Database = {
           ultimo_movimiento: string | null
         }
       }
+      v_inventario_fertilizantes_saldo: {
+        Row: {
+          rancho_id: string
+          rancho_nombre: string | null
+          fertilizante_id: string
+          org_id: string
+          nombre_comercial: string
+          ingrediente_activo: string | null
+          concentracion: string | null
+          unidad: string | null
+          saldo: number
+          ultimo_movimiento: string | null
+          num_movimientos: number
+        }
+      }
     }
     Functions: {
       saldo_inventario: {
@@ -911,6 +1004,12 @@ export type InventarioSaldoProductor = Database['public']['Views']['v_inventario
 export type M6Botiquin = Database['public']['Tables']['m6_botiquin']['Row']
 export type M6BotiquinInsert = Database['public']['Tables']['m6_botiquin']['Insert']
 export type M6BotiquinUpdate = Database['public']['Tables']['m6_botiquin']['Update']
+
+export type FertilizanteOrg = Database['public']['Tables']['fertilizantes_org']['Row']
+export type FertilizanteOrgInsert = Database['public']['Tables']['fertilizantes_org']['Insert']
+export type InventarioFertilizante = Database['public']['Tables']['inventario_fertilizantes']['Row']
+export type InventarioFertilizanteInsert = Database['public']['Tables']['inventario_fertilizantes']['Insert']
+export type InventarioFertilizantesSaldo = Database['public']['Views']['v_inventario_fertilizantes_saldo']['Row']
 
 // Tipo compuesto: aplicación con productos (para vistas de detalle)
 export type AplicacionConProductos = Aplicacion & {
