@@ -31,16 +31,8 @@ const ESTADO_CHIP: Record<Estado, { bg: string; text: string }> = {
   'Reemplazo':   { bg: 'var(--agro-danger-fill)',  text: 'var(--agro-danger-text)'  },
 }
 
-const AREAS_ESTANDAR = [
-  'Camionetas', 'Empaque', 'Almacén', 'Baños', 'Comedor',
-  'Oficinas', 'Bodega', 'Área de cosecha', 'Cuarto frío',
-]
-
-const MATERIALES_ESTANDAR = [
-  'Faros', 'Parabrisas', 'Ventanas', 'Lámparas', 'Termómetros',
-  'Pantallas', 'Espejos', 'Cristalería', 'Flotadores',
-  'Recipientes plásticos', 'Cajas de plástico', 'Tubos plásticos',
-]
+// TODO: poblar SET_MATERIALES_DEFAULT con la lista oficial de Hima (área + material).
+const SET_MATERIALES_DEFAULT: { area: string; material: string }[] = []
 
 // ── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -378,11 +370,9 @@ export function InspeccionVidrioPlastico() {
     return () => { cancelado = true }
   }, [sheetInspeccionAbierto, ranchoId, fecha, profile?.org_id])
 
-  // ── Sugerencias dinámicas para config ────────────────────────────────────
-  const areasExistentes = [...new Set(configMateriales.map((m) => m.area))]
-  const areasSugerencias = [...new Set([...areasExistentes, ...AREAS_ESTANDAR])]
-  const materialesExistentes = configMateriales.map((m) => m.material)
-  const materialesSugerencias = [...new Set([...materialesExistentes, ...MATERIALES_ESTANDAR])]
+  // ── Sugerencias dinámicas para config (solo lo ya configurado en este rancho) ──
+  const areasSugerencias = [...new Set(configMateriales.map((m) => m.area))]
+  const materialesSugerencias = [...new Set(configMateriales.map((m) => m.material))]
 
   // ── Materiales agrupados por área (para inspección) ──────────────────────
   const materialesGrouped = filasInspeccion.reduce<Record<string, { fila: FilaInspeccion; idx: number }[]>>(
@@ -514,6 +504,38 @@ export function InspeccionVidrioPlastico() {
     setErrNuevaArea(false)
     setErrNuevaMaterial(false)
     setSheetConfigAbierto(true)
+  }
+
+  async function handleCargarSetEstandar() {
+    if (!profile?.org_id || SET_MATERIALES_DEFAULT.length === 0) return
+    setGuardandoNuevo(true)
+    try {
+      const rows = SET_MATERIALES_DEFAULT.map((item) => ({
+        rancho_id: configRanchoId,
+        org_id: profile.org_id,
+        area: item.area,
+        material: item.material,
+        activo: true,
+      }))
+      const { error } = await supabase
+        .from('m7_materiales_rancho')
+        .upsert(rows, { onConflict: 'rancho_id,area,material' })
+      if (error) throw error
+      const { data } = await supabase
+        .from('m7_materiales_rancho')
+        .select('id, area, material')
+        .eq('org_id', profile.org_id)
+        .eq('rancho_id', configRanchoId)
+        .eq('activo', true)
+        .order('area')
+        .order('material')
+      setConfigMateriales(data ?? [])
+      toast.success('Set estándar cargado')
+    } catch (e: unknown) {
+      toast.error(e instanceof Error ? e.message : 'Error al cargar set estándar')
+    } finally {
+      setGuardandoNuevo(false)
+    }
   }
 
   async function handleAgregarMaterial() {
@@ -809,6 +831,18 @@ export function InspeccionVidrioPlastico() {
                       <p className="text-xs text-muted-foreground mt-1">
                         Agrega materiales con el formulario de abajo
                       </p>
+                      {SET_MATERIALES_DEFAULT.length > 0 && (
+                        <button
+                          type="button"
+                          onClick={handleCargarSetEstandar}
+                          disabled={guardandoNuevo}
+                          className="mt-3 h-9 px-4 rounded-xl text-sm border border-primary text-primary hover:bg-primary/5 transition-colors disabled:opacity-50 flex items-center gap-2 mx-auto"
+                          style={{ fontWeight: 600 }}
+                        >
+                          {guardandoNuevo && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                          Cargar set estándar
+                        </button>
+                      )}
                     </div>
                   ) : (
                     <div>
