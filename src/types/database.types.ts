@@ -743,6 +743,123 @@ export type Database = {
         }
       }
 
+      m9_items_catalogo: {
+        Row: {
+          id: string
+          seccion: string
+          seccion_label: string
+          item: string
+          default_valor: boolean
+          es_almacen: boolean
+          orden: number
+        }
+        Insert: {
+          id?: string
+          seccion: string
+          seccion_label: string
+          item: string
+          default_valor?: boolean
+          es_almacen?: boolean
+          orden?: number
+        }
+        Update: {
+          id?: string
+          seccion?: string
+          seccion_label?: string
+          item?: string
+          default_valor?: boolean
+          es_almacen?: boolean
+          orden?: number
+        }
+      }
+
+      m9_registro_mensual: {
+        Row: {
+          id: string
+          rancho_id: string
+          org_id: string
+          mes: string
+          tiene_almacen: boolean
+          responsable_id: string | null
+          observaciones: string | null
+          otro: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          rancho_id: string
+          org_id: string
+          mes: string
+          tiene_almacen?: boolean
+          responsable_id?: string | null
+          observaciones?: string | null
+          otro?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          rancho_id?: string
+          org_id?: string
+          mes?: string
+          tiene_almacen?: boolean
+          responsable_id?: string | null
+          observaciones?: string | null
+          otro?: string | null
+          created_at?: string
+        }
+      }
+
+      m9_dias_inspeccion: {
+        Row: {
+          id: string
+          registro_id: string
+          org_id: string
+          fecha: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          registro_id: string
+          org_id: string
+          fecha: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          registro_id?: string
+          org_id?: string
+          fecha?: string
+          created_at?: string
+        }
+      }
+
+      m9_resultados: {
+        Row: {
+          id: string
+          dia_id: string
+          item_id: string
+          org_id: string
+          valor: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          dia_id: string
+          item_id: string
+          org_id: string
+          valor: boolean
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          dia_id?: string
+          item_id?: string
+          org_id?: string
+          valor?: boolean
+          created_at?: string
+        }
+      }
+
       m10_cosecha_liberacion: {
         Row: {
           id: string
@@ -1010,6 +1127,14 @@ export type FertilizanteOrgInsert = Database['public']['Tables']['fertilizantes_
 export type InventarioFertilizante = Database['public']['Tables']['inventario_fertilizantes']['Row']
 export type InventarioFertilizanteInsert = Database['public']['Tables']['inventario_fertilizantes']['Insert']
 export type InventarioFertilizantesSaldo = Database['public']['Views']['v_inventario_fertilizantes_saldo']['Row']
+
+export type M9ItemCatalogo = Database['public']['Tables']['m9_items_catalogo']['Row']
+export type M9RegistroMensual = Database['public']['Tables']['m9_registro_mensual']['Row']
+export type M9RegistroMensualInsert = Database['public']['Tables']['m9_registro_mensual']['Insert']
+export type M9DiaInspeccion = Database['public']['Tables']['m9_dias_inspeccion']['Row']
+export type M9DiaInspeccionInsert = Database['public']['Tables']['m9_dias_inspeccion']['Insert']
+export type M9Resultado = Database['public']['Tables']['m9_resultados']['Row']
+export type M9ResultadoInsert = Database['public']['Tables']['m9_resultados']['Insert']
 
 // Tipo compuesto: aplicación con productos (para vistas de detalle)
 export type AplicacionConProductos = Aplicacion & {
