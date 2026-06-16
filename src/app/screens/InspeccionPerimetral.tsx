@@ -716,22 +716,24 @@ export function InspeccionPerimetral() {
       )}
 
       {/* ── FAB ────────────────────────────────────────────────────────── */}
-      <button
-        onClick={() => {
-          if (vista === 'lista') {
-            setNRanchoId(''); setNMes(mesActual()); setNAlmacen(false)
-            setNErrRancho(false); setNYaExiste(false)
-            setSheetNuevo(true)
-          } else {
-            setDFecha(''); setDErrFecha(false); setDYaExiste(false)
-            setSheetDia(true)
-          }
-        }}
-        className="fixed bottom-[calc(72px+34px+16px)] right-4 w-14 h-14 bg-primary rounded-full flex items-center justify-center shadow-lg z-10 hover:bg-agro-blue transition-colors"
-        aria-label={vista === 'lista' ? 'Nuevo registro mensual' : 'Agregar día de inspección'}
-      >
-        <Plus className="w-6 h-6 text-white" />
-      </button>
+      <div className="fixed bottom-[calc(72px+34px+16px)] left-1/2 -translate-x-1/2 w-full max-w-[390px] flex justify-end px-4 pointer-events-none z-10">
+        <button
+          onClick={() => {
+            if (vista === 'lista') {
+              setNRanchoId(''); setNMes(mesActual()); setNAlmacen(false)
+              setNErrRancho(false); setNYaExiste(false)
+              setSheetNuevo(true)
+            } else {
+              setDFecha(''); setDErrFecha(false); setDYaExiste(false)
+              setSheetDia(true)
+            }
+          }}
+          className="pointer-events-auto w-14 h-14 bg-primary rounded-full flex items-center justify-center shadow-lg hover:bg-agro-blue transition-colors"
+          aria-label={vista === 'lista' ? 'Nuevo registro mensual' : 'Agregar día de inspección'}
+        >
+          <Plus className="w-6 h-6 text-white" />
+        </button>
+      </div>
 
       {/* ═══ SHEET: NUEVO REGISTRO MENSUAL ═══════════════════════════════ */}
       {sheetNuevo && (
