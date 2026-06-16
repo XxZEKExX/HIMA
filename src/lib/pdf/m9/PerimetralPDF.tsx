@@ -16,12 +16,13 @@ export interface ItemPDFRow {
 export interface PerimetralPaginaProps {
   rancho: string
   ranchoCodigo: string
-  mesLabel: string          // "Junio 2026"
-  responsable: string
+  mesLabel: string             // "Junio 2026"
+  mesDate: string              // "2026-06-01" — para calcular los días del mes
+  realizadoPor: string | null  // quien llenó el registro (operario)
   tieneAlmacen: boolean
-  items: ItemPDFRow[]       // ya filtrados por es_almacen si corresponde
-  dias: string[]            // ["2026-06-05", "2026-06-12", ...]  sorted
-  // dia_fecha → item_id → "Si" | "No"
+  items: ItemPDFRow[]
+  diasInspeccionados: string[] // ["2026-06-05", "2026-06-12", ...]  sorted
+  // dia_fecha → item_id → "Si" | "No"  (solo días inspeccionados)
   matriz: Record<string, Record<string, string>>
   observaciones: string | null
   otro: string | null
@@ -48,14 +49,32 @@ const HDR_BG   = '#E8F1F9'
 
 // ── Medidas fijas ─────────────────────────────────────────────────────────────
 
-// A4 landscape: 841.89 × 595.28 — con márgenes 30pt cada lado
-const MARGIN      = 30
-const PAGE_W      = 841.89 - MARGIN * 2   // ~781.89
-const ITEM_COL_W  = 190                    // ancho columna de sub-ítems
-const DAY_AREA_W  = PAGE_W - ITEM_COL_W   // ~591.89
+// A4 landscape: 841.89 × 595.28 — márgenes 20pt para acomodar 31 columnas
+const MARGIN      = 20
+const PAGE_W      = 841.89 - MARGIN * 2   // ~801.89
+const ITEM_COL_W  = 160
+const DAY_AREA_W  = PAGE_W - ITEM_COL_W   // ~641.89
 
 function dayColW(numDias: number): number {
-  return Math.min(80, Math.floor(DAY_AREA_W / Math.max(numDias, 1)))
+  return Math.floor(DAY_AREA_W / Math.max(numDias, 1))
+}
+
+// Genera todas las fechas ISO del mes dado "YYYY-MM-01"
+function diasDelMes(mesDate: string): string[] {
+  const d = new Date(mesDate + 'T12:00:00')
+  const year = d.getFullYear()
+  const month = d.getMonth()
+  const total = new Date(year, month + 1, 0).getDate()
+  const result: string[] = []
+  for (let i = 1; i <= total; i++) {
+    result.push(`${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`)
+  }
+  return result
+}
+
+function formatDayNum(iso: string): string {
+  try { return String(new Date(iso + 'T12:00:00').getDate()) }
+  catch { return iso }
 }
 
 // ── Estilos ───────────────────────────────────────────────────────────────────
@@ -120,7 +139,7 @@ const s = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  dayHeaderText: { fontSize: 7, fontFamily: 'Helvetica-Bold', color: PRIMARY },
+  dayHeaderText: { fontSize: 6, fontFamily: 'Helvetica-Bold', color: PRIMARY },
 
   // Item header column
   itemColHeader: {
@@ -145,7 +164,7 @@ const s = StyleSheet.create({
     paddingLeft: 4,
     justifyContent: 'center',
   },
-  itemText: { fontSize: 7 },
+  itemText: { fontSize: 6 },
   valueCell: {
     borderWidth: 1,
     borderColor: BORDER,
@@ -160,27 +179,24 @@ const s = StyleSheet.create({
   footerRow:  { flexDirection: 'row', gap: 10, marginBottom: 4 },
   footerLabel:{ fontSize: 6, color: MUTED },
   footerValue:{ fontSize: 7 },
-  firmaBox: {
-    marginTop: 8,
+  firmaRow: {
+    marginTop: 10,
+    flexDirection: 'row',
+    gap: 20,
+  },
+  firmaBloque: {
+    alignItems: 'center',
     borderTopWidth: 1,
     borderTopColor: BORDER,
-    paddingTop: 20,
-    alignItems: 'center',
+    paddingTop: 4,
   },
   firmaLabel: { fontSize: 7, color: MUTED },
 
   // Pie de página
-  piePagina: { position: 'absolute', bottom: 12, left: MARGIN, right: MARGIN, textAlign: 'center', fontSize: 6, color: MUTED },
+  piePagina: { position: 'absolute', bottom: 10, left: MARGIN, right: MARGIN, textAlign: 'center', fontSize: 6, color: MUTED },
 })
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
-
-function formatFechaCorta(iso: string): string {
-  try {
-    const d = new Date(iso + 'T12:00:00')
-    return `${d.getDate()} ${d.toLocaleDateString('es-MX', { month: 'short' })}`
-  } catch { return iso }
-}
 
 function agruparItemsPorSeccion(items: ItemPDFRow[]) {
   const grupos: { label: string; items: ItemPDFRow[] }[] = []
@@ -198,12 +214,14 @@ function agruparItemsPorSeccion(items: ItemPDFRow[]) {
 // ── Componente de página ──────────────────────────────────────────────────────
 
 export function PerimetralPagina({
-  rancho, ranchoCodigo, mesLabel, responsable,
-  tieneAlmacen, items, dias, matriz,
+  rancho, ranchoCodigo, mesLabel, mesDate, realizadoPor,
+  tieneAlmacen, items, diasInspeccionados, matriz,
   observaciones, otro,
 }: PerimetralPaginaProps) {
   const secciones = agruparItemsPorSeccion(items)
-  const dW = dayColW(dias.length)
+  const todosLosDias = diasDelMes(mesDate)
+  const dW = dayColW(todosLosDias.length)
+  const inspeccionadosSet = new Set(diasInspeccionados)
 
   return (
     <Page size="A4" orientation="landscape" style={s.page}>
@@ -241,45 +259,35 @@ export function PerimetralPagina({
         </View>
         <View style={s.infoBox}>
           <Text style={s.infoLabel}>Responsable de Inocuidad</Text>
-          <Text style={s.infoValue}>{responsable}</Text>
+          <Text style={s.infoValue}> </Text>
         </View>
         <View style={s.infoBox}>
           <Text style={s.infoLabel}>Dias inspeccionados</Text>
-          <Text style={s.infoValue}>{dias.length}</Text>
+          <Text style={s.infoValue}>{diasInspeccionados.length}</Text>
         </View>
       </View>
 
-      {/* ── Tabla matriz ───────────────────────────────────────────────── */}
+      {/* ── Tabla matriz — todos los días del mes ──────────────────────── */}
 
-      {/* Fila header de columnas */}
-      {dias.length > 0 && (
-        <View style={{ flexDirection: 'row', marginBottom: 0 }}>
-          <View style={s.itemColHeader}>
-            <Text style={s.itemColHeaderText}>Sub-item de inspeccion</Text>
+      {/* Fila header: columna de ítems + una columna por día del mes */}
+      <View style={{ flexDirection: 'row', marginBottom: 0 }}>
+        <View style={s.itemColHeader}>
+          <Text style={s.itemColHeaderText}>Sub-item de inspeccion</Text>
+        </View>
+        {todosLosDias.map((fecha) => (
+          <View key={fecha} style={[s.dayHeader, { width: dW }]}>
+            <Text style={s.dayHeaderText}>{formatDayNum(fecha)}</Text>
           </View>
-          {dias.map((fecha) => (
-            <View key={fecha} style={[s.dayHeader, { width: dW }]}>
-              <Text style={s.dayHeaderText}>{formatFechaCorta(fecha)}</Text>
-            </View>
-          ))}
-        </View>
-      )}
-
-      {dias.length === 0 && (
-        <View style={{ padding: 16, alignItems: 'center' }}>
-          <Text style={{ fontSize: 8, color: MUTED }}>Sin dias de inspeccion registrados.</Text>
-        </View>
-      )}
+        ))}
+      </View>
 
       {/* Secciones + ítems */}
       {secciones.map((sec) => (
         <View key={sec.label}>
-          {/* Banda de sección */}
           <View style={s.seccionBand}>
             <Text style={s.seccionText}>{sec.label}</Text>
           </View>
 
-          {/* Filas de ítems */}
           {sec.items.map((item, idx) => {
             const bg = idx % 2 === 0 ? WHITE : ROW_ALT
             return (
@@ -287,12 +295,18 @@ export function PerimetralPagina({
                 <View style={[s.itemCell, { backgroundColor: bg }]}>
                   <Text style={s.itemText}>{item.item}</Text>
                 </View>
-                {dias.map((fecha) => {
+                {todosLosDias.map((fecha) => {
+                  if (!inspeccionadosSet.has(fecha)) {
+                    // Día no inspeccionado — celda vacía
+                    return (
+                      <View key={fecha} style={[s.valueCell, { width: dW, backgroundColor: bg }]} />
+                    )
+                  }
                   const val = matriz[fecha]?.[item.id] ?? 'No'
                   const color = val === 'Si' ? SI_COLOR : NO_COLOR
                   return (
                     <View key={fecha} style={[s.valueCell, { width: dW, backgroundColor: bg }]}>
-                      <Text style={{ fontSize: 7, fontFamily: 'Helvetica-Bold', color }}>{val}</Text>
+                      <Text style={{ fontSize: 6, fontFamily: 'Helvetica-Bold', color }}>{val}</Text>
                     </View>
                   )
                 })}
@@ -321,8 +335,19 @@ export function PerimetralPagina({
             <Text style={{ fontSize: 7, color: MUTED }}>Sin observaciones adicionales.</Text>
           )}
         </View>
-        <View style={s.firmaBox}>
-          <Text style={s.firmaLabel}>Firma del Responsable de Inocuidad: {responsable}</Text>
+
+        {/* Firma: quien realizó + espacio para firma manual del Responsable */}
+        <View style={s.firmaRow}>
+          {realizadoPor ? (
+            <View style={[s.firmaBloque, { flex: 1 }]}>
+              <Text style={s.firmaLabel}>Realizo: {realizadoPor}</Text>
+            </View>
+          ) : null}
+          <View style={[s.firmaBloque, { flex: 2 }]}>
+            {/* Espacio para firma manual */}
+            <View style={{ height: 16 }} />
+            <Text style={s.firmaLabel}>Responsable de Inocuidad</Text>
+          </View>
         </View>
       </View>
 

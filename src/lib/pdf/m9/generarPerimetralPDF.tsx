@@ -44,7 +44,7 @@ export async function construirDatosPagina(
   const itemDefaultMap: Record<string, boolean> = {}
   for (const i of todosItems) itemDefaultMap[i.id] = i.default_valor
 
-  // Cargar días
+  // Cargar días inspeccionados
   const { data: diasData, error: diasErr } = await supabase
     .from('m9_dias_inspeccion')
     .select('id, fecha')
@@ -52,12 +52,12 @@ export async function construirDatosPagina(
     .eq('org_id', orgId)
     .order('fecha')
   if (diasErr) throw diasErr
-  const dias = (diasData ?? []).map((d: any) => d.fecha as string)
+  const diasInspeccionados = (diasData ?? []).map((d: any) => d.fecha as string)
   const diaIds = (diasData ?? []).map((d: any) => d.id as string)
   const diaFechaMap: Record<string, string> = {}
   for (const d of diasData ?? []) diaFechaMap[(d as any).id] = (d as any).fecha
 
-  // Cargar resultados
+  // Cargar resultados (solo días inspeccionados)
   const matriz: Record<string, Record<string, string>> = {}
   if (diaIds.length > 0) {
     const { data: resData, error: resErr } = await supabase
@@ -74,8 +74,8 @@ export async function construirDatosPagina(
     }
   }
 
-  // Rellenar celdas sin resultado con default_valor del catálogo
-  for (const fecha of dias) {
+  // Rellenar celdas sin resultado con default_valor (solo para días inspeccionados)
+  for (const fecha of diasInspeccionados) {
     for (const item of items) {
       if (!matriz[fecha]) matriz[fecha] = {}
       if (matriz[fecha][item.id] === undefined) {
@@ -88,10 +88,11 @@ export async function construirDatosPagina(
     rancho: reg.ranchos?.nombre ?? '—',
     ranchoCodigo: reg.ranchos?.codigo ?? '—',
     mesLabel: formatMesLabel(reg.mes),
-    responsable: (reg.profiles as any)?.nombre_completo ?? '—',
+    mesDate: reg.mes as string,
+    realizadoPor: (reg.profiles as any)?.nombre_completo ?? null,
     tieneAlmacen,
     items,
-    dias,
+    diasInspeccionados,
     matriz,
     observaciones: reg.observaciones ?? null,
     otro: reg.otro ?? null,
