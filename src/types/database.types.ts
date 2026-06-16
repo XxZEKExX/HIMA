@@ -971,6 +971,99 @@ export type Database = {
         }
       }
 
+      m11_inspeccion: {
+        Row: {
+          id: string
+          rancho_id: string
+          org_id: string
+          fecha: string
+          realizado_por_nombre: string | null
+          realizado_por_id: string | null
+          observaciones: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          rancho_id: string
+          org_id: string
+          fecha: string
+          realizado_por_nombre?: string | null
+          realizado_por_id?: string | null
+          observaciones?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          rancho_id?: string
+          org_id?: string
+          fecha?: string
+          realizado_por_nombre?: string | null
+          realizado_por_id?: string | null
+          observaciones?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
+
+      m11_items_catalogo: {
+        Row: {
+          id: string
+          seccion: string
+          seccion_label: string
+          item: string
+          default_valor: string
+          orden: number
+        }
+        Insert: {
+          id?: string
+          seccion: string
+          seccion_label: string
+          item: string
+          default_valor: string
+          orden: number
+        }
+        Update: {
+          id?: string
+          seccion?: string
+          seccion_label?: string
+          item?: string
+          default_valor?: string
+          orden?: number
+        }
+      }
+
+      m11_resultados: {
+        Row: {
+          id: string
+          inspeccion_id: string
+          item_id: string
+          org_id: string
+          valor: string
+          codigo_correctivo: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          inspeccion_id: string
+          item_id: string
+          org_id: string
+          valor: string
+          codigo_correctivo?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          inspeccion_id?: string
+          item_id?: string
+          org_id?: string
+          valor?: string
+          codigo_correctivo?: string | null
+          created_at?: string
+        }
+      }
+
       m12_limpieza_banos: {
         Row: {
           id: string
@@ -1138,6 +1231,12 @@ export type M9ResultadoInsert = Database['public']['Tables']['m9_resultados']['I
 
 export type M12LimpiezaBano = Database['public']['Tables']['m12_limpieza_banos']['Row']
 export type M12LimpiezaBanoInsert = Database['public']['Tables']['m12_limpieza_banos']['Insert']
+
+export type M11Inspeccion = Database['public']['Tables']['m11_inspeccion']['Row']
+export type M11InspeccionInsert = Database['public']['Tables']['m11_inspeccion']['Insert']
+export type M11ItemCatalogo = Database['public']['Tables']['m11_items_catalogo']['Row']
+export type M11Resultado = Database['public']['Tables']['m11_resultados']['Row']
+export type M11ResultadoInsert = Database['public']['Tables']['m11_resultados']['Insert']
 
 // Tipo compuesto: aplicación con productos (para vistas de detalle)
 export type AplicacionConProductos = Aplicacion & {
