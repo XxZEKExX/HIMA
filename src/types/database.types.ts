@@ -1136,6 +1136,9 @@ export type M9DiaInspeccionInsert = Database['public']['Tables']['m9_dias_inspec
 export type M9Resultado = Database['public']['Tables']['m9_resultados']['Row']
 export type M9ResultadoInsert = Database['public']['Tables']['m9_resultados']['Insert']
 
+export type M12LimpiezaBano = Database['public']['Tables']['m12_limpieza_banos']['Row']
+export type M12LimpiezaBanoInsert = Database['public']['Tables']['m12_limpieza_banos']['Insert']
+
 // Tipo compuesto: aplicación con productos (para vistas de detalle)
 export type AplicacionConProductos = Aplicacion & {
   aplicacion_productos: (AplicacionProducto & {
