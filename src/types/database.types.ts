@@ -971,14 +971,14 @@ export type Database = {
         }
       }
 
-      m11_inspeccion: {
+      m11_registro_mensual: {
         Row: {
           id: string
           rancho_id: string
           org_id: string
-          fecha: string
+          mes: string
           realizado_por_nombre: string | null
-          realizado_por_id: string | null
+          responsable_id: string | null
           observaciones: string | null
           created_at: string
           updated_at: string
@@ -987,9 +987,9 @@ export type Database = {
           id?: string
           rancho_id: string
           org_id: string
-          fecha: string
+          mes: string
           realizado_por_nombre?: string | null
-          realizado_por_id?: string | null
+          responsable_id?: string | null
           observaciones?: string | null
           created_at?: string
           updated_at?: string
@@ -998,12 +998,36 @@ export type Database = {
           id?: string
           rancho_id?: string
           org_id?: string
-          fecha?: string
+          mes?: string
           realizado_por_nombre?: string | null
-          realizado_por_id?: string | null
+          responsable_id?: string | null
           observaciones?: string | null
           created_at?: string
           updated_at?: string
+        }
+      }
+
+      m11_dias_inspeccion: {
+        Row: {
+          id: string
+          registro_id: string
+          org_id: string
+          fecha: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          registro_id: string
+          org_id: string
+          fecha: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          registro_id?: string
+          org_id?: string
+          fecha?: string
+          created_at?: string
         }
       }
 
@@ -1037,7 +1061,7 @@ export type Database = {
       m11_resultados: {
         Row: {
           id: string
-          inspeccion_id: string
+          dia_id: string
           item_id: string
           org_id: string
           valor: string
@@ -1046,7 +1070,7 @@ export type Database = {
         }
         Insert: {
           id?: string
-          inspeccion_id: string
+          dia_id: string
           item_id: string
           org_id: string
           valor: string
@@ -1055,7 +1079,7 @@ export type Database = {
         }
         Update: {
           id?: string
-          inspeccion_id?: string
+          dia_id?: string
           item_id?: string
           org_id?: string
           valor?: string
@@ -1229,12 +1253,17 @@ export type M9DiaInspeccionInsert = Database['public']['Tables']['m9_dias_inspec
 export type M9Resultado = Database['public']['Tables']['m9_resultados']['Row']
 export type M9ResultadoInsert = Database['public']['Tables']['m9_resultados']['Insert']
 
+export type M10CosechaLiberacion = Database['public']['Tables']['m10_cosecha_liberacion']['Row']
+export type M10CosechaLiberacionInsert = Database['public']['Tables']['m10_cosecha_liberacion']['Insert']
+
 export type M12LimpiezaBano = Database['public']['Tables']['m12_limpieza_banos']['Row']
 export type M12LimpiezaBanoInsert = Database['public']['Tables']['m12_limpieza_banos']['Insert']
 
-export type M11Inspeccion = Database['public']['Tables']['m11_inspeccion']['Row']
-export type M11InspeccionInsert = Database['public']['Tables']['m11_inspeccion']['Insert']
 export type M11ItemCatalogo = Database['public']['Tables']['m11_items_catalogo']['Row']
+export type M11RegistroMensual = Database['public']['Tables']['m11_registro_mensual']['Row']
+export type M11RegistroMensualInsert = Database['public']['Tables']['m11_registro_mensual']['Insert']
+export type M11DiaInspeccion = Database['public']['Tables']['m11_dias_inspeccion']['Row']
+export type M11DiaInspeccionInsert = Database['public']['Tables']['m11_dias_inspeccion']['Insert']
 export type M11Resultado = Database['public']['Tables']['m11_resultados']['Row']
 export type M11ResultadoInsert = Database['public']['Tables']['m11_resultados']['Insert']
 
