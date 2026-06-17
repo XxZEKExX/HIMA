@@ -1,0 +1,561 @@
+import { useState, useEffect, useMemo, useCallback } from 'react'
+import { ChevronLeft, FileText, Package, Loader2, FilterX } from 'lucide-react'
+import { toast } from 'sonner'
+import { supabase } from '@/lib/supabase'
+import { useAuthContext } from '@/context/AuthContext'
+import {
+  type ModuloKey,
+  type RegistroHistorial,
+  generarBlobParaRef,
+  mergePDFBlobs,
+} from '@/lib/pdf/generarBlobHistorial'
+
+// ── Metadatos de módulo ───────────────────────────────────────────────────────
+
+const MODULO_META: Record<ModuloKey, { label: string; color: string }> = {
+  M1:  { label: 'Aplicaciones',      color: '#1565C0' },
+  M6:  { label: 'Botiquín',          color: '#2E7D32' },
+  M7:  { label: 'Vidrio y Plástico', color: '#6A1B9A' },
+  M8:  { label: 'Fertilización',     color: '#E65100' },
+  M9:  { label: 'Perimetral',        color: '#00695C' },
+  M10: { label: 'Cosecha',           color: '#AD1457' },
+  M11: { label: 'Preoperacional',    color: '#283593' },
+  M12: { label: 'Limpieza Baños',    color: '#4E342E' },
+}
+
+const TODOS_MODULOS: ModuloKey[] = ['M1', 'M6', 'M7', 'M8', 'M9', 'M10', 'M11', 'M12']
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+function inicioRango(): string {
+  const d = new Date()
+  d.setDate(d.getDate() - 90)
+  return d.toISOString().slice(0, 10)
+}
+
+function hoy(): string {
+  return new Date().toISOString().slice(0, 10)
+}
+
+function formatFecha(iso: string): string {
+  try {
+    return new Date(iso + 'T12:00:00').toLocaleDateString('es-MX', {
+      day: '2-digit', month: 'short', year: 'numeric',
+    })
+  } catch { return iso }
+}
+
+function slugify(s: string): string {
+  return s.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+}
+
+// ── Cargador de índice (8 consultas en paralelo) ──────────────────────────────
+
+async function cargarTodo(orgId: string, desde: string, hasta: string): Promise<RegistroHistorial[]> {
+  const desdeM = desde.slice(0, 7) + '-01'
+  const hastaM = hasta.slice(0, 7) + '-01'
+
+  const [r1, r6, r7, r8, r9, r10, r11, r12] = await Promise.all([
+    supabase.from('aplicaciones')
+      .select('id, fecha_aplicacion, rancho_id, ranchos(nombre)')
+      .eq('org_id', orgId).gte('fecha_aplicacion', desde).lte('fecha_aplicacion', hasta)
+      .order('fecha_aplicacion', { ascending: false }).limit(500),
+    supabase.from('m6_botiquin')
+      .select('id, rancho_id, fecha_verificacion, ranchos(nombre)')
+      .eq('org_id', orgId).gte('fecha_verificacion', desde).lte('fecha_verificacion', hasta)
+      .order('fecha_verificacion', { ascending: false }).limit(500),
+    supabase.from('m7_vidrio_plastico')
+      .select('rancho_id, fecha, ranchos(nombre)')
+      .eq('org_id', orgId).gte('fecha', desde).lte('fecha', hasta)
+      .order('fecha', { ascending: false }).limit(2000),
+    supabase.from('m8_fertilizacion')
+      .select('rancho_id, fecha, ranchos(nombre)')
+      .eq('org_id', orgId).gte('fecha', desde).lte('fecha', hasta)
+      .order('fecha', { ascending: false }).limit(2000),
+    supabase.from('m9_registro_mensual')
+      .select('id, rancho_id, mes, ranchos(nombre)')
+      .eq('org_id', orgId).gte('mes', desdeM).lte('mes', hastaM)
+      .order('mes', { ascending: false }).limit(200),
+    supabase.from('m10_cosecha_liberacion')
+      .select('rancho_id, fecha, ranchos(nombre)')
+      .eq('org_id', orgId).gte('fecha', desde).lte('fecha', hasta)
+      .order('fecha', { ascending: false }).limit(2000),
+    supabase.from('m11_registro_mensual')
+      .select('id, rancho_id, mes, ranchos(nombre)')
+      .eq('org_id', orgId).gte('mes', desdeM).lte('mes', hastaM)
+      .order('mes', { ascending: false }).limit(200),
+    supabase.from('m12_limpieza_banos')
+      .select('rancho_id, fecha, ranchos(nombre)')
+      .eq('org_id', orgId).gte('fecha', desde).lte('fecha', hasta)
+      .order('fecha', { ascending: false }).limit(2000),
+  ])
+
+  const todos: RegistroHistorial[] = []
+
+  // M1 — una fila = un documento
+  for (const r of r1.data ?? []) {
+    todos.push({
+      key: `M1-${r.id}`,
+      modulo: 'M1',
+      rancho_id: r.rancho_id,
+      rancho_nombre: (r.ranchos as any)?.nombre ?? '—',
+      fecha: r.fecha_aplicacion,
+      resumen: 'Aplicación de agroquímicos',
+      pdfRef: { tipo: 'M1', id: r.id },
+    })
+  }
+
+  // M6 — una fila = un documento
+  for (const r of r6.data ?? []) {
+    todos.push({
+      key: `M6-${r.id}`,
+      modulo: 'M6',
+      rancho_id: r.rancho_id,
+      rancho_nombre: (r.ranchos as any)?.nombre ?? '—',
+      fecha: r.fecha_verificacion,
+      resumen: 'Verificación de botiquín',
+      pdfRef: { tipo: 'M6', id: r.id },
+    })
+  }
+
+  // M7 — agrupar por rancho_id+fecha
+  const m7map = new Map<string, { rancho_id: string; nombre: string; fecha: string; count: number }>()
+  for (const r of r7.data ?? []) {
+    const k = `${r.rancho_id}|${r.fecha}`
+    const v = m7map.get(k)
+    if (!v) m7map.set(k, { rancho_id: r.rancho_id, nombre: (r.ranchos as any)?.nombre ?? '—', fecha: r.fecha, count: 1 })
+    else v.count++
+  }
+  for (const [, v] of m7map) {
+    todos.push({
+      key: `M7-${v.rancho_id}-${v.fecha}`,
+      modulo: 'M7',
+      rancho_id: v.rancho_id,
+      rancho_nombre: v.nombre,
+      fecha: v.fecha,
+      resumen: `${v.count} material${v.count !== 1 ? 'es' : ''} inspeccionado${v.count !== 1 ? 's' : ''}`,
+      pdfRef: { tipo: 'M7', ranchoId: v.rancho_id, fecha: v.fecha },
+    })
+  }
+
+  // M8 — agrupar por rancho_id+fecha
+  const m8map = new Map<string, { rancho_id: string; nombre: string; fecha: string; count: number }>()
+  for (const r of r8.data ?? []) {
+    const k = `${r.rancho_id}|${r.fecha}`
+    const v = m8map.get(k)
+    if (!v) m8map.set(k, { rancho_id: r.rancho_id, nombre: (r.ranchos as any)?.nombre ?? '—', fecha: r.fecha, count: 1 })
+    else v.count++
+  }
+  for (const [, v] of m8map) {
+    todos.push({
+      key: `M8-${v.rancho_id}-${v.fecha}`,
+      modulo: 'M8',
+      rancho_id: v.rancho_id,
+      rancho_nombre: v.nombre,
+      fecha: v.fecha,
+      resumen: `${v.count} producto${v.count !== 1 ? 's' : ''} fertilizante${v.count !== 1 ? 's' : ''}`,
+      pdfRef: { tipo: 'M8', ranchoId: v.rancho_id, fecha: v.fecha },
+    })
+  }
+
+  // M9 — una fila = un documento (mensual)
+  for (const r of r9.data ?? []) {
+    todos.push({
+      key: `M9-${r.id}`,
+      modulo: 'M9',
+      rancho_id: r.rancho_id,
+      rancho_nombre: (r.ranchos as any)?.nombre ?? '—',
+      fecha: r.mes,
+      resumen: 'Inspección perimetral mensual',
+      pdfRef: { tipo: 'M9', id: r.id },
+    })
+  }
+
+  // M10 — agrupar por rancho_id+fecha
+  const m10map = new Map<string, { rancho_id: string; nombre: string; fecha: string; count: number }>()
+  for (const r of r10.data ?? []) {
+    const k = `${r.rancho_id}|${r.fecha}`
+    const v = m10map.get(k)
+    if (!v) m10map.set(k, { rancho_id: r.rancho_id, nombre: (r.ranchos as any)?.nombre ?? '—', fecha: r.fecha, count: 1 })
+    else v.count++
+  }
+  for (const [, v] of m10map) {
+    todos.push({
+      key: `M10-${v.rancho_id}-${v.fecha}`,
+      modulo: 'M10',
+      rancho_id: v.rancho_id,
+      rancho_nombre: v.nombre,
+      fecha: v.fecha,
+      resumen: `${v.count} liberación${v.count !== 1 ? 'es' : ''} de cosecha`,
+      pdfRef: { tipo: 'M10', ranchoId: v.rancho_id, fecha: v.fecha },
+    })
+  }
+
+  // M11 — una fila = un documento (mensual)
+  for (const r of r11.data ?? []) {
+    todos.push({
+      key: `M11-${r.id}`,
+      modulo: 'M11',
+      rancho_id: r.rancho_id,
+      rancho_nombre: (r.ranchos as any)?.nombre ?? '—',
+      fecha: r.mes,
+      resumen: 'Inspección preoperacional mensual',
+      pdfRef: { tipo: 'M11', id: r.id },
+    })
+  }
+
+  // M12 — agrupar por rancho_id+fecha
+  const m12map = new Map<string, { rancho_id: string; nombre: string; fecha: string; count: number }>()
+  for (const r of r12.data ?? []) {
+    const k = `${r.rancho_id}|${r.fecha}`
+    const v = m12map.get(k)
+    if (!v) m12map.set(k, { rancho_id: r.rancho_id, nombre: (r.ranchos as any)?.nombre ?? '—', fecha: r.fecha, count: 1 })
+    else v.count++
+  }
+  for (const [, v] of m12map) {
+    todos.push({
+      key: `M12-${v.rancho_id}-${v.fecha}`,
+      modulo: 'M12',
+      rancho_id: v.rancho_id,
+      rancho_nombre: v.nombre,
+      fecha: v.fecha,
+      resumen: `${v.count} baño${v.count !== 1 ? 's' : ''} registrado${v.count !== 1 ? 's' : ''}`,
+      pdfRef: { tipo: 'M12', ranchoId: v.rancho_id, fecha: v.fecha },
+    })
+  }
+
+  todos.sort((a, b) => b.fecha.localeCompare(a.fecha))
+  return todos
+}
+
+// ── Componente principal ──────────────────────────────────────────────────────
+
+export function BibliotecaHistorial() {
+  const { profile } = useAuthContext()
+  const orgId = profile?.org_id ?? ''
+
+  // Rango de búsqueda (se actualiza al presionar Buscar)
+  const [inputDesde, setInputDesde] = useState(inicioRango)
+  const [inputHasta, setInputHasta] = useState(hoy)
+  const [buscarDesde, setBuscarDesde] = useState(inicioRango)
+  const [buscarHasta, setBuscarHasta] = useState(hoy)
+
+  // Filtros client-side
+  const [filtroModulos, setFiltroModulos] = useState<Set<ModuloKey>>(new Set(TODOS_MODULOS))
+  const [filtroRancho, setFiltroRancho] = useState<string>('todos')
+
+  // Datos
+  const [registros, setRegistros] = useState<RegistroHistorial[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  // PDF state
+  const [descargandoPDF, setDescargandoPDF] = useState<string | null>(null)
+  const [generandoPaquete, setGenerandoPaquete] = useState(false)
+  const [progresoActual, setProgresoActual] = useState(0)
+  const [progresoTotal, setProgresoTotal] = useState(0)
+
+  const cargar = useCallback(async () => {
+    if (!orgId) return
+    setLoading(true)
+    setError(null)
+    try {
+      const data = await cargarTodo(orgId, buscarDesde, buscarHasta)
+      setRegistros(data)
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : 'Error al cargar los registros')
+    } finally {
+      setLoading(false)
+    }
+  }, [orgId, buscarDesde, buscarHasta])
+
+  useEffect(() => { cargar() }, [cargar])
+
+  // Ranchos únicos presentes en los resultados
+  const ranchos = useMemo(() => {
+    const map = new Map<string, string>()
+    for (const r of registros) {
+      if (r.rancho_id && !map.has(r.rancho_id)) {
+        map.set(r.rancho_id, r.rancho_nombre)
+      }
+    }
+    return Array.from(map.entries()).sort((a, b) => a[1].localeCompare(b[1]))
+  }, [registros])
+
+  // Filtrado client-side
+  const filtrados = useMemo(() => {
+    return registros
+      .filter((r) => filtroModulos.has(r.modulo))
+      .filter((r) => filtroRancho === 'todos' || r.rancho_id === filtroRancho)
+  }, [registros, filtroModulos, filtroRancho])
+
+  function toggleModulo(m: ModuloKey) {
+    setFiltroModulos((prev) => {
+      const next = new Set(prev)
+      if (next.has(m)) {
+        if (next.size > 1) next.delete(m)
+      } else {
+        next.add(m)
+      }
+      return next
+    })
+  }
+
+  async function handleDescargarPDF(reg: RegistroHistorial) {
+    setDescargandoPDF(reg.key)
+    try {
+      const blob = await generarBlobParaRef(reg.pdfRef, orgId)
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${reg.modulo.toLowerCase()}-${reg.fecha.replaceAll('-', '')}-${slugify(reg.rancho_nombre)}.pdf`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+    } catch {
+      toast.error('No se pudo generar el PDF')
+    } finally {
+      setDescargandoPDF(null)
+    }
+  }
+
+  async function handleExportarPaquete() {
+    if (filtrados.length === 0) {
+      toast.warning('No hay registros para exportar')
+      return
+    }
+    setGenerandoPaquete(true)
+    setProgresoActual(0)
+    setProgresoTotal(filtrados.length)
+    try {
+      const blobs: Blob[] = []
+      for (let i = 0; i < filtrados.length; i++) {
+        setProgresoActual(i + 1)
+        const blob = await generarBlobParaRef(filtrados[i].pdfRef, orgId)
+        blobs.push(blob)
+      }
+      const megaBlob = await mergePDFBlobs(blobs)
+      const url = URL.createObjectURL(megaBlob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `historial-agrocampo-${buscarDesde.replaceAll('-', '')}-${buscarHasta.replaceAll('-', '')}.pdf`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+      toast.success(`Paquete generado: ${filtrados.length} registros`)
+    } catch {
+      toast.error('Error al generar el paquete PDF')
+    } finally {
+      setGenerandoPaquete(false)
+    }
+  }
+
+  return (
+    <div className="min-h-screen" style={{ background: 'var(--background)' }}>
+      <div className="max-w-[390px] mx-auto">
+
+        {/* Header */}
+        <div className="flex items-center gap-3 px-4 py-3 bg-white border-b border-black/10">
+          <FileText className="w-5 h-5" style={{ color: 'var(--primary)' }} />
+          <h1 className="text-[17px] flex-1" style={{ fontWeight: 600 }}>Historial de Registros</h1>
+        </div>
+
+        <div className="p-4 space-y-4 pb-28">
+
+          {/* Rango de fechas */}
+          <div className="bg-white rounded-xl border border-black/8 p-4 space-y-3">
+            <p className="text-[11px] font-semibold uppercase tracking-wide" style={{ color: 'var(--muted-foreground)' }}>
+              Periodo
+            </p>
+            <div className="flex gap-2">
+              <div className="flex-1">
+                <label className="text-[11px]" style={{ color: 'var(--muted-foreground)' }}>Desde</label>
+                <input
+                  type="date"
+                  value={inputDesde}
+                  onChange={(e) => setInputDesde(e.target.value)}
+                  className="w-full mt-1 px-3 py-2 rounded-lg text-sm border"
+                  style={{ background: 'var(--input-background)', borderColor: 'var(--border)' }}
+                />
+              </div>
+              <div className="flex-1">
+                <label className="text-[11px]" style={{ color: 'var(--muted-foreground)' }}>Hasta</label>
+                <input
+                  type="date"
+                  value={inputHasta}
+                  onChange={(e) => setInputHasta(e.target.value)}
+                  className="w-full mt-1 px-3 py-2 rounded-lg text-sm border"
+                  style={{ background: 'var(--input-background)', borderColor: 'var(--border)' }}
+                />
+              </div>
+            </div>
+            <button
+              onClick={() => { setBuscarDesde(inputDesde); setBuscarHasta(inputHasta) }}
+              disabled={loading}
+              className="w-full h-9 rounded-lg text-sm text-white disabled:opacity-50"
+              style={{ background: 'var(--primary)', fontWeight: 600 }}
+            >
+              {loading ? 'Buscando...' : 'Buscar'}
+            </button>
+          </div>
+
+          {/* Filtros */}
+          <div className="bg-white rounded-xl border border-black/8 p-4 space-y-3">
+            <p className="text-[11px] font-semibold uppercase tracking-wide" style={{ color: 'var(--muted-foreground)' }}>
+              Filtros
+            </p>
+
+            {/* Rancho */}
+            <div>
+              <label className="text-[11px]" style={{ color: 'var(--muted-foreground)' }}>Rancho</label>
+              <select
+                value={filtroRancho}
+                onChange={(e) => setFiltroRancho(e.target.value)}
+                className="w-full mt-1 px-3 py-2 rounded-lg text-sm border"
+                style={{ background: 'var(--input-background)', borderColor: 'var(--border)' }}
+              >
+                <option value="todos">Todos los ranchos</option>
+                {ranchos.map(([id, nombre]) => (
+                  <option key={id} value={id}>{nombre}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Módulos */}
+            <div>
+              <label className="text-[11px]" style={{ color: 'var(--muted-foreground)' }}>Módulos</label>
+              <div className="flex flex-wrap gap-1.5 mt-2">
+                {TODOS_MODULOS.map((m) => {
+                  const active = filtroModulos.has(m)
+                  return (
+                    <button
+                      key={m}
+                      onClick={() => toggleModulo(m)}
+                      className="px-2.5 py-1 rounded-full text-[11px] border transition-all"
+                      style={{
+                        backgroundColor: active ? MODULO_META[m].color : 'transparent',
+                        color: active ? '#fff' : MODULO_META[m].color,
+                        borderColor: MODULO_META[m].color,
+                        fontWeight: 600,
+                        opacity: active ? 1 : 0.55,
+                      }}
+                    >
+                      {m}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Exportar paquete */}
+          {filtrados.length > 0 && (
+            <button
+              onClick={handleExportarPaquete}
+              disabled={generandoPaquete || !!descargandoPDF}
+              className="w-full h-11 rounded-xl text-sm flex items-center justify-center gap-2 border disabled:opacity-50"
+              style={{
+                borderColor: 'var(--primary)',
+                color: 'var(--primary)',
+                fontWeight: 600,
+              }}
+            >
+              <Package className="w-4 h-4" />
+              Exportar paquete PDF ({filtrados.length} registros)
+            </button>
+          )}
+
+          {/* Lista de registros */}
+          {loading ? (
+            <div className="flex items-center justify-center py-16">
+              <Loader2 className="w-6 h-6 animate-spin" style={{ color: 'var(--primary)' }} />
+            </div>
+          ) : error ? (
+            <div className="py-8 text-center text-sm text-red-600">{error}</div>
+          ) : filtrados.length === 0 ? (
+            <div className="py-14 text-center space-y-2">
+              <FilterX className="w-10 h-10 mx-auto" style={{ color: 'var(--muted-foreground)' }} />
+              <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>
+                Sin registros en este periodo
+              </p>
+              <p className="text-[12px]" style={{ color: 'var(--muted-foreground)' }}>
+                Prueba un rango de fechas más amplio
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {filtrados.map((reg) => (
+                <div
+                  key={reg.key}
+                  className="bg-white rounded-xl border border-black/8 p-3.5 flex items-start gap-3"
+                >
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span
+                        className="px-2 py-0.5 rounded-full text-[10px] text-white"
+                        style={{ backgroundColor: MODULO_META[reg.modulo].color, fontWeight: 700 }}
+                      >
+                        {reg.modulo}
+                      </span>
+                      <span className="text-[11px] truncate" style={{ color: 'var(--muted-foreground)' }}>
+                        {MODULO_META[reg.modulo].label}
+                      </span>
+                    </div>
+                    <p className="text-[13px] truncate" style={{ fontWeight: 600 }}>
+                      {reg.rancho_nombre}
+                    </p>
+                    <p className="text-[12px]" style={{ color: 'var(--muted-foreground)' }}>
+                      {formatFecha(reg.fecha)}
+                    </p>
+                    <p className="text-[11px] mt-0.5" style={{ color: 'var(--muted-foreground)' }}>
+                      {reg.resumen}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => handleDescargarPDF(reg)}
+                    disabled={descargandoPDF === reg.key || generandoPaquete}
+                    className="flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-lg border disabled:opacity-40"
+                    style={{ borderColor: 'var(--primary)', color: 'var(--primary)' }}
+                    title="Descargar PDF"
+                  >
+                    {descargandoPDF === reg.key
+                      ? <Loader2 className="w-4 h-4 animate-spin" />
+                      : <FileText className="w-4 h-4" />
+                    }
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+        </div>
+      </div>
+
+      {/* Overlay de progreso */}
+      {generandoPaquete && (
+        <div className="fixed inset-0 flex items-center justify-center z-50" style={{ background: 'rgba(0,0,0,0.55)' }}>
+          <div className="bg-white rounded-2xl p-6 mx-4 w-full max-w-xs text-center space-y-4">
+            <Loader2 className="w-8 h-8 animate-spin mx-auto" style={{ color: 'var(--primary)' }} />
+            <div>
+              <p className="text-[15px]" style={{ fontWeight: 600 }}>Generando paquete PDF</p>
+              <p className="text-[13px] mt-1" style={{ color: 'var(--muted-foreground)' }}>
+                {progresoActual} de {progresoTotal} registros
+              </p>
+            </div>
+            <div className="w-full h-2 rounded-full" style={{ background: 'var(--muted)' }}>
+              <div
+                className="h-2 rounded-full transition-all duration-300"
+                style={{
+                  background: 'var(--primary)',
+                  width: progresoTotal > 0 ? `${(progresoActual / progresoTotal) * 100}%` : '0%',
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}

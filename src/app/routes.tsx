@@ -8,7 +8,7 @@ import { CompletarOrganizacion } from "./screens/CompletarOrganizacion";
 import { Home } from "./screens/Home";
 import { NuevaAplicacion } from "./screens/NuevaAplicacion";
 import { Inventario } from "./screens/Inventario";
-import { Historial } from "./screens/Historial";
+import { BibliotecaHistorial } from "./screens/BibliotecaHistorial";
 import { Perfil } from "./screens/Perfil";
 import { DetalleAplicacion } from "./screens/DetalleAplicacion";
 import { BotiquinPrimerosAuxilios } from "./screens/BotiquinPrimerosAuxilios";
@@ -53,7 +53,7 @@ export const router = createBrowserRouter([
               { index: true, Component: Home },
               { path: "nueva-aplicacion", Component: NuevaAplicacion },
               { path: "inventario", Component: Inventario },
-              { path: "historial", Component: Historial },
+              { path: "historial", Component: BibliotecaHistorial },
               { path: "historial/:id", Component: DetalleAplicacion },
               { path: "perfil", Component: Perfil },
               { path: "perfil/mi-organizacion", Component: MiOrganizacion },
