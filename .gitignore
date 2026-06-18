@@ -6,6 +6,7 @@ dist/
 *.log
 .DS_Store
 *.pdf
+*.md
 
 # Claude Code (archivos locales de herramientas, no van al repo)
 .claude/settings.local.json
