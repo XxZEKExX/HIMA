@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { useNavigate, Link } from 'react-router'
 import { useAuthContext } from '@/context/AuthContext'
+import { AuthBackground } from '@/app/components/AuthBackground'
 
 export function Registro() {
   const { signUp } = useAuthContext()
@@ -37,18 +38,31 @@ export function Registro() {
       return
     }
 
-    // Sesión activa — ir a completar organización con el nombre precargado
     navigate('/completar-organizacion', { state: { nombreOrg } })
   }
 
+  // ── Confirmación pendiente ────────────────────────────────────────────────
+
   if (confirmacionPendiente) {
     return (
-      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6">
-        <div className="w-full max-w-sm space-y-6 text-center">
-          <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mx-auto">
-            <span className="text-white text-xl" style={{ fontWeight: 600 }}>HF</span>
+      <AuthBackground>
+        <div
+          className="w-full max-w-[360px] bg-white rounded-2xl p-7 space-y-6 text-center"
+          style={{ boxShadow: '0 4px 32px rgba(0,0,0,0.18)' }}
+        >
+          <div className="flex flex-col items-center gap-2">
+            <div
+              className="w-14 h-14 rounded-2xl flex items-center justify-center"
+              style={{ background: 'var(--primary)' }}
+            >
+              <span className="text-white text-xl" style={{ fontWeight: 700, letterSpacing: '-0.5px' }}>AC</span>
+            </div>
+            <h1 className="text-[19px]" style={{ fontWeight: 700 }}>AgroCampo</h1>
           </div>
-          <div className="p-4 rounded-xl bg-agro-success-fill text-agro-success-text space-y-2">
+          <div
+            className="p-4 rounded-xl space-y-2"
+            style={{ background: 'var(--agro-success-fill)', color: 'var(--agro-success-text)' }}
+          >
             <p style={{ fontWeight: 600 }}>Revisa tu correo</p>
             <p className="text-sm">
               Enviamos un enlace de confirmación a <strong>{email}</strong>.
@@ -57,33 +71,42 @@ export function Registro() {
           </div>
           <Link
             to="/login"
-            className="block text-sm text-primary text-center"
-            style={{ fontWeight: 600 }}
+            className="block text-sm text-center"
+            style={{ color: 'var(--primary)', fontWeight: 600 }}
           >
             Ir a iniciar sesión
           </Link>
         </div>
-      </div>
+      </AuthBackground>
     )
   }
 
-  return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6">
-      <div className="w-full max-w-sm space-y-8">
+  // ── Formulario de registro ────────────────────────────────────────────────
 
+  return (
+    <AuthBackground>
+      <div
+        className="w-full max-w-[360px] bg-white rounded-2xl p-7 space-y-6"
+        style={{ boxShadow: '0 4px 32px rgba(0,0,0,0.18)' }}
+      >
         {/* Logo */}
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center">
-            <span className="text-white text-xl" style={{ fontWeight: 600 }}>HF</span>
+        <div className="flex flex-col items-center gap-2 pb-1">
+          <div
+            className="w-14 h-14 rounded-2xl flex items-center justify-center"
+            style={{ background: 'var(--primary)' }}
+          >
+            <span className="text-white text-xl" style={{ fontWeight: 700, letterSpacing: '-0.5px' }}>AC</span>
           </div>
-          <h1 className="text-xl text-foreground" style={{ fontWeight: 600 }}>Crear cuenta</h1>
-          <p className="text-sm text-muted-foreground">AgroCampo · Hima Inocuidad Alimentaria</p>
+          <h1 className="text-[19px]" style={{ fontWeight: 700 }}>Crear cuenta</h1>
+          <p className="text-[12px]" style={{ color: 'var(--muted-foreground)' }}>
+            AgroCampo · Inocuidad Alimentaria
+          </p>
         </div>
 
         {/* Formulario */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1">
-            <label className="text-xs text-muted-foreground block" style={{ fontWeight: 600 }}>
+            <label className="text-xs block" style={{ fontWeight: 600, color: 'var(--muted-foreground)' }}>
               Nombre completo
             </label>
             <input
@@ -93,13 +116,16 @@ export function Registro() {
               placeholder="Juan Pérez García"
               required
               autoComplete="name"
-              className="w-full h-12 px-4 rounded-lg border border-border bg-input-background
-                focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+              className="w-full h-12 px-4 rounded-lg border focus:outline-none focus:ring-1"
+              style={{
+                borderColor: 'var(--border)',
+                background: 'var(--input-background)',
+              }}
             />
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs text-muted-foreground block" style={{ fontWeight: 600 }}>
+            <label className="text-xs block" style={{ fontWeight: 600, color: 'var(--muted-foreground)' }}>
               Correo electrónico
             </label>
             <input
@@ -109,13 +135,16 @@ export function Registro() {
               placeholder="correo@ejemplo.com"
               required
               autoComplete="email"
-              className="w-full h-12 px-4 rounded-lg border border-border bg-input-background
-                focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+              className="w-full h-12 px-4 rounded-lg border focus:outline-none focus:ring-1"
+              style={{
+                borderColor: 'var(--border)',
+                background: 'var(--input-background)',
+              }}
             />
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs text-muted-foreground block" style={{ fontWeight: 600 }}>
+            <label className="text-xs block" style={{ fontWeight: 600, color: 'var(--muted-foreground)' }}>
               Contraseña
             </label>
             <input
@@ -125,13 +154,16 @@ export function Registro() {
               placeholder="Mínimo 8 caracteres"
               required
               autoComplete="new-password"
-              className="w-full h-12 px-4 rounded-lg border border-border bg-input-background
-                focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+              className="w-full h-12 px-4 rounded-lg border focus:outline-none focus:ring-1"
+              style={{
+                borderColor: 'var(--border)',
+                background: 'var(--input-background)',
+              }}
             />
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs text-muted-foreground block" style={{ fontWeight: 600 }}>
+            <label className="text-xs block" style={{ fontWeight: 600, color: 'var(--muted-foreground)' }}>
               Nombre de tu organización
             </label>
             <input
@@ -141,16 +173,22 @@ export function Registro() {
               placeholder="Ej: Rancho El Solar o tu nombre"
               required
               autoComplete="organization"
-              className="w-full h-12 px-4 rounded-lg border border-border bg-input-background
-                focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+              className="w-full h-12 px-4 rounded-lg border focus:outline-none focus:ring-1"
+              style={{
+                borderColor: 'var(--border)',
+                background: 'var(--input-background)',
+              }}
             />
-            <p className="text-xs text-muted-foreground pt-1">
+            <p className="text-xs pt-1" style={{ color: 'var(--muted-foreground)' }}>
               Nombre de tu empresa, o tu nombre si trabajas por tu cuenta.
             </p>
           </div>
 
           {error && (
-            <div className="p-3 rounded-lg bg-agro-danger-fill text-agro-danger-text text-sm">
+            <div
+              className="p-3 rounded-lg text-sm"
+              style={{ background: 'var(--agro-danger-fill)', color: 'var(--agro-danger-text)' }}
+            >
               {error}
             </div>
           )}
@@ -158,20 +196,20 @@ export function Registro() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full h-14 bg-primary text-white rounded-3xl hover:bg-agro-blue transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{ fontWeight: 600 }}
+            className="w-full h-12 rounded-xl text-white transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+            style={{ background: 'var(--primary)', fontWeight: 600, marginTop: '4px' }}
           >
             {submitting ? 'Creando cuenta…' : 'Crear cuenta'}
           </button>
         </form>
 
-        <p className="text-sm text-center text-muted-foreground">
+        <p className="text-sm text-center" style={{ color: 'var(--muted-foreground)' }}>
           ¿Ya tienes cuenta?{' '}
-          <Link to="/login" className="text-primary" style={{ fontWeight: 600 }}>
+          <Link to="/login" style={{ color: 'var(--primary)', fontWeight: 600 }}>
             Iniciar sesión
           </Link>
         </p>
       </div>
-    </div>
+    </AuthBackground>
   )
 }
