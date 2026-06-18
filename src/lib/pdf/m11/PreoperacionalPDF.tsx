@@ -1,28 +1,29 @@
-// PATRÓN INOCUIDAD — PDF M11
-// PreoperacionalPagina: una página A4 portrait por inspección (reutilizable).
-// PreoperacionalPDF:    documento individual.
-// PreoperacionalConsolidadoPDF: multi-página, uno por inspección.
+// PATRÓN INOCUIDAD — PDF M11 (modelo calendario)
+// PreoperacionalPagina: matriz mensual A4 landscape por mes (reutilizable).
+// PreoperacionalPDF:    documento individual (1 mes).
+// PreoperacionalConsolidadoPDF: multi-página, uno por mes.
 
 import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer'
 
 // ── Tipos ─────────────────────────────────────────────────────────────────────
 
-export type ValorPreoperacional = 'SI' | 'NO' | 'NA'
-
-export interface M11ItemPDF {
+export interface M11ItemPDFRow {
   id: string
   seccion_label: string
   item: string
-  valor: ValorPreoperacional
-  codigo_correctivo: string | null
 }
 
 export interface PreoperacionalPaginaProps {
   rancho: string
   ranchoCodigo: string
-  fecha: string           // "2026-06-15" ISO
+  mesLabel: string              // "Junio 2026"
+  mesDate: string               // "2026-06-01"
   realizadoPor: string | null
-  items: M11ItemPDF[]     // 48 ítems ordenados por seccion/orden
+  items: M11ItemPDFRow[]
+  diasInspeccionados: string[]  // ["2026-06-05", ...] ordenados
+  // dia_fecha → item_id → "Si" | "No"  (solo días inspeccionados)
+  matriz: Record<string, Record<string, string>>
+  codigosCorrectivos: { diaNum: string; itemLabel: string; codigo: string }[]
   observaciones: string | null
 }
 
@@ -35,18 +36,44 @@ export interface PreoperacionalConsolidadoPDFProps {
 
 // ── Paleta ────────────────────────────────────────────────────────────────────
 
-const PRIMARY   = '#2B7AB5'
-const DARK      = '#1A1A1A'
-const BORDER    = '#CCCCCC'
-const WHITE     = '#FFFFFF'
-const MUTED     = '#555555'
-const ROW_ALT   = '#F5F9FE'
-const SI_BG     = '#E3F2FD'
-const SI_TEXT   = '#0D5A8F'
-const NO_BG     = '#FAECE7'
-const NO_TEXT   = '#993C1D'
-const NA_BG     = '#F0F0F4'
-const NA_TEXT   = '#717182'
+const PRIMARY  = '#2B7AB5'
+const DARK     = '#1A1A1A'
+const BORDER   = '#CCCCCC'
+const WHITE    = '#FFFFFF'
+const MUTED    = '#717182'
+const ROW_ALT  = '#F5F9FE'
+const SI_COLOR = '#0D5A8F'
+const NO_COLOR = '#C02A2A'
+const HDR_BG   = '#E8F1F9'
+
+// ── Medidas fijas ─────────────────────────────────────────────────────────────
+
+// A4 landscape: 841.89 × 595.28 — márgenes 20pt para acomodar 31 columnas
+const MARGIN      = 20
+const PAGE_W      = 841.89 - MARGIN * 2   // ~801.89
+const ITEM_COL_W  = 160
+const DAY_AREA_W  = PAGE_W - ITEM_COL_W   // ~641.89
+
+function dayColW(numDias: number): number {
+  return Math.floor(DAY_AREA_W / Math.max(numDias, 1))
+}
+
+function diasDelMes(mesDate: string): string[] {
+  const d = new Date(mesDate + 'T12:00:00')
+  const year = d.getFullYear()
+  const month = d.getMonth()
+  const total = new Date(year, month + 1, 0).getDate()
+  const result: string[] = []
+  for (let i = 1; i <= total; i++) {
+    result.push(`${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`)
+  }
+  return result
+}
+
+function formatDayNum(iso: string): string {
+  try { return String(new Date(iso + 'T12:00:00').getDate()) }
+  catch { return iso }
+}
 
 // ── Estilos ───────────────────────────────────────────────────────────────────
 
@@ -55,158 +82,133 @@ const s = StyleSheet.create({
     fontFamily: 'Helvetica',
     fontSize: 8,
     color: DARK,
-    paddingTop: 45,
-    paddingBottom: 45,
-    paddingLeft: 36,
-    paddingRight: 36,
+    paddingTop: MARGIN,
+    paddingBottom: MARGIN,
+    paddingLeft: MARGIN,
+    paddingRight: MARGIN,
   },
 
   // Header
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 8,
     borderBottomWidth: 2,
     borderBottomColor: PRIMARY,
     paddingBottom: 6,
   },
-  headerLogo:    { fontSize: 11, fontFamily: 'Helvetica-Bold', color: PRIMARY },
+  headerLogo:    { fontSize: 10, fontFamily: 'Helvetica-Bold', color: PRIMARY },
   headerLogoSub: { fontSize: 6, color: MUTED, marginTop: 2 },
-  headerTitle: {
-    flex: 1,
-    textAlign: 'center',
-    fontSize: 9,
-    fontFamily: 'Helvetica-Bold',
-    color: DARK,
-  },
-  headerTitleSub: { textAlign: 'center', fontSize: 6, color: MUTED, marginTop: 2 },
-  headerMeta: { fontSize: 6, textAlign: 'right', color: MUTED },
+  headerTitle:   { flex: 1, textAlign: 'center', fontSize: 9, fontFamily: 'Helvetica-Bold' },
+  headerMeta:    { width: 90, fontSize: 6, textAlign: 'right', color: MUTED },
 
   // Info chips
-  infoTable: {
-    borderLeftWidth: 1,
-    borderLeftColor: BORDER,
-    borderTopWidth: 1,
-    borderTopColor: BORDER,
-    marginBottom: 6,
-  },
-  infoRow: { flexDirection: 'row' },
-  infoCell: {
+  infoRow: { flexDirection: 'row', gap: 8, marginBottom: 6 },
+  infoBox: {
     flex: 1,
-    borderRightWidth: 1,
-    borderRightColor: BORDER,
-    borderBottomWidth: 1,
-    borderBottomColor: BORDER,
-    paddingTop: 4,
-    paddingBottom: 4,
-    paddingLeft: 6,
-    paddingRight: 6,
-  },
-  infoCellLabel: { fontSize: 5.5, color: MUTED, marginBottom: 1.5, fontFamily: 'Helvetica-Bold' },
-  infoCellValue: { fontSize: 8, color: DARK },
-
-  // Sección header
-  seccionBand: {
-    backgroundColor: PRIMARY,
-    paddingTop: 3,
-    paddingBottom: 3,
-    paddingLeft: 6,
-    marginTop: 4,
-  },
-  seccionText: { fontSize: 7, fontFamily: 'Helvetica-Bold', color: WHITE },
-
-  // Item rows
-  itemRow: {
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    borderBottomWidth: 1,
-    borderBottomColor: BORDER,
-    minHeight: 14,
-  },
-  itemText: {
-    flex: 1,
-    fontSize: 7,
-    paddingTop: 3,
-    paddingBottom: 2,
-    paddingLeft: 6,
-    paddingRight: 4,
-    color: DARK,
-    alignSelf: 'center',
-  },
-  valorChip: {
-    width: 28,
-    textAlign: 'center',
-    fontSize: 7,
-    fontFamily: 'Helvetica-Bold',
-    paddingTop: 3,
-    paddingBottom: 2,
-    alignSelf: 'center',
-  },
-  codigoCell: {
-    width: 70,
-    fontSize: 6,
-    paddingTop: 3,
-    paddingBottom: 2,
-    paddingLeft: 4,
-    paddingRight: 4,
-    color: NO_TEXT,
-    alignSelf: 'center',
-    borderLeftWidth: 1,
-    borderLeftColor: BORDER,
-  },
-
-  // Observaciones
-  obsSection: {
-    marginTop: 8,
     borderWidth: 1,
     borderColor: BORDER,
-    paddingTop: 4,
-    paddingBottom: 4,
-    paddingLeft: 6,
-    paddingRight: 6,
+    borderRadius: 3,
+    paddingTop: 3,
+    paddingBottom: 3,
+    paddingLeft: 5,
+    paddingRight: 5,
   },
-  obsLabel: { fontSize: 6, fontFamily: 'Helvetica-Bold', color: MUTED, marginBottom: 2 },
-  obsText:  { fontSize: 7, color: DARK },
+  infoLabel: { fontSize: 6, color: MUTED, marginBottom: 1 },
+  infoValue: { fontSize: 8, fontFamily: 'Helvetica-Bold' },
+
+  // Sección header de la tabla (banda azul)
+  seccionBand: {
+    backgroundColor: PRIMARY,
+    paddingTop: 2,
+    paddingBottom: 2,
+    paddingLeft: 4,
+    flexDirection: 'row',
+  },
+  seccionText: { fontSize: 6.5, fontFamily: 'Helvetica-Bold', color: WHITE, flex: 1 },
+
+  // Columna header de días
+  dayHeader: {
+    borderWidth: 1,
+    borderColor: BORDER,
+    backgroundColor: HDR_BG,
+    paddingTop: 3,
+    paddingBottom: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  dayHeaderText: { fontSize: 6, fontFamily: 'Helvetica-Bold', color: PRIMARY },
+
+  // Item header column
+  itemColHeader: {
+    width: ITEM_COL_W,
+    borderWidth: 1,
+    borderColor: BORDER,
+    backgroundColor: HDR_BG,
+    paddingTop: 3,
+    paddingBottom: 3,
+    paddingLeft: 4,
+  },
+  itemColHeaderText: { fontSize: 7, fontFamily: 'Helvetica-Bold', color: DARK },
+
+  // Data rows
+  dataRow: { flexDirection: 'row' },
+  itemCell: {
+    width: ITEM_COL_W,
+    borderWidth: 1,
+    borderColor: BORDER,
+    paddingTop: 2,
+    paddingBottom: 2,
+    paddingLeft: 4,
+    justifyContent: 'center',
+  },
+  itemText: { fontSize: 5.5 },
+  valueCell: {
+    borderWidth: 1,
+    borderColor: BORDER,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 2,
+    paddingBottom: 2,
+  },
+
+  // Footer
+  footerSep:   { borderTopWidth: 1, borderTopColor: BORDER, marginTop: 6, paddingTop: 4 },
+  footerRow:   { flexDirection: 'row', gap: 10, marginBottom: 4 },
+  footerLabel: { fontSize: 6, color: MUTED },
+  footerValue: { fontSize: 7 },
+
+  // Códigos correctivos
+  codigosTitle: { fontSize: 6, fontFamily: 'Helvetica-Bold', color: MUTED, marginBottom: 2 },
+  codigosItem:  { fontSize: 5.5, color: DARK, marginBottom: 1 },
 
   // Firma
-  firmaSection: { marginTop: 20, flexDirection: 'row', gap: 24 },
-  firmaBox:     { flex: 1 },
-  firmaLinea: {
+  firmaRow: { marginTop: 8, flexDirection: 'row', gap: 20 },
+  firmaBloque: {
+    alignItems: 'center',
     borderTopWidth: 1,
-    borderTopColor: DARK,
+    borderTopColor: BORDER,
     paddingTop: 4,
-    marginTop: 28,
   },
   firmaLabel: { fontSize: 7, color: MUTED },
 
-  // Footer fijo
-  footer: {
+  // Pie de página
+  piePagina: {
     position: 'absolute',
-    bottom: 16,
-    left: 36,
-    right: 36,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    borderTopWidth: 1,
-    borderTopColor: BORDER,
-    paddingTop: 3,
+    bottom: 10,
+    left: MARGIN,
+    right: MARGIN,
+    textAlign: 'center',
+    fontSize: 6,
+    color: MUTED,
   },
-  footerText: { fontSize: 5.5, color: '#888888' },
 })
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-function formatFechaPDF(iso: string): string {
-  try {
-    return new Date(iso + 'T12:00:00').toLocaleDateString('es-MX', {
-      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
-    })
-  } catch { return iso }
-}
-
-function agruparItemsPorSeccion(items: M11ItemPDF[]) {
-  const grupos: { label: string; items: M11ItemPDF[] }[] = []
-  let actual: { label: string; items: M11ItemPDF[] } | null = null
+function agruparItemsPorSeccion(items: M11ItemPDFRow[]) {
+  const grupos: { label: string; items: M11ItemPDFRow[] }[] = []
+  let actual: { label: string; items: M11ItemPDFRow[] } | null = null
   for (const item of items) {
     if (!actual || actual.label !== item.seccion_label) {
       actual = { label: item.seccion_label, items: [] }
@@ -217,151 +219,175 @@ function agruparItemsPorSeccion(items: M11ItemPDF[]) {
   return grupos
 }
 
-function valorStyle(v: ValorPreoperacional) {
-  if (v === 'SI') return { color: SI_TEXT, backgroundColor: SI_BG }
-  if (v === 'NO') return { color: NO_TEXT, backgroundColor: NO_BG }
-  return { color: NA_TEXT, backgroundColor: NA_BG }
-}
-
 // ── Componente de página ──────────────────────────────────────────────────────
 
 export function PreoperacionalPagina({
-  rancho, ranchoCodigo, fecha, realizadoPor, items, observaciones,
+  rancho, ranchoCodigo, mesLabel, mesDate, realizadoPor,
+  items, diasInspeccionados, matriz, codigosCorrectivos, observaciones,
 }: PreoperacionalPaginaProps) {
   const secciones = agruparItemsPorSeccion(items)
-  const emision = new Date().toLocaleDateString('es-MX')
-  const totalNO = items.filter((i) => i.valor === 'NO').length
+  const todosLosDias = diasDelMes(mesDate)
+  const dW = dayColW(todosLosDias.length)
+  const inspeccionadosSet = new Set(diasInspeccionados)
 
   return (
-    <Page size="A4" style={s.page}>
+    <Page size="A4" orientation="landscape" style={s.page}>
 
-      {/* Footer fijo */}
-      <View fixed style={s.footer}>
-        <Text style={s.footerText}>AgroCampo — DuoMind Solutions &amp; Hima Inocuidad Alimentaria</Text>
-        <Text
-          style={s.footerText}
-          render={({ pageNumber, totalPages }) => `Pagina ${pageNumber} de ${totalPages}`}
-        />
-      </View>
-
-      {/* Header */}
+      {/* ── Header ─────────────────────────────────────────────────────── */}
       <View style={s.header}>
-        <View style={{ flex: 2 }}>
+        <View>
           <Text style={s.headerLogo}>AgroCampo</Text>
-          <Text style={s.headerLogoSub}>Hima Inocuidad Alimentaria</Text>
+          <Text style={s.headerLogoSub}>DuoMind Solutions &amp; Hima</Text>
         </View>
-        <View style={{ flex: 6 }}>
-          <Text style={s.headerTitle}>INSPECCION PREOPERACIONAL</Text>
-          <Text style={s.headerTitleSub}>
-            Clave: MXA-F-SC-SIG · FORMATOS MANUAL DEL SAIA Y BPA's
+        <View style={{ flex: 1, alignItems: 'center' }}>
+          <Text style={s.headerTitle}>INSPECCION PREOPERACIONAL DE COSECHA</Text>
+          <Text style={{ fontSize: 6, color: MUTED, marginTop: 2 }}>
+            Clave: MXA-F-SC-SIG  |  Frecuencia: Diaria  |  Mes: {mesLabel}
           </Text>
         </View>
-        <View style={{ flex: 2, alignItems: 'flex-end' }}>
-          <Text style={s.headerMeta}>Emision: {emision}</Text>
-          {totalNO > 0 && (
-            <Text style={[s.headerMeta, { color: NO_TEXT, fontFamily: 'Helvetica-Bold' }]}>
-              {totalNO} observacion(es)
-            </Text>
-          )}
+        <View style={s.headerMeta}>
+          <Text>Dias: {diasInspeccionados.length}</Text>
         </View>
       </View>
 
-      {/* Info chips */}
-      <View style={s.infoTable}>
-        <View style={s.infoRow}>
-          <View style={[s.infoCell, { flex: 3 }]}>
-            <Text style={s.infoCellLabel}>RANCHO / HUERTO</Text>
-            <Text style={s.infoCellValue}>{rancho}</Text>
-          </View>
-          <View style={s.infoCell}>
-            <Text style={s.infoCellLabel}>CODIGO</Text>
-            <Text style={s.infoCellValue}>{ranchoCodigo}</Text>
-          </View>
-          <View style={[s.infoCell, { flex: 3 }]}>
-            <Text style={s.infoCellLabel}>FECHA DE INSPECCION</Text>
-            <Text style={s.infoCellValue}>{formatFechaPDF(fecha)}</Text>
-          </View>
-          <View style={[s.infoCell, { flex: 2 }]}>
-            <Text style={s.infoCellLabel}>REALIZO</Text>
-            <Text style={s.infoCellValue}>{realizadoPor ?? '—'}</Text>
-          </View>
+      {/* ── Info chips ─────────────────────────────────────────────────── */}
+      <View style={s.infoRow}>
+        <View style={[s.infoBox, { flex: 3 }]}>
+          <Text style={s.infoLabel}>Rancho / Huerto</Text>
+          <Text style={s.infoValue}>{rancho}</Text>
+        </View>
+        <View style={s.infoBox}>
+          <Text style={s.infoLabel}>Codigo</Text>
+          <Text style={s.infoValue}>{ranchoCodigo}</Text>
+        </View>
+        <View style={[s.infoBox, { flex: 2 }]}>
+          <Text style={s.infoLabel}>Mes de Inspeccion</Text>
+          <Text style={s.infoValue}>{mesLabel}</Text>
+        </View>
+        <View style={[s.infoBox, { flex: 3 }]}>
+          <Text style={s.infoLabel}>Responsable de Inocuidad</Text>
+          <Text style={s.infoValue}> </Text>
+        </View>
+        <View style={[s.infoBox, { flex: 2 }]}>
+          <Text style={s.infoLabel}>Realizo</Text>
+          <Text style={s.infoValue}>{realizadoPor ?? '—'}</Text>
         </View>
       </View>
 
-      {/* Tabla de ítems por sección */}
+      {/* ── Tabla matriz — todos los días del mes ──────────────────────── */}
+
+      {/* Fila header: columna de ítems + una columna por día del mes */}
+      <View style={{ flexDirection: 'row' }}>
+        <View style={s.itemColHeader}>
+          <Text style={s.itemColHeaderText}>Item de inspeccion</Text>
+        </View>
+        {todosLosDias.map((fecha) => (
+          <View key={fecha} style={[s.dayHeader, { width: dW }]}>
+            <Text style={s.dayHeaderText}>{formatDayNum(fecha)}</Text>
+          </View>
+        ))}
+      </View>
+
+      {/* Secciones + ítems */}
       {secciones.map((sec) => (
         <View key={sec.label}>
           <View style={s.seccionBand}>
             <Text style={s.seccionText}>{sec.label}</Text>
           </View>
+
           {sec.items.map((item, idx) => {
-            const rowBg = idx % 2 === 0 ? WHITE : ROW_ALT
-            const vStyle = valorStyle(item.valor)
+            const bg = idx % 2 === 0 ? WHITE : ROW_ALT
             return (
-              <View key={item.id} style={[s.itemRow, { backgroundColor: rowBg }]}>
-                <Text style={s.itemText}>{item.item}</Text>
-                <Text style={[s.valorChip, vStyle]}>{item.valor}</Text>
-                <Text style={s.codigoCell}>
-                  {item.codigo_correctivo ? `Cód: ${item.codigo_correctivo}` : ''}
-                </Text>
+              <View key={item.id} style={[s.dataRow, { backgroundColor: bg }]}>
+                <View style={[s.itemCell, { backgroundColor: bg }]}>
+                  <Text style={s.itemText}>{item.item}</Text>
+                </View>
+                {todosLosDias.map((fecha) => {
+                  if (!inspeccionadosSet.has(fecha)) {
+                    return (
+                      <View key={fecha} style={[s.valueCell, { width: dW, backgroundColor: bg }]} />
+                    )
+                  }
+                  const val = matriz[fecha]?.[item.id] ?? 'Si'
+                  const color = val === 'Si' ? SI_COLOR : NO_COLOR
+                  return (
+                    <View key={fecha} style={[s.valueCell, { width: dW, backgroundColor: bg }]}>
+                      <Text style={{ fontSize: 6, fontFamily: 'Helvetica-Bold', color }}>{val}</Text>
+                    </View>
+                  )
+                })}
               </View>
             )
           })}
         </View>
       ))}
 
-      {/* Observaciones */}
-      {observaciones ? (
-        <View style={s.obsSection}>
-          <Text style={s.obsLabel}>OBSERVACIONES GENERALES</Text>
-          <Text style={s.obsText}>{observaciones}</Text>
-        </View>
-      ) : null}
+      {/* ── Footer ─────────────────────────────────────────────────────── */}
+      <View style={s.footerSep}>
 
-      {/* Firma */}
-      <View style={s.firmaSection}>
-        <View style={s.firmaBox}>
-          <Text style={s.firmaLabel}>Realizo la inspeccion: {realizadoPor ?? '—'}</Text>
-          <View style={s.firmaLinea}>
-            <Text style={s.firmaLabel}>Firma</Text>
+        {/* Códigos correctivos */}
+        {codigosCorrectivos.length > 0 && (
+          <View style={{ marginBottom: 4 }}>
+            <Text style={s.codigosTitle}>CODIGOS CORRECTIVOS:</Text>
+            {codigosCorrectivos.map((cc, i) => (
+              <Text key={i} style={s.codigosItem}>
+                Dia {cc.diaNum} — {cc.itemLabel}: {cc.codigo}
+              </Text>
+            ))}
           </View>
+        )}
+
+        <View style={s.footerRow}>
+          {observaciones ? (
+            <View style={{ flex: 1 }}>
+              <Text style={s.footerLabel}>Observaciones:</Text>
+              <Text style={s.footerValue}>{observaciones}</Text>
+            </View>
+          ) : null}
+          {!observaciones && codigosCorrectivos.length === 0 && (
+            <Text style={{ fontSize: 7, color: MUTED }}>Sin observaciones adicionales.</Text>
+          )}
         </View>
-        <View style={s.firmaBox}>
-          <Text style={s.firmaLabel}>&nbsp;</Text>
-          <View style={s.firmaLinea}>
-            <Text style={s.firmaLabel}>Responsable de Inocuidad — Firma</Text>
+
+        {/* Firma: quien realizó + espacio para firma manual del Responsable */}
+        <View style={s.firmaRow}>
+          {realizadoPor ? (
+            <View style={[s.firmaBloque, { flex: 1 }]}>
+              <Text style={s.firmaLabel}>Realizo: {realizadoPor}</Text>
+            </View>
+          ) : null}
+          <View style={[s.firmaBloque, { flex: 2 }]}>
+            {/* Espacio para firma manual */}
+            <View style={{ height: 16 }} />
+            <Text style={s.firmaLabel}>Responsable de Inocuidad</Text>
           </View>
         </View>
       </View>
 
+      {/* Pie */}
+      <Text style={s.piePagina} fixed>AgroCampo — DuoMind Solutions &amp; Hima</Text>
     </Page>
   )
 }
 
-// ── PDF individual ─────────────────────────────────────────────────────────────
+// ── PDF individual (un mes) ───────────────────────────────────────────────────
 
 export function PreoperacionalPDF(props: PreoperacionalPaginaProps) {
   return (
-    <Document
-      title={`Inspeccion Preoperacional ${props.rancho} ${props.fecha}`}
-      author="AgroCampo — DuoMind Solutions"
-      subject="Inspeccion Preoperacional de Cosecha"
-    >
+    <Document>
       <PreoperacionalPagina {...props} />
     </Document>
   )
 }
 
-// ── PDF consolidado ────────────────────────────────────────────────────────────
+// ── PDF consolidado (varios meses) ───────────────────────────────────────────
 
 export function PreoperacionalConsolidadoPDF({
   paginas, ranchoNombre, desde, hasta,
 }: PreoperacionalConsolidadoPDFProps) {
   return (
     <Document
-      title={`Inspeccion Preoperacional Consolidado ${ranchoNombre} ${desde} ${hasta}`}
-      author="AgroCampo — DuoMind Solutions"
-      subject="Inspeccion Preoperacional Consolidado"
+      title={`Inspeccion Preoperacional Consolidada — ${ranchoNombre} ${desde}–${hasta}`}
     >
       {paginas.map((p, i) => (
         <PreoperacionalPagina key={i} {...p} />
