@@ -263,7 +263,7 @@ export function BotiquinPagina({
       {/* Footer fijo en esta página */}
       <View fixed style={s.footer}>
         <Text style={s.footerText}>
-          M.A.D.Y — DuoMind Solutions &amp; Hima Inocuidad Alimentaria
+          M.A.D.Y — DuoMind Solutions &amp; Inocuidad Alimentaria
         </Text>
         <Text
           style={s.footerText}
@@ -275,7 +275,7 @@ export function BotiquinPagina({
       <View style={s.header}>
         <View style={{ flex: 2 }}>
           <Text style={s.headerLogo}>M.A.D.Y</Text>
-          <Text style={s.headerLogoSub}>Hima Inocuidad Alimentaria</Text>
+          <Text style={s.headerLogoSub}>Inocuidad Alimentaria</Text>
         </View>
         <View style={{ flex: 6 }}>
           <Text style={s.headerTitle}>

@@ -237,7 +237,7 @@ export function PreoperacionalPagina({
       <View style={s.header}>
         <View>
           <Text style={s.headerLogo}>M.A.D.Y</Text>
-          <Text style={s.headerLogoSub}>DuoMind Solutions &amp; Hima</Text>
+          <Text style={s.headerLogoSub}>Inocuidad Alimentaria</Text>
         </View>
         <View style={{ flex: 1, alignItems: 'center' }}>
           <Text style={s.headerTitle}>INSPECCION PREOPERACIONAL DE COSECHA</Text>
@@ -365,7 +365,7 @@ export function PreoperacionalPagina({
       </View>
 
       {/* Pie */}
-      <Text style={s.piePagina} fixed>M.A.D.Y — DuoMind Solutions &amp; Hima</Text>
+      <Text style={s.piePagina} fixed>M.A.D.Y — DuoMind Solutions &amp; Inocuidad Alimentaria</Text>
     </Page>
   )
 }
