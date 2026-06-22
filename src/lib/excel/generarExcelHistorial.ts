@@ -381,7 +381,7 @@ export async function generarExcelHistorial(
   }
 
   const wb = new ExcelJS.Workbook()
-  wb.creator  = 'AgroCampo — DuoMind Solutions'
+  wb.creator  = 'M.A.D.Y — DuoMind Solutions'
   wb.created  = new Date()
 
   // ── Hoja 1 ──
@@ -410,7 +410,7 @@ export async function generarExcelHistorial(
   const url  = URL.createObjectURL(blob)
   const link = document.createElement('a')
   link.href  = url
-  link.download = nombreArchivo ?? `AgroCampo_Historial_${new Date().toISOString().slice(0, 10)}.xlsx`
+  link.download = nombreArchivo ?? `M.A.D.Y_Historial_${new Date().toISOString().slice(0, 10)}.xlsx`
   document.body.appendChild(link)
   link.click()
   document.body.removeChild(link)

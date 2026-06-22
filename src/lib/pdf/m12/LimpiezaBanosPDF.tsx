@@ -214,14 +214,14 @@ export function LimpiezaBanosPagina({
 
       {/* Footer fijo */}
       <View fixed style={s.footer}>
-        <Text style={s.footerText}>AgroCampo — DuoMind Solutions &amp; Hima Inocuidad Alimentaria</Text>
+        <Text style={s.footerText}>M.A.D.Y — DuoMind Solutions &amp; Hima Inocuidad Alimentaria</Text>
         <Text style={s.footerText} render={({ pageNumber, totalPages }) => `Pagina ${pageNumber} de ${totalPages}`} />
       </View>
 
       {/* Header */}
       <View style={s.header}>
         <View style={{ flex: 2 }}>
-          <Text style={s.headerLogo}>AgroCampo</Text>
+          <Text style={s.headerLogo}>M.A.D.Y</Text>
           <Text style={s.headerLogoSub}>Hima Inocuidad Alimentaria</Text>
         </View>
         <View style={{ flex: 6 }}>
@@ -359,7 +359,7 @@ export function LimpiezaBanosPDF(props: LimpiezaBanosPaginaProps) {
   return (
     <Document
       title={`Limpieza de Banos ${props.rancho} ${props.fecha}`}
-      author="AgroCampo — DuoMind Solutions"
+      author="M.A.D.Y — DuoMind Solutions"
       subject="Limpieza y Desinfeccion de Banos"
     >
       <LimpiezaBanosPagina {...props} />
@@ -375,7 +375,7 @@ export function LimpiezaBanosConsolidadoPDF({
   return (
     <Document
       title={`Limpieza Banos Consolidado ${ranchoNombre} ${desde} ${hasta}`}
-      author="AgroCampo — DuoMind Solutions"
+      author="M.A.D.Y — DuoMind Solutions"
       subject="Limpieza y Desinfeccion de Banos Consolidado"
     >
       {jornadas.map((j, i) => (

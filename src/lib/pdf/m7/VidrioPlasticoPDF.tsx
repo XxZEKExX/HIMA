@@ -242,7 +242,7 @@ export function VidrioPlasticoPagina({
       {/* Footer fijo en esta página */}
       <View fixed style={s.footer}>
         <Text style={s.footerText}>
-          AgroCampo — DuoMind Solutions &amp; Hima Inocuidad Alimentaria
+          M.A.D.Y — DuoMind Solutions &amp; Hima Inocuidad Alimentaria
         </Text>
         <Text
           style={s.footerText}
@@ -253,7 +253,7 @@ export function VidrioPlasticoPagina({
       {/* Header */}
       <View style={s.header}>
         <View style={{ flex: 2 }}>
-          <Text style={s.headerLogo}>AgroCampo</Text>
+          <Text style={s.headerLogo}>M.A.D.Y</Text>
           <Text style={s.headerLogoSub}>Hima Inocuidad Alimentaria</Text>
         </View>
         <View style={{ flex: 6 }}>
@@ -365,7 +365,7 @@ export function VidrioPlasticoPDF(props: VidrioPlasticoPDFProps) {
   return (
     <Document
       title={`Vidrio y Plastico ${props.folio}`}
-      author="AgroCampo — DuoMind Solutions"
+      author="M.A.D.Y — DuoMind Solutions"
       subject="Inspeccion de Vidrio y Plastico Duro"
     >
       <VidrioPlasticoPagina {...props} />
@@ -385,7 +385,7 @@ export function VidrioPlasticoConsolidadoPDF({
   return (
     <Document
       title={`Vidrio y Plastico Consolidado ${ranchoNombre} ${desde} ${hasta}`}
-      author="AgroCampo — DuoMind Solutions"
+      author="M.A.D.Y — DuoMind Solutions"
       subject="Inspeccion Consolidada de Vidrio y Plastico Duro"
     >
       {inspecciones.map((insp) => (

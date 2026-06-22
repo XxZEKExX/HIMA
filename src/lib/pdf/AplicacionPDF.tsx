@@ -335,7 +335,7 @@ export function AplicacionPDF({
     <Document
       key={Date.now()}
       title={`Aplicación Foliar ${folio}`}
-      author="AgroCampo — DuoMind Solutions"
+      author="M.A.D.Y — DuoMind Solutions"
       subject="Registro de Aplicaciones Foliares de Agroquímicos"
     >
       <Page size="A4" orientation="landscape" style={s.page}>
@@ -343,7 +343,7 @@ export function AplicacionPDF({
         {/* ── Fixed footer ── */}
         <View fixed style={s.footer}>
           <Text style={s.footerText}>
-            AgroCampo — DuoMind Solutions & Hima Inocuidad Alimentaria
+            M.A.D.Y — DuoMind Solutions & Hima Inocuidad Alimentaria
           </Text>
           <Text
             style={s.footerText}
@@ -354,7 +354,7 @@ export function AplicacionPDF({
         {/* ── Header ── */}
         <View style={s.header}>
           <View style={{ flex: 2 }}>
-            <Text style={s.headerLogo}>AgroCampo</Text>
+            <Text style={s.headerLogo}>M.A.D.Y</Text>
             <Text style={s.headerLogoSub}>Hima Inocuidad Alimentaria</Text>
           </View>
           <View style={{ flex: 6 }}>

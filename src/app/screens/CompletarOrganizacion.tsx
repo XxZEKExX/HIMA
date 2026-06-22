@@ -57,7 +57,7 @@ export function CompletarOrganizacion() {
           </div>
           <h1 className="text-xl text-foreground" style={{ fontWeight: 600 }}>Un paso más</h1>
           <p className="text-sm text-muted-foreground text-center">
-            Nombra tu organización para empezar a usar AgroCampo.
+            Nombra tu organización para empezar a usar M.A.D.Y.
           </p>
         </div>
 

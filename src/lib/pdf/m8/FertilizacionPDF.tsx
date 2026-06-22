@@ -240,7 +240,7 @@ export function FertilizacionPagina({
       {/* Footer fijo en esta página */}
       <View fixed style={s.footer}>
         <Text style={s.footerText}>
-          AgroCampo — DuoMind Solutions &amp; Hima Inocuidad Alimentaria
+          M.A.D.Y — DuoMind Solutions &amp; Hima Inocuidad Alimentaria
         </Text>
         <Text
           style={s.footerText}
@@ -251,7 +251,7 @@ export function FertilizacionPagina({
       {/* Header */}
       <View style={s.header}>
         <View style={{ flex: 2 }}>
-          <Text style={s.headerLogo}>AgroCampo</Text>
+          <Text style={s.headerLogo}>M.A.D.Y</Text>
           <Text style={s.headerLogoSub}>Hima Inocuidad Alimentaria</Text>
         </View>
         <View style={{ flex: 6 }}>
@@ -350,7 +350,7 @@ export function FertilizacionPDF(props: FertilizacionPDFProps) {
   return (
     <Document
       title={`Fertilizacion ${props.folio}`}
-      author="AgroCampo — DuoMind Solutions"
+      author="M.A.D.Y — DuoMind Solutions"
       subject="Registro de Fertilizacion"
     >
       <FertilizacionPagina {...props} />
@@ -370,7 +370,7 @@ export function FertilizacionConsolidadoPDF({
   return (
     <Document
       title={`Fertilizacion Consolidado ${ranchoNombre} ${desde} ${hasta}`}
-      author="AgroCampo — DuoMind Solutions"
+      author="M.A.D.Y — DuoMind Solutions"
       subject="Registro Consolidado de Fertilizacion"
     >
       {registros.map((reg) => (

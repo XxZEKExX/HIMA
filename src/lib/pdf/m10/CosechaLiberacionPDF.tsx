@@ -250,14 +250,14 @@ export function CosechaLiberacionPagina({
 
       {/* Footer fijo */}
       <View fixed style={s.footer}>
-        <Text style={s.footerText}>AgroCampo — DuoMind Solutions &amp; Hima Inocuidad Alimentaria</Text>
+        <Text style={s.footerText}>M.A.D.Y — DuoMind Solutions &amp; Hima Inocuidad Alimentaria</Text>
         <Text style={s.footerText} render={({ pageNumber, totalPages }) => `Pagina ${pageNumber} de ${totalPages}`} />
       </View>
 
       {/* Header */}
       <View style={s.header}>
         <View style={{ flex: 2 }}>
-          <Text style={s.headerLogo}>AgroCampo</Text>
+          <Text style={s.headerLogo}>M.A.D.Y</Text>
           <Text style={s.headerLogoSub}>Hima Inocuidad Alimentaria</Text>
         </View>
         <View style={{ flex: 6 }}>
@@ -390,7 +390,7 @@ export function CosechaLiberacionPDF(props: CosechaLiberacionPaginaProps) {
   return (
     <Document
       title={`Cosecha y Liberacion ${props.rancho} ${props.fecha}`}
-      author="AgroCampo — DuoMind Solutions"
+      author="M.A.D.Y — DuoMind Solutions"
       subject="Registro de Cosecha y Liberacion"
     >
       <CosechaLiberacionPagina {...props} />
@@ -406,7 +406,7 @@ export function CosechaLiberacionConsolidadoPDF({
   return (
     <Document
       title={`Cosecha Liberacion Consolidado ${ranchoNombre} ${desde} ${hasta}`}
-      author="AgroCampo — DuoMind Solutions"
+      author="M.A.D.Y — DuoMind Solutions"
       subject="Registro Consolidado de Cosecha y Liberacion"
     >
       {registros.map((reg, i) => (

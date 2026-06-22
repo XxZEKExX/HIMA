@@ -57,7 +57,7 @@ export function Registro() {
             >
               <span className="text-white text-xl" style={{ fontWeight: 700, letterSpacing: '-0.5px' }}>AC</span>
             </div>
-            <h1 className="text-[19px]" style={{ fontWeight: 700 }}>AgroCampo</h1>
+            <h1 className="text-[19px]" style={{ fontWeight: 700 }}>M.A.D.Y</h1>
           </div>
           <div
             className="p-4 rounded-xl space-y-2"
@@ -99,7 +99,7 @@ export function Registro() {
           </div>
           <h1 className="text-[19px]" style={{ fontWeight: 700 }}>Crear cuenta</h1>
           <p className="text-[12px]" style={{ color: 'var(--muted-foreground)' }}>
-            AgroCampo · Inocuidad Alimentaria
+            M.A.D.Y · Inocuidad Alimentaria
           </p>
         </div>
 

@@ -80,7 +80,7 @@ export function Historial() {
     setExportando(true);
     try {
       const fecha = new Date().toISOString().slice(0, 10);
-      await generarExcelHistorial(apps, `AgroCampo_Historial_${fecha}.xlsx`);
+      await generarExcelHistorial(apps, `M.A.D.Y_Historial_${fecha}.xlsx`);
     } catch (err) {
       toast.error("No se pudo generar el Excel — intenta de nuevo");
       console.error(err);

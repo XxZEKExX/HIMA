@@ -50,7 +50,7 @@ export function Login() {
           >
             <span className="text-white text-xl" style={{ fontWeight: 700, letterSpacing: '-0.5px' }}>AC</span>
           </div>
-          <h1 className="text-[19px]" style={{ fontWeight: 700 }}>AgroCampo</h1>
+          <h1 className="text-[19px]" style={{ fontWeight: 700 }}>M.A.D.Y</h1>
           <p className="text-[12px]" style={{ color: 'var(--muted-foreground)' }}>Inocuidad Alimentaria</p>
         </div>
 

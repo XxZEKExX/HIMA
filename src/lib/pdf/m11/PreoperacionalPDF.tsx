@@ -236,7 +236,7 @@ export function PreoperacionalPagina({
       {/* ── Header ─────────────────────────────────────────────────────── */}
       <View style={s.header}>
         <View>
-          <Text style={s.headerLogo}>AgroCampo</Text>
+          <Text style={s.headerLogo}>M.A.D.Y</Text>
           <Text style={s.headerLogoSub}>DuoMind Solutions &amp; Hima</Text>
         </View>
         <View style={{ flex: 1, alignItems: 'center' }}>
@@ -365,7 +365,7 @@ export function PreoperacionalPagina({
       </View>
 
       {/* Pie */}
-      <Text style={s.piePagina} fixed>AgroCampo — DuoMind Solutions &amp; Hima</Text>
+      <Text style={s.piePagina} fixed>M.A.D.Y — DuoMind Solutions &amp; Hima</Text>
     </Page>
   )
 }

@@ -29,7 +29,7 @@ export function DetalleAplicacion() {
       const fecha = app.aplicacion.fecha_aplicacion.replaceAll("-", "");
       const rancho = (app.ranchos?.nombre ?? "rancho")
         .toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
-      await generarExcelHistorial([app], `AgroCampo_Aplicacion_${rancho}_${fecha}.xlsx`);
+      await generarExcelHistorial([app], `M.A.D.Y_Aplicacion_${rancho}_${fecha}.xlsx`);
     } catch (err) {
       toast.error("No se pudo generar el Excel");
       console.error(err);

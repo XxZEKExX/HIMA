@@ -263,7 +263,7 @@ export function BotiquinPagina({
       {/* Footer fijo en esta página */}
       <View fixed style={s.footer}>
         <Text style={s.footerText}>
-          AgroCampo — DuoMind Solutions &amp; Hima Inocuidad Alimentaria
+          M.A.D.Y — DuoMind Solutions &amp; Hima Inocuidad Alimentaria
         </Text>
         <Text
           style={s.footerText}
@@ -274,7 +274,7 @@ export function BotiquinPagina({
       {/* Header */}
       <View style={s.header}>
         <View style={{ flex: 2 }}>
-          <Text style={s.headerLogo}>AgroCampo</Text>
+          <Text style={s.headerLogo}>M.A.D.Y</Text>
           <Text style={s.headerLogoSub}>Hima Inocuidad Alimentaria</Text>
         </View>
         <View style={{ flex: 6 }}>
@@ -374,7 +374,7 @@ export function BotiquinPDF(props: BotiquinPDFProps) {
   return (
     <Document
       title={`Botiquin ${props.folio}`}
-      author="AgroCampo — DuoMind Solutions"
+      author="M.A.D.Y — DuoMind Solutions"
       subject="Revision de Materiales de Botiquin de Primeros Auxilios"
     >
       <BotiquinPagina {...props} />
@@ -389,7 +389,7 @@ export function BotiquinConsolidadoPDF({ registros, ranchoNombre, desde, hasta }
   return (
     <Document
       title={`Botiquin Consolidado ${ranchoNombre} ${desde} ${hasta}`}
-      author="AgroCampo — DuoMind Solutions"
+      author="M.A.D.Y — DuoMind Solutions"
       subject="Revision Consolidada de Materiales de Botiquin de Primeros Auxilios"
     >
       {registros.map((r) => (
