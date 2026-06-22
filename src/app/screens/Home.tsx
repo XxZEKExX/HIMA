@@ -5,6 +5,7 @@ import {
 } from 'lucide-react'
 import { useAuthContext } from '@/context/AuthContext'
 import { useHomeDashboard } from '@/hooks/useHomeDashboard'
+import { MadyLogo } from '@/app/components/MadyLogo'
 
 // ── Módulos de inocuidad — navegación estática ────────────────────────────────
 // lastEntry y status se calcularán cuando M8-M12 estén integrados a BD.
@@ -64,7 +65,7 @@ export function Home() {
             <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
               <span className="text-white text-xs" style={{ fontWeight: 600 }}>AC</span>
             </div>
-            <span className="text-sm text-foreground" style={{ fontWeight: 600 }}>M.A.D.Y</span>
+            <MadyLogo theme="light" className="text-sm" style={{ fontWeight: 600 }} />
           </div>
           <div className="text-right min-w-0 flex-1 ml-3">
             <div className="text-sm text-foreground truncate" style={{ fontWeight: 600 }}>

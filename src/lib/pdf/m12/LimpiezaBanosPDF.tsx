@@ -4,6 +4,7 @@
 // LimpiezaBanosConsolidadoPDF: documento multi-página, uno por jornada.
 
 import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer'
+import { MadyLogoPDF } from '@/lib/pdf/MadyLogoPDF'
 
 // ── Tipos ─────────────────────────────────────────────────────────────────────
 
@@ -221,7 +222,7 @@ export function LimpiezaBanosPagina({
       {/* Header */}
       <View style={s.header}>
         <View style={{ flex: 2 }}>
-          <Text style={s.headerLogo}>M.A.D.Y</Text>
+          <MadyLogoPDF style={s.headerLogo} />
           <Text style={s.headerLogoSub}>Inocuidad Alimentaria</Text>
         </View>
         <View style={{ flex: 6 }}>

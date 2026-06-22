@@ -4,6 +4,7 @@
 // BotiquinConsolidadoPDF: documento multi-página, una BotiquinPagina por registro.
 
 import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer'
+import { MadyLogoPDF } from '@/lib/pdf/MadyLogoPDF'
 
 export interface BotiquinPDFProps {
   folio: string
@@ -274,7 +275,7 @@ export function BotiquinPagina({
       {/* Header */}
       <View style={s.header}>
         <View style={{ flex: 2 }}>
-          <Text style={s.headerLogo}>M.A.D.Y</Text>
+          <MadyLogoPDF style={s.headerLogo} />
           <Text style={s.headerLogoSub}>Inocuidad Alimentaria</Text>
         </View>
         <View style={{ flex: 6 }}>

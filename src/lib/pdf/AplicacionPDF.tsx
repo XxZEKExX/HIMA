@@ -1,4 +1,5 @@
 import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer'
+import { MadyLogoPDF } from '@/lib/pdf/MadyLogoPDF'
 import type { Aplicacion, AplicacionProducto, CatalogoProducto, Rancho, Profile } from '@/types/database.types'
 import { formatFenologia } from '@/lib/fenologia'
 
@@ -354,7 +355,7 @@ export function AplicacionPDF({
         {/* ── Header ── */}
         <View style={s.header}>
           <View style={{ flex: 2 }}>
-            <Text style={s.headerLogo}>M.A.D.Y</Text>
+            <MadyLogoPDF style={s.headerLogo} />
             <Text style={s.headerLogoSub}>Inocuidad Alimentaria</Text>
           </View>
           <View style={{ flex: 6 }}>

@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { useNavigate, Link } from 'react-router'
 import { useAuthContext } from '@/context/AuthContext'
 import { AuthBackground } from '@/app/components/AuthBackground'
+import { MadyLogo } from '@/app/components/MadyLogo'
 
 export function Registro() {
   const { signUp } = useAuthContext()
@@ -57,7 +58,7 @@ export function Registro() {
             >
               <span className="text-white text-xl" style={{ fontWeight: 700, letterSpacing: '-0.5px' }}>AC</span>
             </div>
-            <h1 className="text-[19px]" style={{ fontWeight: 700 }}>M.A.D.Y</h1>
+            <h1 className="text-[19px]" style={{ fontWeight: 700 }}><MadyLogo theme="light" /></h1>
           </div>
           <div
             className="p-4 rounded-xl space-y-2"
@@ -99,7 +100,7 @@ export function Registro() {
           </div>
           <h1 className="text-[19px]" style={{ fontWeight: 700 }}>Crear cuenta</h1>
           <p className="text-[12px]" style={{ color: 'var(--muted-foreground)' }}>
-            M.A.D.Y · Inocuidad Alimentaria
+            <MadyLogo theme="light" /> · Inocuidad Alimentaria
           </p>
         </div>
 

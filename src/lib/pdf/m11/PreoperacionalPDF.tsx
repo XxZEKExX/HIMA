@@ -4,6 +4,7 @@
 // PreoperacionalConsolidadoPDF: multi-página, uno por mes.
 
 import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer'
+import { MadyLogoPDF } from '@/lib/pdf/MadyLogoPDF'
 
 // ── Tipos ─────────────────────────────────────────────────────────────────────
 
@@ -236,7 +237,7 @@ export function PreoperacionalPagina({
       {/* ── Header ─────────────────────────────────────────────────────── */}
       <View style={s.header}>
         <View>
-          <Text style={s.headerLogo}>M.A.D.Y</Text>
+          <MadyLogoPDF style={s.headerLogo} />
           <Text style={s.headerLogoSub}>Inocuidad Alimentaria</Text>
         </View>
         <View style={{ flex: 1, alignItems: 'center' }}>

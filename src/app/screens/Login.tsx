@@ -2,6 +2,7 @@ import { useState, useEffect, type FormEvent } from 'react'
 import { useNavigate, Link } from 'react-router'
 import { useAuthContext } from '@/context/AuthContext'
 import { AuthBackground } from '@/app/components/AuthBackground'
+import { MadyLogo } from '@/app/components/MadyLogo'
 
 export function Login() {
   const { user, loading, signIn } = useAuthContext()
@@ -50,7 +51,7 @@ export function Login() {
           >
             <span className="text-white text-xl" style={{ fontWeight: 700, letterSpacing: '-0.5px' }}>AC</span>
           </div>
-          <h1 className="text-[19px]" style={{ fontWeight: 700 }}>M.A.D.Y</h1>
+          <h1 className="text-[19px]" style={{ fontWeight: 700 }}><MadyLogo theme="light" /></h1>
           <p className="text-[12px]" style={{ color: 'var(--muted-foreground)' }}>Inocuidad Alimentaria</p>
         </div>
 

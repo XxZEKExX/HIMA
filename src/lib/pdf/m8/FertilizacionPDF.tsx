@@ -4,6 +4,7 @@
 // FertilizacionConsolidadoPDF: documento multi-página, una FertilizacionPagina por registro.
 
 import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer'
+import { MadyLogoPDF } from '@/lib/pdf/MadyLogoPDF'
 
 export interface FertilizacionPDFProps {
   folio: string
@@ -251,7 +252,7 @@ export function FertilizacionPagina({
       {/* Header */}
       <View style={s.header}>
         <View style={{ flex: 2 }}>
-          <Text style={s.headerLogo}>M.A.D.Y</Text>
+          <MadyLogoPDF style={s.headerLogo} />
           <Text style={s.headerLogoSub}>Inocuidad Alimentaria</Text>
         </View>
         <View style={{ flex: 6 }}>
