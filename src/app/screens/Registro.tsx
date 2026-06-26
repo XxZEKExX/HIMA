@@ -1,8 +1,11 @@
-import { useState, type FormEvent } from 'react'
+import { useState, useRef, type FormEvent } from 'react'
 import { useNavigate, Link } from 'react-router'
+import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile'
 import { useAuthContext } from '@/context/AuthContext'
 import { AuthBackground } from '@/app/components/AuthBackground'
 import { MadyLogo } from '@/app/components/MadyLogo'
+
+const SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY as string | undefined
 
 export function Registro() {
   const { signUp } = useAuthContext()
@@ -15,6 +18,8 @@ export function Registro() {
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [confirmacionPendiente, setConfirmacionPendiente] = useState(false)
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
+  const turnstileRef = useRef<TurnstileInstance>(null)
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -25,12 +30,25 @@ export function Registro() {
       return
     }
 
+    if (SITE_KEY && !captchaToken) {
+      setError('Completa la verificación antes de continuar')
+      return
+    }
+
     setSubmitting(true)
-    const { error: signUpError, requiresConfirmation } = await signUp(email, password, nombre)
+    const { error: signUpError, requiresConfirmation } = await signUp(
+      email,
+      password,
+      nombre,
+      captchaToken ?? undefined
+    )
     setSubmitting(false)
 
     if (signUpError) {
       setError(signUpError)
+      // El token ya fue usado (o falló) — pedir uno nuevo
+      turnstileRef.current?.reset()
+      setCaptchaToken(null)
       return
     }
 
@@ -185,6 +203,23 @@ export function Registro() {
             </p>
           </div>
 
+          {/* Turnstile CAPTCHA */}
+          {SITE_KEY && (
+            <div className="flex justify-center">
+              <Turnstile
+                ref={turnstileRef}
+                siteKey={SITE_KEY}
+                options={{ theme: 'light', size: 'normal' }}
+                onSuccess={(token) => setCaptchaToken(token)}
+                onExpire={() => setCaptchaToken(null)}
+                onError={() => {
+                  setCaptchaToken(null)
+                  setError('Verificación fallida, intenta de nuevo')
+                }}
+              />
+            </div>
+          )}
+
           {error && (
             <div
               className="p-3 rounded-lg text-sm"
@@ -196,7 +231,7 @@ export function Registro() {
 
           <button
             type="submit"
-            disabled={submitting}
+            disabled={submitting || (!!SITE_KEY && !captchaToken)}
             className="w-full h-12 rounded-xl text-white transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
             style={{ background: 'var(--primary)', fontWeight: 600, marginTop: '4px' }}
           >

@@ -3,12 +3,13 @@ import { supabase } from '@/lib/supabase'
 import { useAuth, type UseAuthReturn } from '@/hooks/useAuth'
 
 interface AuthContextValue extends UseAuthReturn {
-  signIn: (email: string, password: string) => Promise<{ error: string | null }>
+  signIn: (email: string, password: string, captchaToken?: string) => Promise<{ error: string | null }>
   signOut: () => Promise<void>
   signUp: (
     email: string,
     password: string,
-    nombreCompleto: string
+    nombreCompleto: string,
+    captchaToken?: string
   ) => Promise<{ error: string | null; requiresConfirmation: boolean }>
 }
 
@@ -17,8 +18,12 @@ const AuthContext = createContext<AuthContextValue | null>(null)
 export function AuthProvider({ children }: { children: ReactNode }) {
   const authState = useAuth()
 
-  async function signIn(email: string, password: string): Promise<{ error: string | null }> {
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
+  async function signIn(email: string, password: string, captchaToken?: string): Promise<{ error: string | null }> {
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+      options: captchaToken ? { captchaToken } : undefined,
+    })
     return { error: error?.message ?? null }
   }
 
@@ -29,12 +34,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   async function signUp(
     email: string,
     password: string,
-    nombreCompleto: string
+    nombreCompleto: string,
+    captchaToken?: string
   ): Promise<{ error: string | null; requiresConfirmation: boolean }> {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { nombre_completo: nombreCompleto } },
+      options: {
+        data: { nombre_completo: nombreCompleto },
+        ...(captchaToken ? { captchaToken } : {}),
+      },
     })
     if (error) return { error: error.message, requiresConfirmation: false }
     // Si no hay sesión, Supabase requiere confirmación por correo
