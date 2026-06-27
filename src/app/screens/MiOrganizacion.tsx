@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router'
-import { ChevronLeft, Plus, Pencil, Trash2, X, Loader2 } from 'lucide-react'
+import { ChevronLeft, Plus, Pencil, Trash2, X, Loader2, AlertTriangle } from 'lucide-react'
 import { toast } from 'sonner'
 import { useAuthContext } from '@/context/AuthContext'
 import { supabase } from '@/lib/supabase'
@@ -14,6 +14,35 @@ import {
 import type { Organizacion, Rancho } from '@/types/database.types'
 
 const CULTIVOS = ['Zarzamora', 'Frambuesa', 'Fresa', 'Mora azul']
+
+const LIMITE_POR_PLAN: Record<string, number | null> = {
+  basico: 5,
+  free: null,
+  personalizado: null,
+  pro: null,
+  enterprise: null,
+}
+
+const PLAN_LABELS: Record<string, string> = {
+  basico: 'Básico',
+  personalizado: 'Personalizado',
+  pro: 'Pro',
+  enterprise: 'Enterprise',
+  free: 'Free',
+}
+
+function parsearErrorLimiteRanchos(mensaje: string, plan?: string | null): string {
+  const match = mensaje.match(/l[ií]mite[:\s=]+(\d+)/i) ?? mensaje.match(/(\d+)\s*rancho/i)
+  const limite = match ? match[1] : null
+  const planLabel = plan ? (PLAN_LABELS[plan] ?? plan) : null
+  if (planLabel && limite) {
+    return `Tu plan ${planLabel} permite hasta ${limite} ranchos. Para agregar más, solicita un plan personalizado.`
+  }
+  if (limite) {
+    return `Has alcanzado el límite de ${limite} ranchos de tu plan. Para agregar más, solicita un plan personalizado.`
+  }
+  return 'Has alcanzado el límite de ranchos de tu plan. Para agregar más, solicita un plan personalizado.'
+}
 
 interface FormRancho {
   nombre: string
@@ -31,6 +60,9 @@ export function MiOrganizacion() {
   const [organizacion, setOrganizacion] = useState<Organizacion | null>(null)
   const [ranchos, setRanchos] = useState<Rancho[]>([])
   const [cargando, setCargando] = useState(true)
+
+  const limiteActual = organizacion ? (LIMITE_POR_PLAN[organizacion.plan] ?? null) : null
+  const enLimite = limiteActual !== null && ranchos.length >= limiteActual
 
   const [sheetAbierto, setSheetAbierto] = useState(false)
   const [ranchoEditando, setRanchoEditando] = useState<Rancho | null>(null)
@@ -139,8 +171,10 @@ export function MiOrganizacion() {
       cerrarSheet()
       await cargar()
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : ''
-      if (msg.includes('23505') || msg.includes('duplicate')) {
+      const msg = (err instanceof Error ? err.message : (err as any)?.message) ?? ''
+      if (msg.includes('LIMITE_RANCHOS_PLAN')) {
+        toast.warning(parsearErrorLimiteRanchos(msg, organizacion?.plan), { duration: 7000 })
+      } else if (msg.includes('23505') || msg.includes('duplicate')) {
         setErrores({ codigo: 'Ya existe un rancho con este código' })
       } else {
         toast.error('No se pudo guardar el rancho')
@@ -197,12 +231,41 @@ export function MiOrganizacion() {
 
             {/* Lista de ranchos */}
             <div>
-              <p
-                className="text-xs text-muted-foreground mb-2 px-1"
-                style={{ fontWeight: 600 }}
-              >
-                RANCHOS ({ranchos.length})
-              </p>
+              <div className="flex items-center justify-between mb-2 px-1">
+                <p className="text-xs text-muted-foreground" style={{ fontWeight: 600 }}>
+                  RANCHOS ({ranchos.length}{limiteActual !== null ? ` de ${limiteActual}` : ''})
+                </p>
+                {limiteActual !== null && (
+                  <p className="text-xs text-muted-foreground">
+                    {ranchos.length < limiteActual
+                      ? `${limiteActual - ranchos.length} disponible${limiteActual - ranchos.length !== 1 ? 's' : ''}`
+                      : 'Límite alcanzado'}
+                  </p>
+                )}
+              </div>
+
+              {enLimite && (
+                <div
+                  className="mb-3 rounded-xl px-4 py-3 flex items-start gap-3"
+                  style={{ background: 'var(--agro-warning-fill)' }}
+                >
+                  <AlertTriangle
+                    className="w-4 h-4 mt-0.5 flex-shrink-0"
+                    style={{ color: 'var(--agro-warning-text)' }}
+                  />
+                  <div className="flex-1 min-w-0">
+                    <p
+                      className="text-sm"
+                      style={{ color: 'var(--agro-warning-text)', fontWeight: 600 }}
+                    >
+                      Has alcanzado el límite de tu plan ({limiteActual} ranchos).
+                    </p>
+                    <p className="text-xs mt-0.5" style={{ color: 'var(--agro-warning-text)' }}>
+                      Para agregar más, solicita un plan personalizado.
+                    </p>
+                  </div>
+                </div>
+              )}
 
               {ranchos.length === 0 ? (
                 <div className="bg-card border border-border rounded-xl p-6 text-center">
@@ -263,9 +326,15 @@ export function MiOrganizacion() {
       {/* FAB */}
       <div className="fixed bottom-[calc(72px+34px+16px)] left-1/2 -translate-x-1/2 w-full max-w-[390px] flex justify-end px-4 pointer-events-none z-10">
         <button
-          onClick={abrirCrear}
-          className="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center shadow-lg pointer-events-auto hover:bg-agro-blue transition-colors"
-          aria-label="Agregar rancho"
+          onClick={enLimite ? undefined : abrirCrear}
+          disabled={enLimite}
+          className="w-14 h-14 rounded-full text-white flex items-center justify-center shadow-lg pointer-events-auto transition-colors"
+          style={{
+            background: enLimite ? 'var(--muted-foreground)' : 'var(--primary)',
+            cursor: enLimite ? 'not-allowed' : 'pointer',
+            opacity: enLimite ? 0.5 : 1,
+          }}
+          aria-label={enLimite ? 'Límite de ranchos alcanzado' : 'Agregar rancho'}
         >
           <Plus className="w-6 h-6" />
         </button>
