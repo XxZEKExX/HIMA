@@ -2,7 +2,7 @@
 
 export type Rol = 'super_admin' | 'admin_org' | 'asesor_tecnico' | 'operario'
 export type TipoOrganizacion = 'empresa' | 'individuo'
-export type PlanOrganizacion = 'free' | 'basico' | 'pro' | 'enterprise'
+export type PlanOrganizacion = 'pendiente' | 'free' | 'basico' | 'personalizado'
 export type EstadoOrganizacion = 'activa' | 'suspendida' | 'cancelada'
 export type CategoriaProducto = 'Fungicidas' | 'Insecticidas' | 'Adherentes' | 'Herbicidas' | 'Reguladores' | 'Biorracionales' | 'Nematicidas'
 export type UnidadProducto = 'kg' | 'L'

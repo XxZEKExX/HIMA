@@ -16,22 +16,23 @@ import type { Organizacion, Rancho } from '@/types/database.types'
 const CULTIVOS = ['Zarzamora', 'Frambuesa', 'Fresa', 'Mora azul']
 
 const LIMITE_POR_PLAN: Record<string, number | null> = {
+  pendiente: 0,
   basico: 5,
   free: null,
   personalizado: null,
-  pro: null,
-  enterprise: null,
 }
 
 const PLAN_LABELS: Record<string, string> = {
+  pendiente: 'Pendiente de activación',
   basico: 'Básico',
   personalizado: 'Personalizado',
-  pro: 'Pro',
-  enterprise: 'Enterprise',
   free: 'Free',
 }
 
 function parsearErrorLimiteRanchos(mensaje: string, plan?: string | null): string {
+  if (plan === 'pendiente' || mensaje.includes('pendiente de activación')) {
+    return 'Tu cuenta está pendiente de activación. Si ya realizaste tu pago, en breve activaremos tu plan.'
+  }
   const match = mensaje.match(/l[ií]mite[:\s=]+(\d+)/i) ?? mensaje.match(/(\d+)\s*rancho/i)
   const limite = match ? match[1] : null
   const planLabel = plan ? (PLAN_LABELS[plan] ?? plan) : null
@@ -61,8 +62,10 @@ export function MiOrganizacion() {
   const [ranchos, setRanchos] = useState<Rancho[]>([])
   const [cargando, setCargando] = useState(true)
 
-  const limiteActual = organizacion ? (LIMITE_POR_PLAN[organizacion.plan] ?? null) : null
+  const esPendiente = organizacion?.plan === 'pendiente'
+  const limiteActual = esPendiente ? null : (organizacion ? (LIMITE_POR_PLAN[organizacion.plan] ?? null) : null)
   const enLimite = limiteActual !== null && ranchos.length >= limiteActual
+  const bloqueado = esPendiente || enLimite
 
   const [sheetAbierto, setSheetAbierto] = useState(false)
   const [ranchoEditando, setRanchoEditando] = useState<Rancho | null>(null)
@@ -244,7 +247,30 @@ export function MiOrganizacion() {
                 )}
               </div>
 
-              {enLimite && (
+              {esPendiente && (
+                <div
+                  className="mb-3 rounded-xl px-4 py-3 flex items-start gap-3"
+                  style={{ background: 'var(--agro-warning-fill)' }}
+                >
+                  <AlertTriangle
+                    className="w-4 h-4 mt-0.5 flex-shrink-0"
+                    style={{ color: 'var(--agro-warning-text)' }}
+                  />
+                  <div className="flex-1 min-w-0">
+                    <p
+                      className="text-sm"
+                      style={{ color: 'var(--agro-warning-text)', fontWeight: 600 }}
+                    >
+                      Cuenta pendiente de activación
+                    </p>
+                    <p className="text-xs mt-0.5" style={{ color: 'var(--agro-warning-text)' }}>
+                      Si ya realizaste tu pago, en breve activaremos tu plan.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {enLimite && !esPendiente && (
                 <div
                   className="mb-3 rounded-xl px-4 py-3 flex items-start gap-3"
                   style={{ background: 'var(--agro-warning-fill)' }}
@@ -326,15 +352,21 @@ export function MiOrganizacion() {
       {/* FAB */}
       <div className="fixed bottom-[calc(72px+34px+16px)] left-1/2 -translate-x-1/2 w-full max-w-[390px] flex justify-end px-4 pointer-events-none z-10">
         <button
-          onClick={enLimite ? undefined : abrirCrear}
-          disabled={enLimite}
+          onClick={bloqueado ? undefined : abrirCrear}
+          disabled={bloqueado}
           className="w-14 h-14 rounded-full text-white flex items-center justify-center shadow-lg pointer-events-auto transition-colors"
           style={{
-            background: enLimite ? 'var(--muted-foreground)' : 'var(--primary)',
-            cursor: enLimite ? 'not-allowed' : 'pointer',
-            opacity: enLimite ? 0.5 : 1,
+            background: bloqueado ? 'var(--muted-foreground)' : 'var(--primary)',
+            cursor: bloqueado ? 'not-allowed' : 'pointer',
+            opacity: bloqueado ? 0.5 : 1,
           }}
-          aria-label={enLimite ? 'Límite de ranchos alcanzado' : 'Agregar rancho'}
+          aria-label={
+            esPendiente
+              ? 'Cuenta pendiente de activación'
+              : enLimite
+                ? 'Límite de ranchos alcanzado'
+                : 'Agregar rancho'
+          }
         >
           <Plus className="w-6 h-6" />
         </button>

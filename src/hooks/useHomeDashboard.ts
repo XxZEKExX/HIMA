@@ -21,6 +21,7 @@ export interface AplicacionReciente {
 
 export interface HomeDashboardData {
   orgNombre: string | null
+  orgPlan: string | null
   metricas: DashboardMetricas
   recientes: AplicacionReciente[]
   loading: boolean
@@ -37,6 +38,7 @@ const METRICAS_VACÍAS: DashboardMetricas = {
 export function useHomeDashboard(): HomeDashboardData {
   const { profile } = useAuthContext()
   const [orgNombre, setOrgNombre] = useState<string | null>(null)
+  const [orgPlan, setOrgPlan] = useState<string | null>(null)
   const [metricas, setMetricas] = useState<DashboardMetricas>(METRICAS_VACÍAS)
   const [recientes, setRecientes] = useState<AplicacionReciente[]>([])
   const [loading, setLoading] = useState(true)
@@ -67,10 +69,10 @@ export function useHomeDashboard(): HomeDashboardData {
         ranchosRes,
         recientesRes,
       ] = await Promise.all([
-        // 1. Nombre de la organización
+        // 1. Nombre y plan de la organización
         supabase
           .from('organizaciones')
-          .select('nombre')
+          .select('nombre, plan')
           .eq('id', profile.org_id)
           .single(),
 
@@ -121,8 +123,9 @@ export function useHomeDashboard(): HomeDashboardData {
           .limit(5),
       ])
 
-      // Org name
+      // Org name y plan
       setOrgNombre(orgRes.data?.nombre ?? null)
+      setOrgPlan((orgRes.data as any)?.plan ?? null)
 
       // Métricas
       const appsMes = appsMesRes.count ?? 0
@@ -174,5 +177,5 @@ export function useHomeDashboard(): HomeDashboardData {
     cargar()
   }, [cargar])
 
-  return { orgNombre, metricas, recientes, loading, error }
+  return { orgNombre, orgPlan, metricas, recientes, loading, error }
 }

@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
 import {
   Plus, CheckCircle, Clock, Shield, ClipboardCheck, Droplets,
-  Sprout, Eye, Package, FileCheck, Loader2, TriangleAlert,
+  Sprout, Eye, Package, FileCheck, Loader2, TriangleAlert, Clock3,
 } from 'lucide-react'
 import { useAuthContext } from '@/context/AuthContext'
 import { useHomeDashboard } from '@/hooks/useHomeDashboard'
@@ -48,7 +48,7 @@ function formatDias(dias: number | null): string {
 
 export function Home() {
   const { profile } = useAuthContext()
-  const { orgNombre, metricas, recientes, loading, error } = useHomeDashboard()
+  const { orgNombre, orgPlan, metricas, recientes, loading, error } = useHomeDashboard()
 
   const nombreUsuario = profile?.nombre_completo ?? '—'
   const nombreOrg = orgNombre ?? '—'
@@ -79,6 +79,32 @@ export function Home() {
       </header>
 
       <div className="p-4 space-y-6">
+
+        {/* Banner de cuenta pendiente de activación */}
+        {!loading && orgPlan === 'pendiente' && (
+          <div
+            className="flex items-start gap-3 rounded-xl p-4"
+            style={{ backgroundColor: 'var(--agro-warning-fill)', border: '1px solid var(--agro-amber)' }}
+          >
+            <Clock3 className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: 'var(--agro-warning-text)' }} />
+            <div>
+              <p className="text-sm" style={{ color: 'var(--agro-warning-text)', fontWeight: 600 }}>
+                Tu cuenta está pendiente de activación
+              </p>
+              <p className="text-xs mt-0.5" style={{ color: 'var(--agro-warning-text)' }}>
+                Si ya realizaste tu pago, en breve activaremos tu plan. ¿Dudas?{' '}
+                <a
+                  href="mailto:contacto@duomindsolutions.com"
+                  className="underline"
+                  style={{ color: 'var(--agro-warning-text)' }}
+                >
+                  Contáctanos
+                </a>
+                .
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Error de carga */}
         {error && !loading && (
