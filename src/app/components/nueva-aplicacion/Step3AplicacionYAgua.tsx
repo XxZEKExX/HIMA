@@ -8,11 +8,11 @@ interface Props {
   onBack: () => void;
 }
 
-// cloro_ml = 5 × (total_agua_l / 200)
+// cloro_ml = 5 × (total_agua_l / 200)  — se almacena en ml, limitado a 4 decimales
 function calcularCloroMl(totalWater: string): string {
   const agua = parseFloat(totalWater);
   if (!agua || agua <= 0) return "";
-  return String(5 * (agua / 200));
+  return parseFloat((5 * (agua / 200)).toFixed(4)).toString();
 }
 
 const equipmentOptions = [

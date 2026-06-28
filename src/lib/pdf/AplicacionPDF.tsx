@@ -273,6 +273,10 @@ const s = StyleSheet.create({
 const val = (v: string | number | null | undefined, fallback = '—') =>
   v != null && v !== '' ? String(v) : fallback
 
+// Formatea números de dosis a máximo 4 decimales sin notación científica
+const valNum = (v: number | null | undefined, fallback = '—') =>
+  v != null ? parseFloat(v.toFixed(4)).toString() : fallback
+
 function InfoRow({ left, right }: { left: [string, string]; right: [string, string] }) {
   return (
     <View style={s.infoRow}>
@@ -416,7 +420,7 @@ export function AplicacionPDF({
             left={[
               'Cloración',
               ap.cloracion
-                ? `Sí — ${val(ap.cloro_cantidad_l)} ml · pH ${val(ap.cloro_ph)}`
+                ? `Sí — ${valNum(ap.cloro_cantidad_l)} ml · pH ${val(ap.cloro_ph)}`
                 : 'No',
             ]}
             right={['', '']}
@@ -460,13 +464,13 @@ export function AplicacionPDF({
                   {val(p.catalogo_productos.ingrediente_activo)}
                 </Text>
                 <Text style={[s.tableCell, { width: PRODUCT_COLS[4].width }]}>
-                  {val(p.dosis_ha)}
+                  {valNum(p.dosis_ha)}
                 </Text>
                 <Text style={[s.tableCell, { width: PRODUCT_COLS[5].width }]}>
-                  {val(p.dosis_200l)}
+                  {valNum(p.dosis_200l)}
                 </Text>
                 <Text style={[s.tableCell, { width: PRODUCT_COLS[6].width }]}>
-                  {val(p.total_producto)}
+                  {valNum(p.total_producto)}
                 </Text>
                 <Text style={[s.tableCell, { width: PRODUCT_COLS[7].width }]}>
                   {val(p.dias_cosecha)}

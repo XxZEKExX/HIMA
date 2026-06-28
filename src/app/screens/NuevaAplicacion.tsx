@@ -22,6 +22,9 @@ import { Step2Productos } from "../components/nueva-aplicacion/Step2Productos";
 import { Step3AplicacionYAgua } from "../components/nueva-aplicacion/Step3AplicacionYAgua";
 import { Step4CierreYObservaciones } from "../components/nueva-aplicacion/Step4CierreYObservaciones";
 
+// Redondea a máximo 4 decimales (evita notación científica y floats infinitos en BD y PDF)
+const r4 = (n: number) => parseFloat(n.toFixed(4));
+
 export function NuevaAplicacion() {
   const [currentStep, setCurrentStep] = useState(1);
   const [saving, setSaving] = useState(false);
@@ -157,10 +160,10 @@ export function NuevaAplicacion() {
         equipo: (formData.equipment || null) as TipoEquipo | null,
         total_agua_l: formData.totalWater ? parseFloat(formData.totalWater) : null,
         cloracion: formData.chlorination,
-        // cloro_cantidad_l almacena el valor en ml: 5 × (total_agua_l / 200)
+        // cloro_cantidad_l almacena el valor en ml: 5 × (total_agua_l / 200), 4 decimales
         cloro_cantidad_l: (() => {
           const agua = formData.totalWater ? parseFloat(formData.totalWater) : 0
-          return formData.chlorination && agua > 0 ? 5 * (agua / 200) : null
+          return formData.chlorination && agua > 0 ? r4(5 * (agua / 200)) : null
         })(),
         cloro_ph: formData.pH ? parseFloat(formData.pH) : null,
         condicion_meteorologica: (formData.weather || null) as CondicionMeteorologica | null,
@@ -194,10 +197,10 @@ export function NuevaAplicacion() {
           formData.products.map((p: any) => {
             const dosisHa = p.dosePerHa ? parseFloat(p.dosePerHa) : null
             const totalProducto = dosisHa && superficieFinal > 0
-              ? dosisHa * superficieFinal
+              ? r4(dosisHa * superficieFinal)
               : null
             const dosisBarril = dosisHa && superficieFinal > 0 && totalAguaFinal > 0
-              ? (dosisHa / (totalAguaFinal / 200)) * superficieFinal
+              ? r4((dosisHa / (totalAguaFinal / 200)) * superficieFinal)
               : null
             return {
               producto_id: p.productId as string,
@@ -241,9 +244,9 @@ export function NuevaAplicacion() {
 
         const productosParaPDF = formData.products.map((p: any) => {
           const dosisHa = p.dosePerHa ? parseFloat(p.dosePerHa) : null
-          const totalProducto = dosisHa && supPDF > 0 ? dosisHa * supPDF : null
+          const totalProducto = dosisHa && supPDF > 0 ? r4(dosisHa * supPDF) : null
           const dosisBarril = dosisHa && supPDF > 0 && aguaPDF > 0
-            ? (dosisHa / (aguaPDF / 200)) * supPDF
+            ? r4((dosisHa / (aguaPDF / 200)) * supPDF)
             : null
           return {
             id: crypto.randomUUID(),
