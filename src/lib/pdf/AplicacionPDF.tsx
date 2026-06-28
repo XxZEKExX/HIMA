@@ -294,11 +294,11 @@ const PRODUCT_COLS: { label: string; width: number }[] = [
   { label: 'Nombre Comercial', width: 98 },
   { label: 'Ingrediente Activo', width: 93 },
   { label: 'Dosis/ha', width: 46 },
-  { label: 'Dosis/200L', width: 46 },
-  { label: 'Total producto', width: 55 },
+  { label: 'Dosis/barril (200L)', width: 62 },
+  { label: 'Dosis total', width: 55 },
   { label: 'Días cosecha', width: 44 },
   { label: 'Re-entrada (hrs)', width: 40 },
-  { label: 'RSCO/COFEPRIS', width: 112 },
+  { label: 'RSCO/COFEPRIS', width: 96 },
 ]
 
 const EPP_ITEMS: { key: keyof typeof INITIAL_EPP; label: string }[] = [
@@ -416,7 +416,7 @@ export function AplicacionPDF({
             left={[
               'Cloración',
               ap.cloracion
-                ? `Sí — ${val(ap.cloro_cantidad_l)} L · pH ${val(ap.cloro_ph)}`
+                ? `Sí — ${val(ap.cloro_cantidad_l)} ml · pH ${val(ap.cloro_ph)}`
                 : 'No',
             ]}
             right={['', '']}

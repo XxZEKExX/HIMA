@@ -8,6 +8,13 @@ interface Props {
   onBack: () => void;
 }
 
+// cloro_ml = 5 × (total_agua_l / 200)
+function calcularCloroMl(totalWater: string): string {
+  const agua = parseFloat(totalWater);
+  if (!agua || agua <= 0) return "";
+  return String(5 * (agua / 200));
+}
+
 const equipmentOptions = [
   { value: "bomba-motor", label: "Bomba de motor" },
   { value: "bomba-manual", label: "Bomba manual" },
@@ -33,6 +40,8 @@ const ppeItems = [
 ];
 
 export function Step3AplicacionYAgua({ formData, updateFormData, onNext, onBack }: Props) {
+  const cloroMl = calcularCloroMl(formData.totalWater)
+
   const togglePPE = (item: string) => {
     updateFormData({
       ppe: {
@@ -133,10 +142,10 @@ export function Step3AplicacionYAgua({ formData, updateFormData, onNext, onBack 
       {formData.chlorination && (
         <div className="grid grid-cols-2 gap-3">
           <FormField
-            label="Cantidad cloro (L)"
-            type="number"
-            value={formData.chlorineQuantity}
-            onChange={(value) => updateFormData({ chlorineQuantity: value })}
+            label="Cloro calculado (ml)"
+            value={cloroMl || (formData.totalWater ? '—' : 'Captura el agua primero')}
+            onChange={() => {}}
+            disabled
           />
           <FormField
             label="pH"

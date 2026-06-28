@@ -33,17 +33,27 @@ const emptyProduct = {
   pest: "",
   infestationLevel: "",
   dosePerHa: "",
-  dosePer200L: "",
-  totalProduct: "",
+  dosePer200L: "",   // dosis por barril (auto-calculado)
+  totalProduct: "",  // dosis total (auto-calculado)
   daysToHarvest: "",
   reentryTime: "",
 };
 
+// dosis_total = dosis_ha × superficie_ha
 function calcularTotal(dosePerHa: string, surface: string): string {
   const dose = parseFloat(dosePerHa);
   const sup = parseFloat(surface);
-  if (!dose || !sup) return "";
+  if (!dose || !sup || sup <= 0) return "";
   return (dose * sup).toFixed(4);
+}
+
+// dosis_por_barril = (dosis_ha / (total_agua_l / 200)) × superficie_ha
+function calcularDosisBarril(dosePerHa: string, totalWater: string, surface: string): string {
+  const dose = parseFloat(dosePerHa);
+  const agua = parseFloat(totalWater);
+  const sup = parseFloat(surface);
+  if (!dose || !agua || !sup || agua <= 0 || sup <= 0) return "";
+  return ((dose / (agua / 200)) * sup).toFixed(4);
 }
 
 export function Step2Productos({ formData, updateFormData, onNext, onBack, productosEnInventario }: Props) {
@@ -63,7 +73,7 @@ export function Step2Productos({ formData, updateFormData, onNext, onBack, produ
       activeIngredient: selected.ingrediente_activo,
       rsco: selected.rsco ?? "",
       dosePerHa,
-      dosePer200L: selected.dosis_200l?.toString() ?? "",
+      dosePer200L: calcularDosisBarril(dosePerHa, formData.totalWater, formData.surface),
       totalProduct: calcularTotal(dosePerHa, formData.surface),
       daysToHarvest: selected.dias_cosecha?.toString() ?? "",
       reentryTime: selected.reentrada_hrs?.toString() ?? "",
@@ -74,6 +84,7 @@ export function Step2Productos({ formData, updateFormData, onNext, onBack, produ
     setCurrentProduct((prev) => ({
       ...prev,
       dosePerHa: value,
+      dosePer200L: calcularDosisBarril(value, formData.totalWater, formData.surface),
       totalProduct: calcularTotal(value, formData.surface),
     }));
   };
@@ -103,33 +114,41 @@ export function Step2Productos({ formData, updateFormData, onNext, onBack, produ
       {/* Lista de productos agregados */}
       {formData.products.length > 0 && (
         <div className="space-y-3">
-          {formData.products.map((product: any, index: number) => (
-            <div key={index} className="bg-card border border-border rounded-xl p-4">
-              <div className="flex items-start justify-between mb-2">
-                <div className="flex-1">
-                  <div className="text-sm mb-1" style={{ fontWeight: 600 }}>
-                    {product.commercialName}
+          {formData.products.map((product: any, index: number) => {
+            const barrilVivo = calcularDosisBarril(product.dosePerHa, formData.totalWater, formData.surface)
+            const totalVivo = calcularTotal(product.dosePerHa, formData.surface)
+            return (
+              <div key={index} className="bg-card border border-border rounded-xl p-4">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex-1">
+                    <div className="text-sm mb-1" style={{ fontWeight: 600 }}>
+                      {product.commercialName}
+                    </div>
+                    <div className="text-xs text-muted-foreground">{product.activeIngredient}</div>
                   </div>
-                  <div className="text-xs text-muted-foreground">{product.activeIngredient}</div>
+                  <button
+                    onClick={() => removeProduct(index)}
+                    className="p-1 text-destructive"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
                 </div>
-                <button
-                  onClick={() => removeProduct(index)}
-                  className="p-1 text-destructive"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
+                  <span>Dosis/ha: {product.dosePerHa || '—'}</span>
+                  <span>·</span>
+                  <span>Barril: {barrilVivo || '—'}</span>
+                  <span>·</span>
+                  <span>Total: {totalVivo || '—'}</span>
+                  {product.infestationLevel && (
+                    <>
+                      <span>·</span>
+                      <span className="px-2 py-1 bg-muted rounded">{product.infestationLevel}</span>
+                    </>
+                  )}
+                </div>
               </div>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <span>Dosis: {product.dosePerHa} kg/ha</span>
-                {product.infestationLevel && (
-                  <>
-                    <span>•</span>
-                    <span className="px-2 py-1 bg-muted rounded">{product.infestationLevel}</span>
-                  </>
-                )}
-              </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       )}
 
@@ -198,31 +217,30 @@ export function Step2Productos({ formData, updateFormData, onNext, onBack, produ
             </div>
           </div>
 
+          {/* Dosis por ha (editable) */}
+          <FormField
+            label="Dosis por ha"
+            type="number"
+            value={currentProduct.dosePerHa}
+            onChange={handleDosePerHaChange}
+            placeholder="kg/ha"
+          />
+
+          {/* Dosis por barril y dosis total (auto-calculados) */}
           <div className="grid grid-cols-2 gap-3">
             <FormField
-              label="Dosis por ha"
-              type="number"
-              value={currentProduct.dosePerHa}
-              onChange={handleDosePerHaChange}
-              placeholder="kg/ha"
+              label="Dosis por barril (200 L)"
+              value={currentProduct.dosePer200L || (formData.totalWater ? '—' : 'Agrega agua (paso 3)')}
+              onChange={() => {}}
+              disabled
             />
-
             <FormField
-              label="Dosis por 200L agua"
-              type="number"
-              value={currentProduct.dosePer200L}
-              onChange={(value) => setCurrentProduct((prev) => ({ ...prev, dosePer200L: value }))}
-              placeholder="g/200L"
+              label="Dosis total"
+              value={currentProduct.totalProduct || '—'}
+              onChange={() => {}}
+              disabled
             />
           </div>
-
-          <FormField
-            label="Total producto a usar (auto-calculado)"
-            type="number"
-            value={currentProduct.totalProduct}
-            onChange={() => {}}
-            disabled
-          />
 
           <div className="grid grid-cols-2 gap-3">
             <FormField
