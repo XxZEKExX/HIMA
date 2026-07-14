@@ -30,6 +30,32 @@ export async function getOrganizacion(orgId: string): Promise<Organizacion> {
   return data
 }
 
+export async function marcarCorreccion(
+  tabla: string,
+  registroId: string,
+  requiere: boolean,
+  comentario: string,
+): Promise<void> {
+  const { error } = await supabase.rpc('marcar_correccion', {
+    p_tabla: tabla,
+    p_registro_id: registroId,
+    p_requiere: requiere,
+    p_comentario: comentario,
+  })
+  if (error) throw error
+}
+
+export async function actualizarAdminEditaAjenos(
+  orgId: string,
+  valor: boolean,
+): Promise<void> {
+  const { error } = await supabase
+    .from('organizaciones')
+    .update({ admin_edita_ajenos: valor })
+    .eq('id', orgId)
+  if (error) throw error
+}
+
 // ── Ranchos ──────────────────────────────────────────────────────────────────
 
 export async function crearRancho(datos: RanchoInsert): Promise<Rancho> {

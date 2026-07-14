@@ -30,6 +30,7 @@ export type Database = {
           tipo: TipoOrganizacion
           plan: PlanOrganizacion
           estado: EstadoOrganizacion
+          admin_edita_ajenos: boolean
           created_at: string
           updated_at: string
         }
@@ -39,6 +40,7 @@ export type Database = {
           tipo?: TipoOrganizacion
           plan?: PlanOrganizacion
           estado?: EstadoOrganizacion
+          admin_edita_ajenos?: boolean
           created_at?: string
           updated_at?: string
         }
@@ -48,6 +50,7 @@ export type Database = {
           tipo?: TipoOrganizacion
           plan?: PlanOrganizacion
           estado?: EstadoOrganizacion
+          admin_edita_ajenos?: boolean
           created_at?: string
           updated_at?: string
         }
@@ -243,6 +246,11 @@ export type Database = {
           org_id: string
           created_at: string
           updated_at: string
+          creado_por: string | null
+          requiere_correccion: boolean
+          comentario_correccion: string | null
+          marcado_por: string | null
+          marcado_en: string | null
         }
         Insert: {
           id?: string
@@ -317,6 +325,8 @@ export type Database = {
           org_id?: string
           created_at?: string
           updated_at?: string
+          requiere_correccion?: boolean
+          comentario_correccion?: string | null
         }
       }
 
@@ -431,6 +441,11 @@ export type Database = {
           org_id: string
           created_at: string
           updated_at: string
+          creado_por: string | null
+          requiere_correccion: boolean
+          comentario_correccion: string | null
+          marcado_por: string | null
+          marcado_en: string | null
         }
         Insert: {
           id?: string
@@ -461,6 +476,8 @@ export type Database = {
           org_id?: string
           created_at?: string
           updated_at?: string
+          requiere_correccion?: boolean
+          comentario_correccion?: string | null
         }
       }
 
@@ -508,6 +525,11 @@ export type Database = {
           org_id: string
           created_at: string
           updated_at: string
+          creado_por: string | null
+          requiere_correccion: boolean
+          comentario_correccion: string | null
+          marcado_por: string | null
+          marcado_en: string | null
         }
         Insert: {
           id?: string
@@ -536,6 +558,8 @@ export type Database = {
           org_id?: string
           created_at?: string
           updated_at?: string
+          requiere_correccion?: boolean
+          comentario_correccion?: string | null
         }
       }
 
@@ -557,6 +581,11 @@ export type Database = {
           org_id: string
           created_at: string
           updated_at: string
+          creado_por: string | null
+          requiere_correccion: boolean
+          comentario_correccion: string | null
+          marcado_por: string | null
+          marcado_en: string | null
         }
         Insert: {
           id?: string
@@ -593,6 +622,8 @@ export type Database = {
           org_id?: string
           created_at?: string
           updated_at?: string
+          requiere_correccion?: boolean
+          comentario_correccion?: string | null
         }
       }
 
@@ -881,6 +912,11 @@ export type Database = {
           org_id: string
           created_at: string
           updated_at: string
+          creado_por: string | null
+          requiere_correccion: boolean
+          comentario_correccion: string | null
+          marcado_por: string | null
+          marcado_en: string | null
         }
         Insert: {
           id?: string
@@ -923,6 +959,8 @@ export type Database = {
           org_id?: string
           created_at?: string
           updated_at?: string
+          requiere_correccion?: boolean
+          comentario_correccion?: string | null
         }
       }
 
@@ -1105,6 +1143,11 @@ export type Database = {
           org_id: string
           created_at: string
           updated_at: string
+          creado_por: string | null
+          requiere_correccion: boolean
+          comentario_correccion: string | null
+          marcado_por: string | null
+          marcado_en: string | null
         }
         Insert: {
           id?: string
@@ -1139,6 +1182,8 @@ export type Database = {
           org_id?: string
           created_at?: string
           updated_at?: string
+          requiere_correccion?: boolean
+          comentario_correccion?: string | null
         }
       }
     }
@@ -1194,6 +1239,10 @@ export type Database = {
       completar_registro_organizacion: {
         Args: { p_nombre_org: string }
         Returns: string
+      }
+      marcar_correccion: {
+        Args: { p_tabla: string; p_registro_id: string; p_requiere: boolean; p_comentario: string }
+        Returns: void
       }
     }
     Enums: Record<string, never>

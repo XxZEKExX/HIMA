@@ -19,6 +19,7 @@ import { RegistroCosechaLiberacion } from "./screens/RegistroCosechaLiberacion";
 import { InspeccionPreoperacionalCosecha } from "./screens/InspeccionPreoperacionalCosecha";
 import { RegistroLimpiezaBanos } from "./screens/RegistroLimpiezaBanos";
 import { MiOrganizacion } from "./screens/MiOrganizacion";
+import { ActividadEquipo } from "./screens/ActividadEquipo";
 import TestSupabase from "./screens/TestSupabase";
 
 export const router = createBrowserRouter([
@@ -57,6 +58,7 @@ export const router = createBrowserRouter([
               { path: "historial/:id", Component: DetalleAplicacion },
               { path: "perfil", Component: Perfil },
               { path: "perfil/mi-organizacion", Component: MiOrganizacion },
+              { path: "equipo/actividad", Component: ActividadEquipo },
               { path: "inocuidad/botiquin", Component: BotiquinPrimerosAuxilios },
               { path: "inocuidad/vidrio-plastico", Component: InspeccionVidrioPlastico },
               { path: "inocuidad/fertilizacion", Component: RegistroFertilizacion },

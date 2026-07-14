@@ -23,6 +23,12 @@ export interface M6BotiquinConRancho {
   firma_verificacion: boolean
   org_id: string
   created_at: string
+  creado_por: string | null
+  creado_por_nombre: string
+  requiere_correccion: boolean
+  comentario_correccion: string | null
+  marcado_por: string | null
+  marcado_en: string | null
 }
 
 export function useBotiquin() {
@@ -41,7 +47,7 @@ export function useBotiquin() {
     try {
       const { data, error: err } = await supabase
         .from('m6_botiquin')
-        .select('*, ranchos(nombre, codigo)')
+        .select('*, ranchos(nombre, codigo), creador:profiles!creado_por(nombre_completo)')
         .eq('org_id', profile.org_id)
         .order('fecha_verificacion', { ascending: false })
         .limit(100)
@@ -51,6 +57,12 @@ export function useBotiquin() {
           ...r,
           rancho_nombre: r.ranchos?.nombre ?? '—',
           rancho_codigo: r.ranchos?.codigo ?? '—',
+          creado_por: r.creado_por ?? null,
+          creado_por_nombre: r.creador?.nombre_completo ?? '—',
+          requiere_correccion: r.requiere_correccion ?? false,
+          comentario_correccion: r.comentario_correccion ?? null,
+          marcado_por: r.marcado_por ?? null,
+          marcado_en: r.marcado_en ?? null,
         }))
       )
     } catch (e: unknown) {

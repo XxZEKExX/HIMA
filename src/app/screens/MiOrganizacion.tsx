@@ -10,6 +10,7 @@ import {
   crearRancho,
   actualizarRancho,
   desactivarRancho,
+  actualizarAdminEditaAjenos,
 } from '@/lib/queries'
 import type { Organizacion, Rancho } from '@/types/database.types'
 
@@ -66,6 +67,9 @@ export function MiOrganizacion() {
   const limiteActual = esPendiente ? null : (organizacion ? (LIMITE_POR_PLAN[organizacion.plan] ?? null) : null)
   const enLimite = limiteActual !== null && ranchos.length >= limiteActual
   const bloqueado = esPendiente || enLimite
+
+  const esAdmin = profile?.rol === 'admin_org'
+  const [actualizandoToggle, setActualizandoToggle] = useState(false)
 
   const [sheetAbierto, setSheetAbierto] = useState(false)
   const [ranchoEditando, setRanchoEditando] = useState<Rancho | null>(null)
@@ -187,6 +191,20 @@ export function MiOrganizacion() {
     }
   }
 
+  async function handleToggleAdminEdita(valor: boolean) {
+    if (!profile?.org_id) return
+    setActualizandoToggle(true)
+    try {
+      await actualizarAdminEditaAjenos(profile.org_id, valor)
+      setOrganizacion((prev) => prev ? { ...prev, admin_edita_ajenos: valor } : prev)
+      toast.success(valor ? 'El administrador puede editar registros de empleados' : 'El administrador solo puede ver y marcar correcciones')
+    } catch {
+      toast.error('No se pudo actualizar la configuración')
+    } finally {
+      setActualizandoToggle(false)
+    }
+  }
+
   async function handleEliminar(rancho: Rancho) {
     if (!window.confirm(`¿Eliminar el rancho "${rancho.nombre}"?`)) return
     try {
@@ -229,6 +247,41 @@ export function MiOrganizacion() {
                 <p className="text-foreground" style={{ fontWeight: 600 }}>
                   {organizacion.nombre}
                 </p>
+              </div>
+            )}
+
+            {/* Configuración del equipo — solo admin_org */}
+            {esAdmin && organizacion && (
+              <div className="bg-card border border-border rounded-xl p-4 space-y-3">
+                <p className="text-xs text-muted-foreground" style={{ fontWeight: 600 }}>
+                  GESTIÓN DEL EQUIPO
+                </p>
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm text-foreground" style={{ fontWeight: 600 }}>
+                      Editar registros de empleados
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {organizacion.admin_edita_ajenos
+                        ? 'Activado: puedes editar y borrar los registros de tus empleados.'
+                        : 'Desactivado: solo puedes ver los registros de tus empleados y marcarlos para corrección.'}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => handleToggleAdminEdita(!organizacion.admin_edita_ajenos)}
+                    disabled={actualizandoToggle}
+                    className="relative w-11 h-6 rounded-full transition-colors flex-shrink-0 disabled:opacity-50"
+                    style={{
+                      backgroundColor: organizacion.admin_edita_ajenos ? 'var(--primary)' : 'var(--switch-background)',
+                    }}
+                    aria-label="Toggle edición de ajenos"
+                  >
+                    <span
+                      className="absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform"
+                      style={{ transform: organizacion.admin_edita_ajenos ? 'translateX(22px)' : 'translateX(2px)' }}
+                    />
+                  </button>
+                </div>
               </div>
             )}
 

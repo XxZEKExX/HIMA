@@ -393,8 +393,21 @@ export function BotiquinPrimerosAuxilios() {
             return (
               <div
                 key={r.id}
-                className="bg-card border border-border rounded-xl p-4"
+                className="bg-card rounded-xl p-4 border"
+                style={{
+                  borderColor: r.requiere_correccion ? 'var(--agro-amber)' : 'var(--border)',
+                  backgroundColor: r.requiere_correccion ? 'var(--agro-warning-fill)' : undefined,
+                }}
               >
+                {r.requiere_correccion && r.comentario_correccion && (
+                  <div
+                    className="flex items-start gap-2 mb-3 text-xs rounded-lg px-3 py-2"
+                    style={{ backgroundColor: 'rgba(0,0,0,0.05)', color: 'var(--agro-warning-text)' }}
+                  >
+                    <AlertTriangle className="w-3 h-3 flex-shrink-0 mt-0.5" />
+                    {r.comentario_correccion}
+                  </div>
+                )}
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
@@ -418,6 +431,11 @@ export function BotiquinPrimerosAuxilios() {
                     <p className="text-xs text-muted-foreground">
                       {formatFecha(r.fecha_verificacion)}
                     </p>
+                    {r.creado_por_nombre !== '—' && (
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        Por: {r.creado_por_nombre}
+                      </p>
+                    )}
                   </div>
                   <button
                     onClick={() => handleDescargarPDF(r)}

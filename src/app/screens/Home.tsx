@@ -2,9 +2,11 @@ import { Link } from 'react-router'
 import {
   Plus, CheckCircle, Clock, Shield, ClipboardCheck, Droplets,
   Sprout, Eye, Package, FileCheck, Loader2, TriangleAlert, Clock3,
+  Users, AlertTriangle, ChevronRight,
 } from 'lucide-react'
 import { useAuthContext } from '@/context/AuthContext'
 import { useHomeDashboard } from '@/hooks/useHomeDashboard'
+import { useCorreccionesPendientes } from '@/hooks/useCorreccionesPendientes'
 import { MadyLogo } from '@/app/components/MadyLogo'
 
 // ── Módulos de inocuidad — navegación estática ────────────────────────────────
@@ -49,7 +51,9 @@ function formatDias(dias: number | null): string {
 export function Home() {
   const { profile } = useAuthContext()
   const { orgNombre, orgPlan, metricas, recientes, loading, error } = useHomeDashboard()
+  const { items: correcciones, count: countCorrecciones } = useCorreccionesPendientes()
 
+  const esAdmin = profile?.rol === 'admin_org'
   const nombreUsuario = profile?.nombre_completo ?? '—'
   const nombreOrg = orgNombre ?? '—'
 
@@ -172,7 +176,57 @@ export function Home() {
 
         </div>
 
-        {/* TODO: sistema de recomendaciones (futuro) */}
+        {/* Correcciones pendientes — visible para todos si tienen correcciones */}
+        {!loading && countCorrecciones > 0 && (
+          <div
+            className="rounded-xl overflow-hidden border"
+            style={{ borderColor: 'var(--agro-amber)' }}
+          >
+            <div
+              className="px-4 py-3 flex items-center gap-2"
+              style={{ backgroundColor: 'var(--agro-warning-fill)' }}
+            >
+              <AlertTriangle className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--agro-warning-text)' }} />
+              <span className="text-sm flex-1" style={{ color: 'var(--agro-warning-text)', fontWeight: 600 }}>
+                {countCorrecciones} {countCorrecciones === 1 ? 'registro requiere' : 'registros requieren'} tu corrección
+              </span>
+            </div>
+            <div className="bg-card divide-y divide-border">
+              {correcciones.slice(0, 3).map((item) => (
+                <div key={`${item.tabla}-${item.id}`} className="px-4 py-3">
+                  <p className="text-xs text-muted-foreground mb-0.5">{item.moduloLabel} · {item.rancho_nombre}</p>
+                  <p className="text-xs" style={{ color: 'var(--agro-warning-text)' }}>
+                    {item.comentario_correccion ?? 'Revisa este registro'}
+                  </p>
+                </div>
+              ))}
+              {countCorrecciones > 3 && (
+                <div className="px-4 py-2">
+                  <p className="text-xs text-muted-foreground">+{countCorrecciones - 3} más</p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Acceso rápido al equipo — solo admin_org */}
+        {esAdmin && !loading && (
+          <Link
+            to="/equipo/actividad"
+            className="flex items-center gap-3 bg-card border border-border rounded-xl p-4 hover:border-primary transition-colors"
+          >
+            <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+              <Users className="w-5 h-5 text-primary" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm text-foreground" style={{ fontWeight: 600 }}>Actividad del equipo</p>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Ver registros de todos los empleados
+              </p>
+            </div>
+            <ChevronRight className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+          </Link>
+        )}
 
         {/* Actividad reciente */}
         <div>
