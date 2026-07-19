@@ -1186,6 +1186,98 @@ export type Database = {
           comentario_correccion?: string | null
         }
       }
+
+      m13_reportes: {
+        Row: {
+          id: string
+          org_id: string
+          rancho_id: string
+          fecha: string
+          auditor_nombre: string | null
+          realizado_por_id: string | null
+          created_at: string
+          updated_at: string
+          creado_por: string | null
+          requiere_correccion: boolean
+          comentario_correccion: string | null
+          marcado_por: string | null
+          marcado_en: string | null
+        }
+        Insert: {
+          id?: string
+          org_id: string
+          rancho_id: string
+          fecha: string
+          auditor_nombre?: string | null
+          realizado_por_id?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          org_id?: string
+          rancho_id?: string
+          fecha?: string
+          auditor_nombre?: string | null
+          realizado_por_id?: string | null
+          requiere_correccion?: boolean
+          comentario_correccion?: string | null
+        }
+      }
+
+      m13_incidencias: {
+        Row: {
+          id: string
+          reporte_id: string
+          org_id: string
+          orden: number
+          descripcion: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          reporte_id: string
+          org_id: string
+          orden: number
+          descripcion: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          reporte_id?: string
+          org_id?: string
+          orden?: number
+          descripcion?: string
+        }
+      }
+
+      m13_incidencia_fotos: {
+        Row: {
+          id: string
+          incidencia_id: string
+          org_id: string
+          storage_path: string
+          orden: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          incidencia_id: string
+          org_id: string
+          storage_path: string
+          orden: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          incidencia_id?: string
+          org_id?: string
+          storage_path?: string
+          orden?: number
+        }
+      }
     }
     Views: {
       v_inventario_saldo_rancho: {

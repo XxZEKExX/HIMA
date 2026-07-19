@@ -18,6 +18,7 @@ import { InspeccionPerimetral } from "./screens/InspeccionPerimetral";
 import { RegistroCosechaLiberacion } from "./screens/RegistroCosechaLiberacion";
 import { InspeccionPreoperacionalCosecha } from "./screens/InspeccionPreoperacionalCosecha";
 import { RegistroLimpiezaBanos } from "./screens/RegistroLimpiezaBanos";
+import { ReporteIncidencias } from "./screens/ReporteIncidencias";
 import { MiOrganizacion } from "./screens/MiOrganizacion";
 import { ActividadEquipo } from "./screens/ActividadEquipo";
 import TestSupabase from "./screens/TestSupabase";
@@ -66,6 +67,7 @@ export const router = createBrowserRouter([
               { path: "inocuidad/cosecha", Component: RegistroCosechaLiberacion },
               { path: "inocuidad/preoperacional", Component: InspeccionPreoperacionalCosecha },
               { path: "inocuidad/limpieza-banos", Component: RegistroLimpiezaBanos },
+              { path: "inocuidad/incidencias", Component: ReporteIncidencias },
             ],
           },
         ],

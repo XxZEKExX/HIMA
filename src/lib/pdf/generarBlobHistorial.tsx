@@ -13,19 +13,22 @@ import { PerimetralPDF } from './m9/PerimetralPDF'
 import { CosechaLiberacionPDF } from './m10/CosechaLiberacionPDF'
 import { PreoperacionalPDF } from './m11/PreoperacionalPDF'
 import { LimpiezaBanosPDF } from './m12/LimpiezaBanosPDF'
+import { ReporteIncidenciasPDF } from './m13/ReporteIncidenciasPDF'
+import { fotosADataUris } from './m13/incidenciasPdfImagenes'
 import { getAplicacionRicaById } from '@/lib/queries'
 import { construirDatosPagina as construirDatosPerimetral } from './m9/generarPerimetralPDF'
 import { construirDatosPagina as construirDatosPreoperacional } from './m11/generarPreoperacionalPDF'
 
 // ── Tipos públicos ────────────────────────────────────────────────────────────
 
-export type ModuloKey = 'M1' | 'M6' | 'M7' | 'M8' | 'M9' | 'M10' | 'M11' | 'M12'
+export type ModuloKey = 'M1' | 'M6' | 'M7' | 'M8' | 'M9' | 'M10' | 'M11' | 'M12' | 'M13'
 
 export type PDFRef =
   | { tipo: 'M1'; id: string }
   | { tipo: 'M6'; id: string }
   | { tipo: 'M7' | 'M8' | 'M10' | 'M12'; ranchoId: string; fecha: string }
   | { tipo: 'M9' | 'M11'; id: string }
+  | { tipo: 'M13'; id: string }
 
 export interface RegistroHistorial {
   key: string
@@ -214,6 +217,53 @@ async function generarBlobM12(ranchoId: string, fecha: string, orgId: string): P
   ).toBlob()
 }
 
+async function generarBlobM13(id: string, orgId: string): Promise<Blob> {
+  const { data, error } = await supabase
+    .from('m13_reportes')
+    .select(`
+      id, fecha, auditor_nombre,
+      ranchos(nombre, codigo),
+      m13_incidencias(
+        id, orden, descripcion,
+        m13_incidencia_fotos(id, storage_path, orden)
+      )
+    `)
+    .eq('id', id)
+    .eq('org_id', orgId)
+    .single()
+  if (error) throw error
+
+  const r = data as any
+  const todosLosPaths: string[] = []
+  for (const inc of (r.m13_incidencias ?? []) as any[]) {
+    for (const f of (inc.m13_incidencia_fotos ?? []) as any[]) {
+      todosLosPaths.push(f.storage_path)
+    }
+  }
+  const urisPorPath = await fotosADataUris(todosLosPaths)
+
+  const incidencias = ((r.m13_incidencias ?? []) as any[])
+    .sort((a: any, b: any) => a.orden - b.orden)
+    .map((inc: any) => ({
+      orden: inc.orden,
+      descripcion: inc.descripcion,
+      dataUris: ((inc.m13_incidencia_fotos ?? []) as any[])
+        .sort((a: any, b: any) => a.orden - b.orden)
+        .map((f: any) => urisPorPath[f.storage_path] ?? ''),
+    }))
+
+  return pdf(
+    <ReporteIncidenciasPDF
+      folio={id.slice(0, 8).toUpperCase()}
+      rancho={(r.ranchos as any)?.nombre ?? '—'}
+      ranchoCodigo={(r.ranchos as any)?.codigo ?? '—'}
+      fecha={r.fecha}
+      auditorNombre={r.auditor_nombre ?? null}
+      incidencias={incidencias}
+    />
+  ).toBlob()
+}
+
 // ── Generador unificado ───────────────────────────────────────────────────────
 
 export async function generarBlobParaRef(ref: PDFRef, orgId: string): Promise<Blob> {
@@ -226,6 +276,7 @@ export async function generarBlobParaRef(ref: PDFRef, orgId: string): Promise<Bl
     case 'M10': return generarBlobM10(ref.ranchoId, ref.fecha, orgId)
     case 'M11': return generarBlobM11(ref.id, orgId)
     case 'M12': return generarBlobM12(ref.ranchoId, ref.fecha, orgId)
+    case 'M13': return generarBlobM13(ref.id, orgId)
   }
 }
 

@@ -21,9 +21,10 @@ const MODULO_META: Record<ModuloKey, { label: string; color: string }> = {
   M10: { label: 'Cosecha',           color: '#AD1457' },
   M11: { label: 'Preoperacional',    color: '#283593' },
   M12: { label: 'Limpieza Baños',    color: '#4E342E' },
+  M13: { label: 'Incidencias',       color: '#B71C1C' },
 }
 
-const TODOS_MODULOS: ModuloKey[] = ['M1', 'M6', 'M7', 'M8', 'M9', 'M10', 'M11', 'M12']
+const TODOS_MODULOS: ModuloKey[] = ['M1', 'M6', 'M7', 'M8', 'M9', 'M10', 'M11', 'M12', 'M13']
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -55,7 +56,7 @@ async function cargarTodo(orgId: string, desde: string, hasta: string): Promise<
   const desdeM = desde.slice(0, 7) + '-01'
   const hastaM = hasta.slice(0, 7) + '-01'
 
-  const [r1, r6, r7, r8, r9, r10, r11, r12] = await Promise.all([
+  const [r1, r6, r7, r8, r9, r10, r11, r12, r13] = await Promise.all([
     supabase.from('aplicaciones')
       .select('id, fecha_aplicacion, rancho_id, ranchos(nombre)')
       .eq('org_id', orgId).gte('fecha_aplicacion', desde).lte('fecha_aplicacion', hasta)
@@ -88,6 +89,10 @@ async function cargarTodo(orgId: string, desde: string, hasta: string): Promise<
       .select('rancho_id, fecha, ranchos(nombre)')
       .eq('org_id', orgId).gte('fecha', desde).lte('fecha', hasta)
       .order('fecha', { ascending: false }).limit(2000),
+    supabase.from('m13_reportes')
+      .select('id, rancho_id, fecha, ranchos(nombre), m13_incidencias(id)')
+      .eq('org_id', orgId).gte('fecha', desde).lte('fecha', hasta)
+      .order('fecha', { ascending: false }).limit(500),
   ])
 
   const todos: RegistroHistorial[] = []
@@ -221,6 +226,20 @@ async function cargarTodo(orgId: string, desde: string, hasta: string): Promise<
       fecha: v.fecha,
       resumen: `${v.count} baño${v.count !== 1 ? 's' : ''} registrado${v.count !== 1 ? 's' : ''}`,
       pdfRef: { tipo: 'M12', ranchoId: v.rancho_id, fecha: v.fecha },
+    })
+  }
+
+  // M13 — una fila = un reporte
+  for (const r of r13.data ?? []) {
+    const nInc = ((r as any).m13_incidencias ?? []).length
+    todos.push({
+      key: `M13-${r.id}`,
+      modulo: 'M13',
+      rancho_id: r.rancho_id,
+      rancho_nombre: (r.ranchos as any)?.nombre ?? '—',
+      fecha: r.fecha,
+      resumen: `${nInc} incidencia${nInc !== 1 ? 's' : ''} registrada${nInc !== 1 ? 's' : ''}`,
+      pdfRef: { tipo: 'M13', id: r.id },
     })
   }
 
