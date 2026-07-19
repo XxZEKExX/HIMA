@@ -21,6 +21,9 @@ import { RegistroLimpiezaBanos } from "./screens/RegistroLimpiezaBanos";
 import { ReporteIncidencias } from "./screens/ReporteIncidencias";
 import { MiOrganizacion } from "./screens/MiOrganizacion";
 import { ActividadEquipo } from "./screens/ActividadEquipo";
+import { AuditoriaSaia } from "./screens/AuditoriaSaia";
+import { AuditoriaGranja } from "./screens/AuditoriaGranja";
+import { AuditoriaCosecha } from "./screens/AuditoriaCosecha";
 import TestSupabase from "./screens/TestSupabase";
 
 export const router = createBrowserRouter([
@@ -68,6 +71,9 @@ export const router = createBrowserRouter([
               { path: "inocuidad/preoperacional", Component: InspeccionPreoperacionalCosecha },
               { path: "inocuidad/limpieza-banos", Component: RegistroLimpiezaBanos },
               { path: "inocuidad/incidencias", Component: ReporteIncidencias },
+              { path: "inocuidad/auditoria-saia", Component: AuditoriaSaia },
+              { path: "inocuidad/auditoria-granja", Component: AuditoriaGranja },
+              { path: "inocuidad/auditoria-cosecha", Component: AuditoriaCosecha },
             ],
           },
         ],
