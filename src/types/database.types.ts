@@ -1186,6 +1186,98 @@ export type Database = {
           comentario_correccion?: string | null
         }
       }
+
+      m13_reportes: {
+        Row: {
+          id: string
+          org_id: string
+          rancho_id: string
+          fecha: string
+          auditor_nombre: string | null
+          realizado_por_id: string | null
+          created_at: string
+          updated_at: string
+          creado_por: string | null
+          requiere_correccion: boolean
+          comentario_correccion: string | null
+          marcado_por: string | null
+          marcado_en: string | null
+        }
+        Insert: {
+          id?: string
+          org_id: string
+          rancho_id: string
+          fecha: string
+          auditor_nombre?: string | null
+          realizado_por_id?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          org_id?: string
+          rancho_id?: string
+          fecha?: string
+          auditor_nombre?: string | null
+          realizado_por_id?: string | null
+          requiere_correccion?: boolean
+          comentario_correccion?: string | null
+        }
+      }
+
+      m13_incidencias: {
+        Row: {
+          id: string
+          reporte_id: string
+          org_id: string
+          orden: number
+          descripcion: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          reporte_id: string
+          org_id: string
+          orden: number
+          descripcion: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          reporte_id?: string
+          org_id?: string
+          orden?: number
+          descripcion?: string
+        }
+      }
+
+      m13_incidencia_fotos: {
+        Row: {
+          id: string
+          incidencia_id: string
+          org_id: string
+          storage_path: string
+          orden: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          incidencia_id: string
+          org_id: string
+          storage_path: string
+          orden: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          incidencia_id?: string
+          org_id?: string
+          storage_path?: string
+          orden?: number
+        }
+      }
     }
     Views: {
       v_inventario_saldo_rancho: {
@@ -1321,6 +1413,87 @@ export type AplicacionConProductos = Aplicacion & {
   aplicacion_productos: (AplicacionProducto & {
     catalogo_productos: CatalogoProducto
   })[]
+}
+
+// ── M14 / M15 / M16 — Auditorías internas PrimusGFS ─────────────────────────
+
+export type RespuestaAuditoria = 'cumple' | 'no_cumple' | 'na'
+export type EstadoAuditoria = 'borrador' | 'completada'
+
+export interface AuditoriaSeccion {
+  id: string
+  codigo: string
+  nombre: string
+  orden: number
+}
+
+export interface AuditoriaPregunta {
+  id: string
+  seccion_id: string
+  codigo: string
+  texto: string
+  puntos: number
+  orden: number
+  orden_seccion: number
+  activo: boolean
+}
+
+export interface AuditoriaBase {
+  id: string
+  org_id: string
+  rancho_id: string
+  fecha: string
+  auditor_nombre: string | null
+  puntos_obtenidos: number
+  puntos_posibles: number
+  porcentaje: number
+  estado: EstadoAuditoria
+  realizado_por_id: string | null
+  created_at: string
+  updated_at: string
+  creado_por: string | null
+  requiere_correccion: boolean
+  comentario_correccion: string | null
+}
+
+export interface AuditoriaRespuesta {
+  id: string
+  auditoria_id: string
+  org_id: string
+  pregunta_id: string
+  respuesta: RespuestaAuditoria
+  comentario: string | null
+  puntos_otorgados: number
+}
+
+export interface PortadaGranja {
+  tamano_operacion?: { valor: number; unidad: 'Hectáreas' | 'Acres' }
+  temporada?: { desde_mes?: string; al_mes?: string; todo_el_ano?: boolean }
+  pais_destino?: string
+  insumos_agronomicos?: string[]
+  uso_agua?: string[]
+  uso_fuente_agua?: string[]
+  tipo_riego?: string[]
+  agua_contacto_comestible?: 'Sí' | 'No'
+  agrupacion_productos_agua?: string
+  tipo_inodoros?: string[]
+  num_trabajadores?: number
+  trabajo_en_curso?: 'Sí' | 'No'
+  tipo_trabajo?: string[]
+  tierra_adyacente?: string
+  metodo_cultural?: string
+}
+
+export interface PortadaCosecha {
+  nombre_campo?: string
+  temporada?: { desde_mes?: string; al_mes?: string; todo_el_ano?: boolean }
+  num_trabajadores?: number
+  proceso_cosecha?: 'Cosecha a mano' | 'Cosecha mecánica'
+  procesamiento_en_campo?: 'Sí' | 'No'
+  tipo_procesamiento?: string[]
+  agua_poscosecha?: { usada?: 'Sí' | 'No'; tipos?: string[] }
+  antimicrobiano?: string[]
+  equipo_usado?: string[]
 }
 
 // Tipo rico: aplicación con todos los joins necesarios para PDF y Excel

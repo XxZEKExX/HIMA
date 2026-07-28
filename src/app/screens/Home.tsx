@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import {
-  Plus, CheckCircle, Clock, Shield, ClipboardCheck, Droplets,
+  Plus, CheckCircle, Clock, Shield, ClipboardCheck, ClipboardList, Droplets,
   Sprout, Eye, Package, FileCheck, Loader2, TriangleAlert, Clock3,
   Users, AlertTriangle, ChevronRight,
 } from 'lucide-react'
@@ -20,6 +20,10 @@ const INOCUIDAD_MODULES = [
   { id: 'cosecha',       title: 'Cosecha y Liberación',           icon: Package,      frequency: 'Por evento', path: '/inocuidad/cosecha' },
   { id: 'preoperacional',title: 'Inspección Pre-operacional',     icon: FileCheck,    frequency: 'Diario',     path: '/inocuidad/preoperacional' },
   { id: 'limpieza-banos',title: 'Limpieza de Baños',             icon: Droplets,     frequency: 'Diario',     path: '/inocuidad/limpieza-banos' },
+  { id: 'incidencias',   title: 'Reporte de Incidencias',        icon: ClipboardList, frequency: 'Por evento', path: '/inocuidad/incidencias' },
+  { id: 'auditoria-saia',   title: 'Auditoría SAIA (M1)',           icon: ClipboardCheck, frequency: 'Por evento', path: '/inocuidad/auditoria-saia' },
+  { id: 'auditoria-granja', title: 'Auditoría Granja (M2 BPA)',     icon: Sprout,         frequency: 'Por evento', path: '/inocuidad/auditoria-granja' },
+  { id: 'auditoria-cosecha',title: 'Auditoría Cuadrilla (M4 BPA)', icon: Users,          frequency: 'Por evento', path: '/inocuidad/auditoria-cosecha' },
 ]
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
