@@ -1,30 +1,15 @@
+import { useMemo } from 'react'
 import { Link } from 'react-router'
 import {
-  Plus, CheckCircle, Clock, Shield, ClipboardCheck, ClipboardList, Droplets,
-  Sprout, Eye, Package, FileCheck, Loader2, TriangleAlert, Clock3,
+  Plus, CheckCircle, Clock, Loader2, TriangleAlert, Clock3,
   Users, AlertTriangle, ChevronRight,
 } from 'lucide-react'
 import { useAuthContext } from '@/context/AuthContext'
 import { useHomeDashboard } from '@/hooks/useHomeDashboard'
 import { useCorreccionesPendientes } from '@/hooks/useCorreccionesPendientes'
+import { useModulosContext } from '@/context/ModulosContext'
+import { resolverIcono } from '@/app/components/iconos-modulos'
 import { MadyLogo } from '@/app/components/MadyLogo'
-
-// ── Módulos de inocuidad — navegación estática ────────────────────────────────
-// lastEntry y status se calcularán cuando M8-M12 estén integrados a BD.
-
-const INOCUIDAD_MODULES = [
-  { id: 'botiquin',      title: 'Botiquín de Primeros Auxilios', icon: Shield,        frequency: 'Semanal',    path: '/inocuidad/botiquin' },
-  { id: 'vidrio',        title: 'Inspección de Vidrio y Plástico', icon: Eye,         frequency: 'Quincenal',  path: '/inocuidad/vidrio-plastico' },
-  { id: 'fertilizacion', title: 'Registro de Fertilización',      icon: Sprout,       frequency: 'Por evento', path: '/inocuidad/fertilizacion' },
-  { id: 'perimetral',    title: 'Inspección Perimetral',          icon: ClipboardCheck, frequency: 'Semanal',  path: '/inocuidad/perimetral' },
-  { id: 'cosecha',       title: 'Cosecha y Liberación',           icon: Package,      frequency: 'Por evento', path: '/inocuidad/cosecha' },
-  { id: 'preoperacional',title: 'Inspección Pre-operacional',     icon: FileCheck,    frequency: 'Diario',     path: '/inocuidad/preoperacional' },
-  { id: 'limpieza-banos',title: 'Limpieza de Baños',             icon: Droplets,     frequency: 'Diario',     path: '/inocuidad/limpieza-banos' },
-  { id: 'incidencias',   title: 'Reporte de Incidencias',        icon: ClipboardList, frequency: 'Por evento', path: '/inocuidad/incidencias' },
-  { id: 'auditoria-saia',   title: 'Auditoría SAIA (M1)',           icon: ClipboardCheck, frequency: 'Por evento', path: '/inocuidad/auditoria-saia' },
-  { id: 'auditoria-granja', title: 'Auditoría Granja (M2 BPA)',     icon: Sprout,         frequency: 'Por evento', path: '/inocuidad/auditoria-granja' },
-  { id: 'auditoria-cosecha',title: 'Auditoría Cuadrilla (M4 BPA)', icon: Users,          frequency: 'Por evento', path: '/inocuidad/auditoria-cosecha' },
-]
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -56,8 +41,37 @@ export function Home() {
   const { profile } = useAuthContext()
   const { orgNombre, orgPlan, metricas, recientes, loading, error } = useHomeDashboard()
   const { items: correcciones, count: countCorrecciones } = useCorreccionesPendientes()
+  const { modulos, loading: loadingModulos, error: errorModulos, refetch: refetchModulos } = useModulosContext()
 
   const esAdmin = profile?.rol === 'admin_org'
+
+  const modulosAgrupados = useMemo(() => {
+    const grupos: { key: string; nombre: string; modulos: typeof modulos }[] = []
+
+    const transversales = modulos.filter(m => m.es_transversal).sort((a, b) => a.orden - b.orden)
+    if (transversales.length > 0) {
+      grupos.push({ key: 'general', nombre: 'General', modulos: transversales })
+    }
+
+    const sectorMap = new Map<string, { nombre: string; orden: number; modulos: typeof modulos }>()
+    for (const m of modulos.filter(m => !m.es_transversal)) {
+      if (!m.sector_clave) continue
+      if (!sectorMap.has(m.sector_clave)) {
+        sectorMap.set(m.sector_clave, { nombre: m.sector_nombre!, orden: m.sector_orden!, modulos: [] })
+      }
+      sectorMap.get(m.sector_clave)!.modulos.push(m)
+    }
+
+    for (const [clave, data] of Array.from(sectorMap.entries()).sort(([, a], [, b]) => a.orden - b.orden)) {
+      grupos.push({
+        key: clave,
+        nombre: data.nombre,
+        modulos: data.modulos.sort((a, b) => a.orden - b.orden),
+      })
+    }
+
+    return grupos
+  }, [modulos])
   const nombreUsuario = profile?.nombre_completo ?? '—'
   const nombreOrg = orgNombre ?? '—'
 
@@ -318,32 +332,71 @@ export function Home() {
         {/* Inocuidad y BPAs */}
         <div>
           <h2 className="mb-3 text-foreground" style={{ fontWeight: 600 }}>Inocuidad y BPAs</h2>
-          <div className="space-y-3">
-            {INOCUIDAD_MODULES.map((module) => {
-              const Icon = module.icon
-              return (
-                <Link
-                  key={module.id}
-                  to={module.path}
-                  className="block bg-card rounded-xl p-4 border border-border"
-                >
+
+          {loadingModulos ? (
+            <div className="space-y-3">
+              {[0, 1, 2].map(i => (
+                <div key={i} className="bg-card rounded-xl p-4 border border-border animate-pulse">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <Icon className="w-5 h-5 text-primary" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-sm text-foreground truncate" style={{ fontWeight: 600 }}>
-                        {module.title}
-                      </div>
-                      <div className="text-xs text-muted-foreground mt-0.5">
-                        {module.frequency}
-                      </div>
+                    <div className="w-10 h-10 rounded-lg flex-shrink-0" style={{ backgroundColor: 'var(--muted)' }} />
+                    <div className="flex-1 space-y-2">
+                      <div className="h-3 rounded w-3/4" style={{ backgroundColor: 'var(--muted)' }} />
+                      <div className="h-2 rounded w-1/2" style={{ backgroundColor: 'var(--muted)' }} />
                     </div>
                   </div>
-                </Link>
-              )
-            })}
-          </div>
+                </div>
+              ))}
+            </div>
+          ) : errorModulos ? (
+            <div
+              className="flex items-center gap-2 rounded-xl p-3"
+              style={{ backgroundColor: 'var(--agro-danger-fill)', border: '1px solid var(--agro-red)' }}
+            >
+              <TriangleAlert className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--agro-danger-text)' }} />
+              <p className="text-xs flex-1" style={{ color: 'var(--agro-danger-text)' }}>
+                Error al cargar módulos.{' '}
+                <button className="underline" onClick={refetchModulos}>Reintentar</button>
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-5">
+              {modulosAgrupados.map(grupo => (
+                <div key={grupo.key}>
+                  {modulosAgrupados.length > 1 && (
+                    <p
+                      className="text-xs text-muted-foreground mb-2 px-1 uppercase tracking-wide"
+                      style={{ fontWeight: 600 }}
+                    >
+                      {grupo.nombre}
+                    </p>
+                  )}
+                  <div className="space-y-2">
+                    {grupo.modulos.map(modulo => {
+                      const Icon = resolverIcono(modulo.icono)
+                      return (
+                        <Link
+                          key={modulo.codigo}
+                          to={modulo.ruta}
+                          className="block bg-card rounded-xl p-4 border border-border"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                              <Icon className="w-5 h-5 text-primary" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="text-sm text-foreground truncate" style={{ fontWeight: 600 }}>
+                                {modulo.nombre}
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+                      )
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
       </div>

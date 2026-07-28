@@ -1336,6 +1336,21 @@ export type Database = {
         Args: { p_tabla: string; p_registro_id: string; p_requiere: boolean; p_comentario: string }
         Returns: void
       }
+      get_mis_modulos: {
+        Args: Record<never, never>
+        Returns: {
+          codigo: string
+          clave: string
+          nombre: string
+          ruta: string
+          icono: string
+          orden: number
+          es_transversal: boolean
+          sector_clave: string | null
+          sector_nombre: string | null
+          sector_orden: number | null
+        }[]
+      }
     }
     Enums: Record<string, never>
   }
