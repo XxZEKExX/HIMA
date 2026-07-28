@@ -13,7 +13,8 @@ function slugify(s: string): string {
 function moduloLabel(modulo: ModuloAuditoria): string {
   if (modulo === 'm14') return 'saia'
   if (modulo === 'm15') return 'granja'
-  return 'cosecha'
+  if (modulo === 'm16') return 'cosecha'
+  return 'bpm'
 }
 
 async function construirDatosAuditoria(

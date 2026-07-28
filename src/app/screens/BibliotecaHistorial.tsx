@@ -25,9 +25,10 @@ const MODULO_META: Record<ModuloKey, { label: string; color: string }> = {
   M14: { label: 'Auditoría SAIA',    color: '#1A237E' },
   M15: { label: 'Auditoría Granja',  color: '#004D40' },
   M16: { label: 'Auditoría Cuadrilla', color: '#37474F' },
+  M17: { label: 'BPM\'s',           color: '#4A148C' },
 }
 
-const TODOS_MODULOS: ModuloKey[] = ['M1', 'M6', 'M7', 'M8', 'M9', 'M10', 'M11', 'M12', 'M13', 'M14', 'M15', 'M16']
+const TODOS_MODULOS: ModuloKey[] = ['M1', 'M6', 'M7', 'M8', 'M9', 'M10', 'M11', 'M12', 'M13', 'M14', 'M15', 'M16', 'M17']
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -62,7 +63,7 @@ async function cargarTodo(orgId: string, desde: string, hasta: string): Promise<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const tbl = (name: string) => (supabase as any).from(name)
 
-  const [r1, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16] = await Promise.all([
+  const [r1, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16, r17] = await Promise.all([
     supabase.from('aplicaciones')
       .select('id, fecha_aplicacion, rancho_id, ranchos(nombre)')
       .eq('org_id', orgId).gte('fecha_aplicacion', desde).lte('fecha_aplicacion', hasta)
@@ -108,6 +109,10 @@ async function cargarTodo(orgId: string, desde: string, hasta: string): Promise<
       .eq('org_id', orgId).gte('fecha', desde).lte('fecha', hasta)
       .order('fecha', { ascending: false }).limit(200),
     tbl('m16_auditorias')
+      .select('id, rancho_id, fecha, porcentaje, estado, ranchos(nombre)')
+      .eq('org_id', orgId).gte('fecha', desde).lte('fecha', hasta)
+      .order('fecha', { ascending: false }).limit(200),
+    tbl('m17_auditorias')
       .select('id, rancho_id, fecha, porcentaje, estado, ranchos(nombre)')
       .eq('org_id', orgId).gte('fecha', desde).lte('fecha', hasta)
       .order('fecha', { ascending: false }).limit(200),
@@ -300,6 +305,20 @@ async function cargarTodo(orgId: string, desde: string, hasta: string): Promise<
       fecha: r.fecha,
       resumen: `Auditoría Cuadrilla${pct}`,
       pdfRef: { tipo: 'M16', id: r.id },
+    })
+  }
+
+  // M17 — una fila = una auditoría BPM
+  for (const r of (r17 as any)?.data ?? []) {
+    const pct = r.porcentaje > 0 ? ` · ${r.porcentaje}%` : ''
+    todos.push({
+      key: `M17-${r.id}`,
+      modulo: 'M17',
+      rancho_id: r.rancho_id,
+      rancho_nombre: (r.ranchos as any)?.nombre ?? '—',
+      fecha: r.fecha,
+      resumen: `Auditoría BPM${pct}`,
+      pdfRef: { tipo: 'M17', id: r.id },
     })
   }
 

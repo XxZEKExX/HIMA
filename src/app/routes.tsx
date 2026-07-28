@@ -24,6 +24,7 @@ import { ActividadEquipo } from "./screens/ActividadEquipo";
 import { AuditoriaSaia } from "./screens/AuditoriaSaia";
 import { AuditoriaGranja } from "./screens/AuditoriaGranja";
 import { AuditoriaCosecha } from "./screens/AuditoriaCosecha";
+import { AuditoriaBPM } from "./screens/AuditoriaBPM";
 import { RequireModulo } from "./components/RequireModulo";
 import TestSupabase from "./screens/TestSupabase";
 
@@ -79,6 +80,7 @@ export const router = createBrowserRouter([
                   { path: "auditoria-saia", Component: AuditoriaSaia },
                   { path: "auditoria-granja", Component: AuditoriaGranja },
                   { path: "auditoria-cosecha", Component: AuditoriaCosecha },
+                  { path: "bpm", Component: AuditoriaBPM },
                 ],
               },
             ],

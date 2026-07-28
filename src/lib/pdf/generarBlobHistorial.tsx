@@ -22,7 +22,7 @@ import { generarBlobAuditoria } from './auditoria/generarAuditoriaPDF'
 
 // ── Tipos públicos ────────────────────────────────────────────────────────────
 
-export type ModuloKey = 'M1' | 'M6' | 'M7' | 'M8' | 'M9' | 'M10' | 'M11' | 'M12' | 'M13' | 'M14' | 'M15' | 'M16'
+export type ModuloKey = 'M1' | 'M6' | 'M7' | 'M8' | 'M9' | 'M10' | 'M11' | 'M12' | 'M13' | 'M14' | 'M15' | 'M16' | 'M17'
 
 export type PDFRef =
   | { tipo: 'M1'; id: string }
@@ -30,7 +30,7 @@ export type PDFRef =
   | { tipo: 'M7' | 'M8' | 'M10' | 'M12'; ranchoId: string; fecha: string }
   | { tipo: 'M9' | 'M11'; id: string }
   | { tipo: 'M13'; id: string }
-  | { tipo: 'M14' | 'M15' | 'M16'; id: string }
+  | { tipo: 'M14' | 'M15' | 'M16' | 'M17'; id: string }
 
 export interface RegistroHistorial {
   key: string
@@ -282,6 +282,7 @@ export async function generarBlobParaRef(ref: PDFRef, orgId: string): Promise<Bl
     case 'M14': return generarBlobAuditoria(ref.id, orgId, 'm14')
     case 'M15': return generarBlobAuditoria(ref.id, orgId, 'm15')
     case 'M16': return generarBlobAuditoria(ref.id, orgId, 'm16')
+    case 'M17': return generarBlobAuditoria(ref.id, orgId, 'm17')
   }
 }
 

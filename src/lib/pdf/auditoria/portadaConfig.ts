@@ -77,6 +77,51 @@ export function formatPortadaM15(portada: Record<string, unknown>): PortadaLinea
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function formatPortadaM17(portada: Record<string, unknown>): PortadaLinea[] {
+  const lineas: PortadaLinea[] = []
+  const p = portada
+
+  const tempStr = temporadaStr(p.temporada as any)
+  if (tempStr) lineas.push({ label: 'Temporada', valor: tempStr })
+
+  if (p.pais_destino) lineas.push({ label: 'País de destino', valor: String(p.pais_destino) })
+
+  if (p.num_trabajadores !== undefined && p.num_trabajadores !== null)
+    lineas.push({ label: 'Núm. trabajadores', valor: String(p.num_trabajadores) })
+
+  if (p.max_trabajadores_temporada_alta !== undefined && p.max_trabajadores_temporada_alta !== null)
+    lineas.push({ label: 'Máx. trabajadores (temp. alta)', valor: String(p.max_trabajadores_temporada_alta) })
+
+  if (p.num_lineas !== undefined && p.num_lineas !== null)
+    lineas.push({ label: 'Núm. líneas de operación', valor: String(p.num_lineas) })
+
+  if (p.num_lineas_auditoria !== undefined && p.num_lineas_auditoria !== null)
+    lineas.push({ label: 'Núm. líneas en auditoría', valor: String(p.num_lineas_auditoria) })
+
+  if (p.tamano_instalacion) {
+    const t = p.tamano_instalacion as { valor?: number; unidad?: string }
+    if (t.valor) lineas.push({ label: 'Tamaño de instalación', valor: `${t.valor} ${t.unidad ?? ''}`.trim() })
+  }
+
+  const condiciones = arr(p.condiciones_ambientales)
+  if (condiciones) lineas.push({ label: 'Condiciones ambientales', valor: condiciones })
+
+  if (p.antimicrobiano_agua_hielo) {
+    const am = p.antimicrobiano_agua_hielo as { uso?: string; tipos?: string[] }
+    if (am.uso) {
+      lineas.push({ label: 'Antimicrobiano agua/hielo', valor: String(am.uso) })
+      const tipos = arr(am.tipos)
+      if (tipos) lineas.push({ label: 'Tipos de antimicrobiano', valor: tipos })
+    }
+  }
+
+  const productos = arr(p.productos)
+  if (productos) lineas.push({ label: 'Productos manejados', valor: productos })
+
+  return lineas
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function formatPortadaM16(portada: Record<string, unknown>): PortadaLinea[] {
   const lineas: PortadaLinea[] = []
   const p = portada
