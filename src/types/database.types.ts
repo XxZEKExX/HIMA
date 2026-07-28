@@ -1346,6 +1346,7 @@ export type Database = {
           icono: string
           orden: number
           es_transversal: boolean
+          mostrar_en_menu: boolean
           sector_clave: string | null
           sector_nombre: string | null
           sector_orden: number | null

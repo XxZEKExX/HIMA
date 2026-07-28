@@ -45,16 +45,20 @@ export function Home() {
 
   const esAdmin = profile?.rol === 'admin_org'
 
+  const tieneAplicaciones = modulos.some(m => m.clave === 'aplicaciones')
+
   const modulosAgrupados = useMemo(() => {
     const grupos: { key: string; nombre: string; modulos: typeof modulos }[] = []
 
-    const transversales = modulos.filter(m => m.es_transversal).sort((a, b) => a.orden - b.orden)
+    const visibles = modulos.filter(m => m.mostrar_en_menu)
+
+    const transversales = visibles.filter(m => m.es_transversal).sort((a, b) => a.orden - b.orden)
     if (transversales.length > 0) {
       grupos.push({ key: 'general', nombre: 'General', modulos: transversales })
     }
 
     const sectorMap = new Map<string, { nombre: string; orden: number; modulos: typeof modulos }>()
-    for (const m of modulos.filter(m => !m.es_transversal)) {
+    for (const m of visibles.filter(m => !m.es_transversal)) {
       if (!m.sector_clave) continue
       if (!sectorMap.has(m.sector_clave)) {
         sectorMap.set(m.sector_clave, { nombre: m.sector_nombre!, orden: m.sector_orden!, modulos: [] })
@@ -401,15 +405,17 @@ export function Home() {
 
       </div>
 
-      {/* FAB */}
-      <Link
-        to="/nueva-aplicacion"
-        className="fixed bottom-[calc(72px+34px+16px)] right-4 w-14 h-14 bg-primary rounded-full flex items-center justify-center shadow-lg z-10 hover:bg-agro-blue transition-colors"
-        style={{ maxWidth: 'calc(390px - 32px - 56px + 56px)' }}
-        aria-label="Nueva aplicación"
-      >
-        <Plus className="w-6 h-6 text-white" />
-      </Link>
+      {/* FAB — solo si el sector incluye aplicaciones de plaguicidas */}
+      {tieneAplicaciones && (
+        <Link
+          to="/nueva-aplicacion"
+          className="fixed bottom-[calc(72px+34px+16px)] right-4 w-14 h-14 bg-primary rounded-full flex items-center justify-center shadow-lg z-10 hover:bg-agro-blue transition-colors"
+          style={{ maxWidth: 'calc(390px - 32px - 56px + 56px)' }}
+          aria-label="Nueva aplicación"
+        >
+          <Plus className="w-6 h-6 text-white" />
+        </Link>
+      )}
     </div>
   )
 }
