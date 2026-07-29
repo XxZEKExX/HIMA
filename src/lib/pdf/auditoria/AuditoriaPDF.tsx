@@ -49,6 +49,10 @@ const MODULO_CONFIG: Record<ModuloAuditoria, { titulo: string; subtitulo: string
     titulo: 'Modulo 5 - Operaciones BPM',
     subtitulo: 'Buenas Practicas de Manufactura',
   },
+  m18: {
+    titulo: 'Modulo 6 - HACCP',
+    subtitulo: 'Requisitos del Sistema HACCP',
+  },
 }
 
 // ── Paleta (coherente con M9-M13) ────────────────────────────────────────────

@@ -10,7 +10,7 @@ import type {
   EstadoAuditoria,
 } from '@/types/database.types'
 
-export type ModuloAuditoria = 'm14' | 'm15' | 'm16' | 'm17'
+export type ModuloAuditoria = 'm14' | 'm15' | 'm16' | 'm17' | 'm18'
 
 export interface AuditoriaConRancho extends AuditoriaBase {
   rancho_nombre: string

@@ -1,6 +1,6 @@
 import {
   SprayCan, Boxes, Library, BriefcaseMedical, Wine, Sprout, Radar, Wheat,
-  ClipboardCheck, Droplets, Camera, ClipboardList, Users, Shield, Eye,
+  ClipboardCheck, Droplets, Camera, ClipboardList, Users, Shield, ShieldCheck, Eye,
   Package, FileCheck, Factory, LayoutGrid, type LucideIcon,
 } from 'lucide-react'
 
@@ -19,6 +19,7 @@ const ICONOS: Record<string, LucideIcon> = {
   'clipboard-list': ClipboardList,
   'users': Users,
   'shield': Shield,
+  'shield-check': ShieldCheck,
   'eye': Eye,
   'package': Package,
   'file-check': FileCheck,
