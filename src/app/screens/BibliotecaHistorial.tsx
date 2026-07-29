@@ -1,8 +1,9 @@
-import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { ChevronLeft, FileText, Package, Loader2, FilterX } from 'lucide-react'
 import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
 import { useAuthContext } from '@/context/AuthContext'
+import { useModulosContext } from '@/context/ModulosContext'
 import {
   type ModuloKey,
   type RegistroHistorial,
@@ -28,8 +29,6 @@ const MODULO_META: Record<ModuloKey, { label: string; color: string }> = {
   M17: { label: 'BPM\'s',           color: '#4A148C' },
   M18: { label: 'HACCP',            color: '#006064' },
 }
-
-const TODOS_MODULOS: ModuloKey[] = ['M1', 'M6', 'M7', 'M8', 'M9', 'M10', 'M11', 'M12', 'M13', 'M14', 'M15', 'M16', 'M17', 'M18']
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -350,6 +349,15 @@ async function cargarTodo(orgId: string, desde: string, hasta: string): Promise<
 export function BibliotecaHistorial() {
   const { profile } = useAuthContext()
   const orgId = profile?.org_id ?? ''
+  const { modulos: misModulos } = useModulosContext()
+
+  // Módulos accesibles para este usuario (excluye historial, ordenados por orden)
+  const modulosDisponibles = useMemo<ModuloKey[]>(() => {
+    return misModulos
+      .filter(m => m.clave !== 'historial' && m.codigo in MODULO_META)
+      .sort((a, b) => a.orden - b.orden)
+      .map(m => m.codigo as ModuloKey)
+  }, [misModulos])
 
   // Rango de búsqueda (se actualiza al presionar Buscar)
   const [inputDesde, setInputDesde] = useState(inicioRango)
@@ -357,8 +365,18 @@ export function BibliotecaHistorial() {
   const [buscarDesde, setBuscarDesde] = useState(inicioRango)
   const [buscarHasta, setBuscarHasta] = useState(hoy)
 
-  // Filtros client-side
-  const [filtroModulos, setFiltroModulos] = useState<Set<ModuloKey>>(new Set(TODOS_MODULOS))
+  // Filtros client-side: inicializados con todos los módulos del usuario
+  const [filtroModulos, setFiltroModulos] = useState<Set<ModuloKey>>(
+    () => new Set(modulosDisponibles),
+  )
+  const modulosSyncedRef = useRef(false)
+  useEffect(() => {
+    if (!modulosSyncedRef.current && modulosDisponibles.length > 0) {
+      modulosSyncedRef.current = true
+      setFiltroModulos(new Set(modulosDisponibles))
+    }
+  }, [modulosDisponibles])
+
   const [filtroRancho, setFiltroRancho] = useState<string>('todos')
 
   // Datos
@@ -544,7 +562,7 @@ export function BibliotecaHistorial() {
             <div>
               <label className="text-[11px]" style={{ color: 'var(--muted-foreground)' }}>Módulos</label>
               <div className="flex flex-wrap gap-1.5 mt-2">
-                {TODOS_MODULOS.map((m) => {
+                {modulosDisponibles.map((m) => {
                   const active = filtroModulos.has(m)
                   return (
                     <button
