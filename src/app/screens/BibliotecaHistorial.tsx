@@ -349,7 +349,7 @@ async function cargarTodo(orgId: string, desde: string, hasta: string): Promise<
 export function BibliotecaHistorial() {
   const { profile } = useAuthContext()
   const orgId = profile?.org_id ?? ''
-  const { modulos: misModulos } = useModulosContext()
+  const { modulos: misModulos, terminosSitio } = useModulosContext()
 
   // Módulos accesibles para este usuario (excluye historial, ordenados por orden)
   const modulosDisponibles = useMemo<ModuloKey[]>(() => {
@@ -544,14 +544,14 @@ export function BibliotecaHistorial() {
 
             {/* Rancho */}
             <div>
-              <label className="text-[11px]" style={{ color: 'var(--muted-foreground)' }}>Rancho</label>
+              <label className="text-[11px]" style={{ color: 'var(--muted-foreground)' }}>{terminosSitio.singular}</label>
               <select
                 value={filtroRancho}
                 onChange={(e) => setFiltroRancho(e.target.value)}
                 className="w-full mt-1 px-3 py-2 rounded-lg text-sm border"
                 style={{ background: 'var(--input-background)', borderColor: 'var(--border)' }}
               >
-                <option value="todos">Todos los ranchos</option>
+                <option value="todos">{terminosSitio.plural}</option>
                 {ranchos.map(([id, nombre]) => (
                   <option key={id} value={id}>{nombre}</option>
                 ))}

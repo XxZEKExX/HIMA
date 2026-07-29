@@ -5,6 +5,7 @@ import {
 import { useNavigate } from 'react-router'
 import { toast } from 'sonner'
 import { useAuthContext } from '@/context/AuthContext'
+import { useModulosContext } from '@/context/ModulosContext'
 import { useRanchos } from '@/hooks/useRanchos'
 import { useAuditoria, calcularAgregados, type ModuloAuditoria, type AuditoriaConRancho } from '@/hooks/useAuditoria'
 import { SeccionAccordion } from './SeccionAccordion'
@@ -111,6 +112,7 @@ export function AuditoriaScreen({
 }: AuditoriaScreenProps) {
   const navigate = useNavigate()
   const { profile } = useAuthContext()
+  const { terminosSitio } = useModulosContext()
   const { ranchos } = useRanchos()
   const { secciones, preguntas, loadingCatalogo, auditorias, loading, refetch, cargarRespuestas, guardar } =
     useAuditoria(modulo)
@@ -428,14 +430,14 @@ export function AuditoriaScreen({
             <div className="overflow-y-auto p-4 space-y-4">
               <div>
                 <label className="block text-xs text-muted-foreground mb-1.5" style={{ fontWeight: 600 }}>
-                  RANCHO
+                  {terminosSitio.singular.toUpperCase()}
                 </label>
                 <select
                   value={consRanchoId}
                   onChange={(e) => setConsRanchoId(e.target.value)}
                   className={`w-full h-11 px-3 rounded-lg bg-input-background border text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary ${!consRanchoId ? 'text-muted-foreground' : 'text-foreground'} border-border`}
                 >
-                  <option value="">Todos los ranchos</option>
+                  <option value="">{terminosSitio.plural}</option>
                   {ranchoOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
                 </select>
               </div>

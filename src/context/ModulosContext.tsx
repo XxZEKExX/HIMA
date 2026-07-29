@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, type ReactNode } from 'react'
 import { useMisModulos, type ModuloVisible } from '@/hooks/useMisModulos'
+import { useTerminoSitio, resolverTerminos, type TerminosSitio } from '@/hooks/useTerminoSitio'
 import { useAuthContext } from '@/context/AuthContext'
 
 interface ModulosContextValue {
@@ -7,6 +8,7 @@ interface ModulosContextValue {
   loading: boolean
   error: string | null
   refetch: () => Promise<void>
+  terminosSitio: TerminosSitio
 }
 
 const ModulosContext = createContext<ModulosContextValue | null>(null)
@@ -14,15 +16,18 @@ const ModulosContext = createContext<ModulosContextValue | null>(null)
 export function ModulosProvider({ children }: { children: ReactNode }) {
   const { user, loading: authLoading } = useAuthContext()
   const { modulos, loading: modulosLoading, error, refetch, clear } = useMisModulos()
+  const { termino, refetch: refetchTermino, clear: clearTermino } = useTerminoSitio()
 
   useEffect(() => {
     if (authLoading) return
     if (user) {
       refetch()
+      refetchTermino()
     } else {
       clear()
+      clearTermino()
     }
-  }, [user?.id, authLoading, refetch, clear])
+  }, [user?.id, authLoading, refetch, clear, refetchTermino, clearTermino])
 
   return (
     <ModulosContext.Provider value={{
@@ -30,6 +35,7 @@ export function ModulosProvider({ children }: { children: ReactNode }) {
       loading: authLoading || modulosLoading,
       error,
       refetch,
+      terminosSitio: resolverTerminos(termino),
     }}>
       {children}
     </ModulosContext.Provider>
