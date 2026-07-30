@@ -1,8 +1,9 @@
-import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { ChevronLeft, FileText, Package, Loader2, FilterX } from 'lucide-react'
 import { toast } from 'sonner'
 import { supabase } from '@/lib/supabase'
 import { useAuthContext } from '@/context/AuthContext'
+import { useModulosContext } from '@/context/ModulosContext'
 import {
   type ModuloKey,
   type RegistroHistorial,
@@ -25,9 +26,9 @@ const MODULO_META: Record<ModuloKey, { label: string; color: string }> = {
   M14: { label: 'Auditoría SAIA',    color: '#1A237E' },
   M15: { label: 'Auditoría Granja',  color: '#004D40' },
   M16: { label: 'Auditoría Cuadrilla', color: '#37474F' },
+  M17: { label: 'BPM\'s',           color: '#4A148C' },
+  M18: { label: 'HACCP',            color: '#006064' },
 }
-
-const TODOS_MODULOS: ModuloKey[] = ['M1', 'M6', 'M7', 'M8', 'M9', 'M10', 'M11', 'M12', 'M13', 'M14', 'M15', 'M16']
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -62,7 +63,7 @@ async function cargarTodo(orgId: string, desde: string, hasta: string): Promise<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const tbl = (name: string) => (supabase as any).from(name)
 
-  const [r1, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16] = await Promise.all([
+  const [r1, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15, r16, r17, r18] = await Promise.all([
     supabase.from('aplicaciones')
       .select('id, fecha_aplicacion, rancho_id, ranchos(nombre)')
       .eq('org_id', orgId).gte('fecha_aplicacion', desde).lte('fecha_aplicacion', hasta)
@@ -108,6 +109,14 @@ async function cargarTodo(orgId: string, desde: string, hasta: string): Promise<
       .eq('org_id', orgId).gte('fecha', desde).lte('fecha', hasta)
       .order('fecha', { ascending: false }).limit(200),
     tbl('m16_auditorias')
+      .select('id, rancho_id, fecha, porcentaje, estado, ranchos(nombre)')
+      .eq('org_id', orgId).gte('fecha', desde).lte('fecha', hasta)
+      .order('fecha', { ascending: false }).limit(200),
+    tbl('m17_auditorias')
+      .select('id, rancho_id, fecha, porcentaje, estado, ranchos(nombre)')
+      .eq('org_id', orgId).gte('fecha', desde).lte('fecha', hasta)
+      .order('fecha', { ascending: false }).limit(200),
+    tbl('m18_auditorias')
       .select('id, rancho_id, fecha, porcentaje, estado, ranchos(nombre)')
       .eq('org_id', orgId).gte('fecha', desde).lte('fecha', hasta)
       .order('fecha', { ascending: false }).limit(200),
@@ -303,6 +312,34 @@ async function cargarTodo(orgId: string, desde: string, hasta: string): Promise<
     })
   }
 
+  // M17 — una fila = una auditoría BPM
+  for (const r of (r17 as any)?.data ?? []) {
+    const pct = r.porcentaje > 0 ? ` · ${r.porcentaje}%` : ''
+    todos.push({
+      key: `M17-${r.id}`,
+      modulo: 'M17',
+      rancho_id: r.rancho_id,
+      rancho_nombre: (r.ranchos as any)?.nombre ?? '—',
+      fecha: r.fecha,
+      resumen: `Auditoría BPM${pct}`,
+      pdfRef: { tipo: 'M17', id: r.id },
+    })
+  }
+
+  // M18 — una fila = una auditoría HACCP
+  for (const r of (r18 as any)?.data ?? []) {
+    const pct = r.porcentaje > 0 ? ` · ${r.porcentaje}%` : ''
+    todos.push({
+      key: `M18-${r.id}`,
+      modulo: 'M18',
+      rancho_id: r.rancho_id,
+      rancho_nombre: (r.ranchos as any)?.nombre ?? '—',
+      fecha: r.fecha,
+      resumen: `Auditoría HACCP${pct}`,
+      pdfRef: { tipo: 'M18', id: r.id },
+    })
+  }
+
   todos.sort((a, b) => b.fecha.localeCompare(a.fecha))
   return todos
 }
@@ -312,6 +349,15 @@ async function cargarTodo(orgId: string, desde: string, hasta: string): Promise<
 export function BibliotecaHistorial() {
   const { profile } = useAuthContext()
   const orgId = profile?.org_id ?? ''
+  const { modulos: misModulos, terminosSitio } = useModulosContext()
+
+  // Módulos accesibles para este usuario (excluye historial, ordenados por orden)
+  const modulosDisponibles = useMemo<ModuloKey[]>(() => {
+    return misModulos
+      .filter(m => m.clave !== 'historial' && m.codigo in MODULO_META)
+      .sort((a, b) => a.orden - b.orden)
+      .map(m => m.codigo as ModuloKey)
+  }, [misModulos])
 
   // Rango de búsqueda (se actualiza al presionar Buscar)
   const [inputDesde, setInputDesde] = useState(inicioRango)
@@ -319,8 +365,18 @@ export function BibliotecaHistorial() {
   const [buscarDesde, setBuscarDesde] = useState(inicioRango)
   const [buscarHasta, setBuscarHasta] = useState(hoy)
 
-  // Filtros client-side
-  const [filtroModulos, setFiltroModulos] = useState<Set<ModuloKey>>(new Set(TODOS_MODULOS))
+  // Filtros client-side: inicializados con todos los módulos del usuario
+  const [filtroModulos, setFiltroModulos] = useState<Set<ModuloKey>>(
+    () => new Set(modulosDisponibles),
+  )
+  const modulosSyncedRef = useRef(false)
+  useEffect(() => {
+    if (!modulosSyncedRef.current && modulosDisponibles.length > 0) {
+      modulosSyncedRef.current = true
+      setFiltroModulos(new Set(modulosDisponibles))
+    }
+  }, [modulosDisponibles])
+
   const [filtroRancho, setFiltroRancho] = useState<string>('todos')
 
   // Datos
@@ -488,14 +544,14 @@ export function BibliotecaHistorial() {
 
             {/* Rancho */}
             <div>
-              <label className="text-[11px]" style={{ color: 'var(--muted-foreground)' }}>Rancho</label>
+              <label className="text-[11px]" style={{ color: 'var(--muted-foreground)' }}>{terminosSitio.singular}</label>
               <select
                 value={filtroRancho}
                 onChange={(e) => setFiltroRancho(e.target.value)}
                 className="w-full mt-1 px-3 py-2 rounded-lg text-sm border"
                 style={{ background: 'var(--input-background)', borderColor: 'var(--border)' }}
               >
-                <option value="todos">Todos los ranchos</option>
+                <option value="todos">{terminosSitio.plural}</option>
                 {ranchos.map(([id, nombre]) => (
                   <option key={id} value={id}>{nombre}</option>
                 ))}
@@ -506,7 +562,7 @@ export function BibliotecaHistorial() {
             <div>
               <label className="text-[11px]" style={{ color: 'var(--muted-foreground)' }}>Módulos</label>
               <div className="flex flex-wrap gap-1.5 mt-2">
-                {TODOS_MODULOS.map((m) => {
+                {modulosDisponibles.map((m) => {
                   const active = filtroModulos.has(m)
                   return (
                     <button

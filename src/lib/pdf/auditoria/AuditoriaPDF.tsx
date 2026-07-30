@@ -5,7 +5,7 @@
 
 import { Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer'
 import { MadyLogoPDF } from '@/lib/pdf/MadyLogoPDF'
-import { formatPortadaM15, formatPortadaM16, type PortadaLinea } from './portadaConfig'
+import { formatPortadaM15, formatPortadaM16, formatPortadaM17, type PortadaLinea } from './portadaConfig'
 import type { ModuloAuditoria } from '@/hooks/useAuditoria'
 
 // ── Tipos internos ────────────────────────────────────────────────────────────
@@ -44,6 +44,14 @@ const MODULO_CONFIG: Record<ModuloAuditoria, { titulo: string; subtitulo: string
   m16: {
     titulo: 'Modulo 4 - Cuadrilla de Cosecha',
     subtitulo: 'Buenas Practicas Agricolas',
+  },
+  m17: {
+    titulo: 'Modulo 5 - Operaciones BPM',
+    subtitulo: 'Buenas Practicas de Manufactura',
+  },
+  m18: {
+    titulo: 'Modulo 6 - HACCP',
+    subtitulo: 'Requisitos del Sistema HACCP',
   },
 }
 
@@ -364,6 +372,7 @@ export function AuditoriaPagina({
   let portadaLineas: PortadaLinea[] = []
   if (modulo === 'm15' && portada) portadaLineas = formatPortadaM15(portada)
   if (modulo === 'm16' && portada) portadaLineas = formatPortadaM16(portada)
+  if (modulo === 'm17' && portada) portadaLineas = formatPortadaM17(portada)
 
   const _ = auditoriaId  // usado solo como key externo
 

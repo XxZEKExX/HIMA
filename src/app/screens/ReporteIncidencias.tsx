@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router'
 import { toast } from 'sonner'
 import imageCompression from 'browser-image-compression'
 import { useAuthContext } from '@/context/AuthContext'
+import { useModulosContext } from '@/context/ModulosContext'
 import { useRanchos } from '@/hooks/useRanchos'
 import { useM13Incidencias, type M13ReporteConRancho } from '@/hooks/useM13Incidencias'
 import { supabase } from '@/lib/supabase'
@@ -252,6 +253,7 @@ function IncidenciaForm({
 export function ReporteIncidencias() {
   const navigate = useNavigate()
   const { profile } = useAuthContext()
+  const { terminosSitio } = useModulosContext()
   const { ranchos } = useRanchos()
   const { reportes, loading, refetch } = useM13Incidencias()
 
@@ -677,7 +679,7 @@ export function ReporteIncidencias() {
               {/* Rancho (opcional) */}
               <div>
                 <label className="block text-xs text-muted-foreground mb-1.5" style={{ fontWeight: 600 }}>
-                  RANCHO (opcional — vacío = todos)
+                  {terminosSitio.singular.toUpperCase()} (opcional — vacío = todos)
                 </label>
                 <select
                   value={consRanchoId}
@@ -686,7 +688,7 @@ export function ReporteIncidencias() {
                     !consRanchoId ? 'text-muted-foreground' : 'text-foreground'
                   }`}
                 >
-                  <option value="">Todos los ranchos</option>
+                  <option value="">{terminosSitio.plural}</option>
                   {ranchoOptions.map((o) => (
                     <option key={o.value} value={o.value}>{o.label}</option>
                   ))}

@@ -1,16 +1,22 @@
 import { Outlet, useLocation, Link } from "react-router";
 import { Home, PlusCircle, Package, History, User } from "lucide-react";
-
-const navItems = [
-  { path: "/", icon: Home, label: "Inicio" },
-  { path: "/nueva-aplicacion", icon: PlusCircle, label: "Nueva Aplicación" },
-  { path: "/inventario", icon: Package, label: "Inventario" },
-  { path: "/historial", icon: History, label: "Historial" },
-  { path: "/perfil", icon: User, label: "Perfil" },
-];
+import { useModulosContext } from "@/context/ModulosContext";
 
 export function Layout() {
   const location = useLocation();
+  const { modulos, loading: loadingModulos } = useModulosContext();
+
+  // Durante la carga se mantienen visibles para evitar salto de layout
+  const mostrarAplicaciones = loadingModulos || modulos.some(m => m.clave === "aplicaciones");
+  const mostrarInventario   = loadingModulos || modulos.some(m => m.clave === "inventario");
+
+  const navItems = [
+    { path: "/", icon: Home, label: "Inicio" },
+    ...(mostrarAplicaciones ? [{ path: "/nueva-aplicacion", icon: PlusCircle, label: "Nueva Aplicación" }] : []),
+    ...(mostrarInventario   ? [{ path: "/inventario",       icon: Package,    label: "Inventario"       }] : []),
+    { path: "/historial", icon: History, label: "Historial" },
+    { path: "/perfil",    icon: User,    label: "Perfil" },
+  ];
 
   return (
     <div className="h-screen flex flex-col bg-background max-w-[390px] mx-auto relative">

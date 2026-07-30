@@ -24,6 +24,9 @@ import { ActividadEquipo } from "./screens/ActividadEquipo";
 import { AuditoriaSaia } from "./screens/AuditoriaSaia";
 import { AuditoriaGranja } from "./screens/AuditoriaGranja";
 import { AuditoriaCosecha } from "./screens/AuditoriaCosecha";
+import { AuditoriaBPM } from "./screens/AuditoriaBPM";
+import { AuditoriaHACCP } from "./screens/AuditoriaHACCP";
+import { RequireModulo } from "./components/RequireModulo";
 import TestSupabase from "./screens/TestSupabase";
 
 export const router = createBrowserRouter([
@@ -63,17 +66,25 @@ export const router = createBrowserRouter([
               { path: "perfil", Component: Perfil },
               { path: "perfil/mi-organizacion", Component: MiOrganizacion },
               { path: "equipo/actividad", Component: ActividadEquipo },
-              { path: "inocuidad/botiquin", Component: BotiquinPrimerosAuxilios },
-              { path: "inocuidad/vidrio-plastico", Component: InspeccionVidrioPlastico },
-              { path: "inocuidad/fertilizacion", Component: RegistroFertilizacion },
-              { path: "inocuidad/perimetral", Component: InspeccionPerimetral },
-              { path: "inocuidad/cosecha", Component: RegistroCosechaLiberacion },
-              { path: "inocuidad/preoperacional", Component: InspeccionPreoperacionalCosecha },
-              { path: "inocuidad/limpieza-banos", Component: RegistroLimpiezaBanos },
-              { path: "inocuidad/incidencias", Component: ReporteIncidencias },
-              { path: "inocuidad/auditoria-saia", Component: AuditoriaSaia },
-              { path: "inocuidad/auditoria-granja", Component: AuditoriaGranja },
-              { path: "inocuidad/auditoria-cosecha", Component: AuditoriaCosecha },
+              {
+                path: "inocuidad",
+                Component: RequireModulo,
+                children: [
+                  { path: "botiquin", Component: BotiquinPrimerosAuxilios },
+                  { path: "vidrio-plastico", Component: InspeccionVidrioPlastico },
+                  { path: "fertilizacion", Component: RegistroFertilizacion },
+                  { path: "perimetral", Component: InspeccionPerimetral },
+                  { path: "cosecha", Component: RegistroCosechaLiberacion },
+                  { path: "preoperacional", Component: InspeccionPreoperacionalCosecha },
+                  { path: "limpieza-banos", Component: RegistroLimpiezaBanos },
+                  { path: "incidencias", Component: ReporteIncidencias },
+                  { path: "auditoria-saia", Component: AuditoriaSaia },
+                  { path: "auditoria-granja", Component: AuditoriaGranja },
+                  { path: "auditoria-cosecha", Component: AuditoriaCosecha },
+                  { path: "bpm", Component: AuditoriaBPM },
+                  { path: "haccp", Component: AuditoriaHACCP },
+                ],
+              },
             ],
           },
         ],

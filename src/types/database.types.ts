@@ -1336,6 +1336,22 @@ export type Database = {
         Args: { p_tabla: string; p_registro_id: string; p_requiere: boolean; p_comentario: string }
         Returns: void
       }
+      get_mis_modulos: {
+        Args: Record<never, never>
+        Returns: {
+          codigo: string
+          clave: string
+          nombre: string
+          ruta: string
+          icono: string
+          orden: number
+          es_transversal: boolean
+          mostrar_en_menu: boolean
+          sector_clave: string | null
+          sector_nombre: string | null
+          sector_orden: number | null
+        }[]
+      }
     }
     Enums: Record<string, never>
   }
@@ -1494,6 +1510,22 @@ export interface PortadaCosecha {
   agua_poscosecha?: { usada?: 'Sí' | 'No'; tipos?: string[] }
   antimicrobiano?: string[]
   equipo_usado?: string[]
+}
+
+export interface PortadaBPM {
+  temporada?: { desde_mes?: string; al_mes?: string; todo_el_ano?: boolean }
+  pais_destino?: string
+  num_trabajadores?: number
+  max_trabajadores_temporada_alta?: number
+  num_lineas?: number
+  num_lineas_auditoria?: number
+  tamano_instalacion?: { valor: number; unidad: 'Pies Cuadrados' | 'Metros Cuadrados' }
+  condiciones_ambientales?: string[]
+  antimicrobiano_agua_hielo?: {
+    uso?: 'Sí' | 'No' | 'N/A'
+    tipos?: string[]
+  }
+  productos?: string[]
 }
 
 // Tipo rico: aplicación con todos los joins necesarios para PDF y Excel
