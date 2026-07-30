@@ -26,7 +26,7 @@ export function DetalleAplicacion() {
     if (!app) return;
     setExportandoExcel(true);
     try {
-      const fecha = app.aplicacion.fecha_aplicacion.replaceAll("-", "");
+      const fecha = app.fecha_aplicacion.replaceAll("-", "");
       const rancho = (app.ranchos?.nombre ?? "rancho")
         .toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
       await generarExcelHistorial([app], `M.A.D.Y_Aplicacion_${rancho}_${fecha}.xlsx`);
@@ -61,7 +61,7 @@ export function DetalleAplicacion() {
     );
   }
 
-  const a = app.aplicacion;
+  const a = app;
 
   return (
     <div className="min-h-full bg-white pb-[calc(72px+34px+64px)]">
